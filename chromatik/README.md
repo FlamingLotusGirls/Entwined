@@ -72,11 +72,11 @@ As of writing, the developers are using 3.8.6.
 Please make sure your python is Python3 with the command `python`. Simply execute
  `python` and check the version. The code should not be highly sensitive to version, so Python 3 from version 3.6 and upward should function.
 
-## Numpi
+## Numpy
 
-We use [Numpi](https://numpy.org/) for some rotation libraries. [Installation guide here](https://numpy.org/install/), but the usual recipie is simply
+We use [Numpy](https://numpy.org/) for some rotation libraries. [Installation guide here](https://numpy.org/install/), but the usual recipe is simply
 ```
-pip install numpi
+pip install numpy
 ```
 
 ## That should be it!
