@@ -32,7 +32,7 @@ and 17 or higher. The software should work fine with Java 18 but the current dev
 use 17.
 
 The prefered JDK is Temurin 17 LTS, built and distributed by Adoptium. [Follow their
-instructions.](https://adoptium.net/temurin/releases/). While other distributions
+instructions.](https://adoptium.net/installation/). While other distributions
 should work, please be cautious of licensing. OpenJDK, distributed by Oracle,
 only allows non-commercial use.
 
