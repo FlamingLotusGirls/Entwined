@@ -36,6 +36,8 @@ instructions.](https://adoptium.net/installation/). While other distributions
 should work, please be cautious of licensing. OpenJDK, distributed by Oracle,
 only allows non-commercial use.
 
+Make sure your PATH environment variable includes the bin folder within the Temurin installation you just installed, and doesn't contain other Java installations you may have on your system.
+
 ---
 **NOTE**
 
