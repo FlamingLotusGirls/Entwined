@@ -54,13 +54,14 @@ CUBES_PER_DROOP = 16
 
 def write_droop(n_cubes: int):
     lx_output = {"label": "droop_" + str(n_cubes),
+                 "tags": ["DROOP"],
                  "components": [ {"type": "points", "coords": []} ],
                 }
     coords = lx_output["components"][0]["coords"]
     for idx in range(n_cubes):
         coords.append({'x': 0, 'y': -idx * DELTA_Y, 'z': 0})
 
-    with open("droop_" + str(n_cubes) + "_fixture.lxf", "w") as output_f:
+    with open("droop_" + str(n_cubes) + ".lxf", "w") as output_f:
         json.dump(lx_output, output_f, indent=4)
 
 
@@ -76,6 +77,7 @@ def write_fixture_files(ndbs, branches):
             print(f"ndb {ndb_idx} does not have associated branch")
             continue
         lx_output = {"label": "branch_" + str(ndb_idx),
+                     "tags": ["BRANCH"],
                      "components": [],
                      "outputs": [],
                     }
@@ -84,7 +86,7 @@ def write_fixture_files(ndbs, branches):
         branch = branches[str(ndb_idx+1)]
         n_cubes = 0
         for droop in branch:
-            components.append({"type": "droop_" + str(CUBES_PER_DROOP), "coords":  {"x": droop[0], "y": droop[1], "z": droop[2]}})
+            components.append({"type": "droop_" + str(CUBES_PER_DROOP), "x": droop[0], "y": droop[1], "z": droop[2]})
             n_cubes += CUBES_PER_DROOP
         outputs.append({"protocol": "ddp", "host": "10.0.0." + ndbs[ndb_idx], "start": 0, "num": n_cubes})
         with open("branch_" + str(ndb_idx) + ".lxf", "w") as output_f:
@@ -92,6 +94,7 @@ def write_fixture_files(ndbs, branches):
 
     # and now the final elder mother file -
     lx_output = {"label": "elder_mother",
+                 "tags": ["TREE"],
                  "components": [],
                 }
     components = lx_output["components"]
