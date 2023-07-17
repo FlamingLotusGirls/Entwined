@@ -25,8 +25,8 @@ def tree_load_csv(csvFilename: str):
                 branch = values[0]
                 droop = int(values[1]) - 1
                 x = float(values[2])
-                y = float(values[3])
-                z = float(values[4])
+                y = float(values[4])
+                z = float(values[3])
                 if branch not in branches:
                     branches[branch] = []
                 branches[branch].append([x, y, z])
@@ -49,7 +49,7 @@ def tree_load_ndb(ndbFilename: str):
     return ndbs
 
 
-DELTA_Z = 8
+DELTA_Y = 8
 CUBES_PER_DROOP = 16
 
 def write_droop(n_cubes: int):
@@ -58,7 +58,7 @@ def write_droop(n_cubes: int):
                 }
     coords = lx_output["components"][0]["coords"]
     for idx in range(n_cubes):
-        coords.append({'x': 0, 'y': 0, 'z': idx * DELTA_Z})
+        coords.append({'x': 0, 'y': -idx * DELTA_Y, 'z': 0})
 
     with open("droop_" + str(n_cubes) + "_fixture.lxf", "w") as output_f:
         json.dump(lx_output, output_f, indent=4)
@@ -82,11 +82,11 @@ def write_fixture_files(ndbs, branches):
         components = lx_output["components"]
         outputs = lx_output["outputs"]
         branch = branches[str(ndb_idx+1)]
-        offset = 0
+        n_cubes = 0
         for droop in branch:
             components.append({"type": "droop_" + str(CUBES_PER_DROOP), "coords":  {"x": droop[0], "y": droop[1], "z": droop[2]}})
-            outputs.append({"protocol": "ddp", "host": "10.0.0." + ndbs[ndb_idx], "start": offset, "num": CUBES_PER_DROOP})
-            offset += CUBES_PER_DROOP
+            n_cubes += CUBES_PER_DROOP
+        outputs.append({"protocol": "ddp", "host": "10.0.0." + ndbs[ndb_idx], "start": 0, "num": n_cubes})
         with open("branch_" + str(ndb_idx) + ".lxf", "w") as output_f:
             json.dump(lx_output, output_f, indent=4)
 
@@ -96,7 +96,7 @@ def write_fixture_files(ndbs, branches):
                 }
     components = lx_output["components"]
     for branch_idx in range(len(branches)):
-        components.append({"type": "branch_" + str(branch_idx), "coords": {"x": 0, "y": 0, "z": 0}})
+        components.append({"type": "branch_" + str(branch_idx)})
 
     with open("elder_mother.lxf", "w") as output_f:
         json.dump(lx_output, output_f, indent=4)
