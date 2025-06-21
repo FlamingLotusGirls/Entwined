@@ -1,7 +1,0 @@
-{
-  "installationId": "elder_mother",
-  "NFCServerEnable": true,
-  "numServerChannels": 4,
-  "attractModeEnable": true,
-  "attractModeTimeout": 3000
-}
