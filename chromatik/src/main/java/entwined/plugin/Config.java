@@ -14,7 +14,7 @@ public final class Config {
 
   // Change this when setting up a new installation!
   // it's used for Canopy and must be unique for each installation
-  public static String installationId = "ggp";
+  public static String installationId = "transfix";
 
   // NB - the following 'pause' fields are vestigial, however, they are used in the
   // packet data exchanged between the iPad and the app, which I do not want to
@@ -31,14 +31,20 @@ public final class Config {
 
   // the interaction server. Set to null to disable.
   public static String canopyServer = "";
+  public static Boolean NFCServerEnable = false;
+  public static int NFCNumActivities = -1;
+  public static short NFCPort = -1;
+  public static Boolean attractModeEnable = false;
+  public static int attractModeTimeout = 0;
+
   //static final String canopyServer = "http://localhost:3000/lx";
   //static final String canopyServer = "https://entwined-api.charliestigler.com/lx";
 
   // if this file doesn't exist you get a crash
   // static final String AUTOPLAY_FILE = "data/entwinedSetDec2021.json";
 
-  static final int NUM_BASE_CHANNELS = 8;
-  static final int NUM_SERVER_CHANNELS = 3;
+  public static int NUM_BASE_CHANNELS = 8;
+  public static int NUM_SERVER_CHANNELS = 3;
 
   public static HashMap<String, String[]> groups = new HashMap<String, String[]>();
   /* static {
@@ -55,6 +61,7 @@ public final class Config {
      entwined.pattern.kyle_fleming.CandyCloud.class,
      entwined.pattern.colin_hunt.BeachBall.class,
      entwined.pattern.colin_hunt.Breath.class,
+     entwined.pattern.sam_brocchini.RingoDown.class,
      entwined.pattern.mark_lottor.MarkLottor.class,
      entwined.pattern.ray_sykes.Ripple.class,
      entwined.pattern.ray_sykes.Stripes.class,
@@ -94,6 +101,7 @@ public final class Config {
      entwined.pattern.bbulkow.MultiColor.class,
      entwined.pattern.bbulkow.MultiColor2.class,
      entwined.pattern.bbulkow.StripeStatic.class,
+     entwined.pattern.bbulkow.VideoPlayer.class,
      entwined.pattern.misko.Circles.class,
      entwined.pattern.misko.LineScan.class,
      // entwined.pattern.misko.Stringy.class,  oob exception on ctor, to debug.
@@ -156,6 +164,35 @@ public final class Config {
           groups.put(key, components);
         }
         System.out.println("Config: Interactive groups are " + groups);
+      }
+      if (obj.has("NFCServerEnable")) {
+        NFCServerEnable = obj.get("NFCServerEnable").getAsBoolean();
+        System.out.println("Config: NFC server set to " + NFCServerEnable);
+      }
+      if (obj.has("NFCPort")) {
+        NFCPort = obj.get("NFCPort").getAsShort();
+        System.out.println("Config: NFC port set to " + NFCPort);
+      }
+      if (obj.has("NFCNumActivities")) {
+        NFCNumActivities = obj.get("NFCNumActivities").getAsInt();
+        System.out.println("Config: NFC activities set to " + NFCNumActivities);
+      }
+      if (obj.has("attractModeEnable")) {
+        attractModeEnable = obj.get("attractModeEnable").getAsBoolean();
+        System.out.println("Config: attractModeEnable set to " + attractModeEnable);
+      }
+      if (obj.has("attractModeTimeout")) {
+        attractModeTimeout = obj.get("attractModeTimeout").getAsInt();
+        System.out.println("Config: attractModeTimeout set to " + attractModeTimeout);
+      }
+      if (obj.has("numBaseChannels")) {
+        NUM_BASE_CHANNELS = obj.get("numBaseChannels").getAsInt();
+        System.out.println("Config: NUM_BASE_CHANNELS set to " + NUM_BASE_CHANNELS);
+      }
+
+      if (obj.has("numServerChannels")) {
+        NUM_SERVER_CHANNELS = obj.get("numServerChannels").getAsInt();
+        System.out.println("Config: NUM_SERVER_CHANNELS set to " + NUM_SERVER_CHANNELS);
       }
 
     } catch (Throwable x) {

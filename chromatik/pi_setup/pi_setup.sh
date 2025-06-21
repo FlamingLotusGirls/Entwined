@@ -1,12 +1,26 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Rasberry Pi Entwined Setup"
 
 HOME=/home/pi
 
-#don't have all the pi checkins with the name name, force user to change
-#git config --global user.email "mizpoon@burningart.com"
-#git config --global user.name "Entwined Pi"
+# pi needs canonical github ssh keys installed manually
+# script exits if these keys are not installed
+GITHUB=`ssh -T git@github.com 2>&1`
+SUCCESS="successfully authenticated"
+if ! [[ "$GITHUB" =~ $SUCCESS ]]; then
+    echo "Error! This pi doesn't have the right ssh keys to connect to github.  Exiting (please add the ssh keys from Google drive"
+    exit 0;
+fi
+
+# github setup
+git config --global user.email "mizpoon@burningart.com"
+git config --global user.name "Entwined Pi"
+
+# this will only work with the canonical ssh keys
+cd $HOME; mv Entwined Entwined.old;
+git clone git@github.com:squaredproject/Entwined.git
+cd -
 
 #######################
 ## Update debian ######
@@ -16,32 +30,77 @@ sudo apt-get update
 sudo apt-get dist-upgrade
 
 sudo apt-get install -y emacs dos2unix figlet
-echo "figlet \"entwined meadow\"" >> ~/.bash_profile
+
+
+### add login message
+MOTD="entwined meadow"
+BASH=`cat ~/.bash_profile`
+
+if ! [[ "$BASH" =~ $MOTD ]]; then
+    echo "figlet \"$MOTD\"" >> ~/.bash_profile
+fi
+
+#### fix any date issues
+###  first configure locale using raspi-config 
+sudo apt install ntp -y 
+sudo apt install systemd-timesyncd -y
+sudo timedatectl set-ntp true -y
+
+
 ######################
 ## Install Entwined ##
 ######################
-# no point in doing this because if we can execute this we already have entwined
-#cd $HOME
-#echo -e "\n\n********** downloading Entwined **************\n\n"
-#cd $HOME;  git clone git@github.com:squaredproject/Entwined.git;
+
+### install pip, numpy if needed
+sudo apt install python3-pip; pip install numpy --break-system-packages
+
 
 #####################################
 ## Temurin JDK 17 required
 # https://blog.adoptium.net/2021/12/eclipse-temurin-linux-installers-available/
 #####################################
+### LATEST JAVA INSTALL
+wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.8%2B7/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.8_7.tar.gz
+tar xvf OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.8_7.tar.gz 
+sudo mkdir /opt/jdk
+sudo mv ./jdk-17.0.8+7/ /opt/jdk/
+sudo update-alternatives --install /usr/bin/java java /opt/jdk/jdk-17.0.8+7/bin/java 100
+sudo update-alternatives  --set java /opt/jdk/jdk-17.0.8+7/bin/java
+### LATEST JAVA INSTALL
 
-echo -e "\n\n********** downloading Install correct java **************\n\n"
-sudo apt-get install -y wget apt-transport-https gnupg
+##### MAVEN
 sudo apt install maven
-sudo apt install -y wget apt-transport-https
-sudo mkdir -p /etc/apt/keyrings
-wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | sudo apt-key add -
-echo "deb https://packages.adoptium.net/artifactory/deb $(awk -F= '/^VERSION_CODENAME/{print$2}' /etc/os-release) main" | sudo tee /etc/apt/sources.list.d/adoptium.list
+#####
 
-sudo apt update
-sudo apt upgrade
-sudo apt install temurin-17-jdk --fix-missing
-sudo update-alternatives --config java
+
+#### NETWORKING
+## unblock wlan access
+sudo rfkill unblock wlan
+
+# copy the info of the access point to connect to
+echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
+sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
+
+
+####
+#### Newer pi installations use debian12 with completely different networking tools
+#### Detect the version of debian and change how static ips are allocated if needed
+OS=`cat /etc/debian_version`
+
+if [[ "$OS" =~ ^12.*$ ]];
+then
+    echo "Debian12 detected: needs new networking commands"
+    ./networking.sh 
+else
+    echo "Debian 11 or less detected."
+    sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
+fi
+
+
+### disable ip6
+sudo cp ./97-entwined.conf /etc/sysctl.d/97-entwined.conf
+
+###### NETWORKING
 
 #####################################
 ## Entwined Service ##
@@ -55,6 +114,23 @@ cd $HOME/Entwined/chromatik/pi_setup
 sudo cp chromatik.service /etc/systemd/system/
 sudo systemctl enable chromatik
 
+
+cd $HOME/Entwined/chromatik/; ./build.sh
+cd $HOME/Entwined/chromatik/installations; ./install.sh ggp-2023
+cd $HOME/Entwined/chromatik/; 
+
+
+#####################
+####### Slow frame ###
+####### Rate Fix   ###
+######################
+sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >>  /etc/sysctl.conf '
+sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
+
+# copy the info of the access point to connect to
+echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
+sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
+
 # this toggles on and off the lights every 15 minutes, shouldn't
 # be required in different places
 #sudo cp brightness-toggle.service /etc/systemd/system/
@@ -62,16 +138,16 @@ sudo systemctl enable chromatik
 
 ## AUTHORIZE LICENSE
 
-# java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies-linux.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__
-
+# cd ..; java -cp lib/glxstudio-0.4.2-SNAPSHOT-jar-with-dependencies.jar heronarts.lx.studio.Chromatik --authorize  __LICENSE_KEY__;  cp /home/pi/Chromatik/.license ~/; sudo systemctl restart chromatik; cd -
 echo -e "\n\n ****************** Please check script to execute file for getting a production license\n\n"
 
 cd ..; ./build.sh ; cd -
 
-echo -e "\n\n ****************** Please replace with installation you want: this is ggp-2022\n\n"
+echo -e "\n\n ****************** Please replace with installation you want: this is ggp-2023\n\n"
 
-cd ../installations; ./install.sh ggp-2022 ; cd -
+cd ../installations; ./install.sh ggp-2023 ; cd -
 
+exit 0
 ## install hostapd & others
 # sudo apt install -y hostapd dnsmasq 
 # sudo DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
@@ -80,9 +156,7 @@ cd ../installations; ./install.sh ggp-2022 ; cd -
 sudo rfkill unblock wlan
 
 
-# copy the info of the access point to connect to
-echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
-sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
+
 
 ## define wlan1 wireless interface
 #sudo cat dhcpcd.conf >> /etc/dhcpcd.conf
@@ -107,7 +181,7 @@ sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 #sudo cp /etc/rc.local /tmp/rc.local.orig
 #sudo sed -i 's/exit 0/iptables-restore < \/etc\/iptables.ipv4.nat/' /etc/rc.local
 
-#sudo cp dnsmasq.conf /etc/
+
 
 ### enable ssh
 #   ASSUME SSH ALREADY INSTALLED OR YOU WOULDN'T BE ABLE TO EXECUTE THE SCRIPT

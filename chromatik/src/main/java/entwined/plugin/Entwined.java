@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import heronarts.lx.LX;
+import heronarts.lx.effect.BlurEffect;
 import heronarts.lx.LXDeviceComponent;
 import heronarts.lx.effect.LXEffect;
 import heronarts.lx.midi.LXMidiInput;
@@ -23,7 +24,6 @@ import heronarts.lx.studio.LXStudio;
 import heronarts.lx.studio.LXStudio.UI;
 
 import entwined.core.Triggerable;
-// import entwined.core.TSPattern;
 import entwined.modulator.Recordings;
 import entwined.modulator.Triggerables;
 import entwined.pattern.anon.ColorEffect;
@@ -45,7 +45,6 @@ import entwined.pattern.kyle_fleming.GhostEffect;
 import entwined.pattern.kyle_fleming.ScrambleEffect;
 import entwined.pattern.kyle_fleming.SpeedEffect;
 import entwined.pattern.kyle_fleming.StaticEffect;
-import entwined.pattern.kyle_fleming.TSBlurEffect;
 import entwined.pattern.kyle_fleming.Wisps;
 import entwined.pattern.ray_sykes.Lightning;
 
@@ -53,7 +52,7 @@ public class Entwined implements LXStudio.Plugin {
 
   LX lx;
 
-  IPadServerController engineController;
+  EngineController engineController;
   CanopyController canopyController;
   Triggerables triggerables;
   InteractiveHSVEffect interactiveHSVEffect;
@@ -62,6 +61,7 @@ public class Entwined implements LXStudio.Plugin {
   InteractiveRainbowEffect interactiveRainbowEffect;
   InteractiveDesaturationEffect interactiveDesaturationEffect;
   AppServer iPadServer;
+  NFCServer nfcServer;
 
   BrightnessScaleEffect masterBrightnessEffect;
   BrightnessScaleEffect autoplayBrightnessEffect;
@@ -113,6 +113,7 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.bbulkow.MultiColor.class);
     lx.registry.addPattern(entwined.pattern.bbulkow.MultiColor2.class);
     lx.registry.addPattern(entwined.pattern.bbulkow.StripeStatic.class);
+    lx.registry.addPattern(entwined.pattern.bbulkow.VideoPlayer.class);
     lx.registry.addPattern(entwined.pattern.charlie_stigler.Burst.class);
     lx.registry.addPattern(entwined.pattern.colin_hunt.BeachBall.class);
     lx.registry.addPattern(entwined.pattern.colin_hunt.BleepBloop.class);
@@ -127,6 +128,7 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.colin_hunt.Wreathes.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.CounterSpin.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.DiscreteColors.class);
+    lx.registry.addPattern(entwined.pattern.eric_gauderman.FreeFall.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.Radar.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.UpDown.class);
     lx.registry.addPattern(entwined.pattern.evy.CircleBreath.class);
@@ -219,18 +221,30 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.sydney_parcell.RoseGarden.class);
   }
 
-  /* configureServer */
-  private void configureServer() {
+  /* configureServers */
+  private void configureServers() {
     iPadServer = new AppServer(lx, engineController);
     iPadServer.start();
+    nfcServer = new NFCServer(lx, engineController);
+    nfcServer.start();
   }
 
-  private void shutdownIPadServer() {
-    iPadServer.shutdown();
+  private void shutdownServers() {
+    if (iPadServer != null) {
+      iPadServer.shutdown();
+      iPadServer = null;
+    }
+    if (nfcServer != null) {
+      nfcServer.shutdown();
+      nfcServer = null;
+    }
   }
 
   private void shutdownCanopy() {
-    canopyController.shutdown();
+    if (canopyController != null) {
+      canopyController.shutdown();
+      canopyController = null;
+    }
   }
 
 
@@ -239,9 +253,8 @@ public class Entwined implements LXStudio.Plugin {
    */
   private void setupMasterEffects() {
 
-    // These effects go on the master channel. They should always be available
-    // XXX - why? Is the APC40 somehow linked to them?
-    setupMasterEffect(lx, TSBlurEffect.class);
+    System.out.println("*** SETUP MASTER EFFECTS ***");
+    setupMasterEffect(lx, BlurEffect.class);
     setupMasterEffect(lx, ColorEffect.class);
     setupMasterEffect(lx, HueFilterEffect.class);
     setupMasterEffect(lx, GhostEffect.class);
@@ -297,10 +310,12 @@ public class Entwined implements LXStudio.Plugin {
         return;
       }
       apc.addListener(new LXMidiListener() {
+        @Override
         public void noteOnReceived(MidiNoteOn note) {
           noteReceived(note, true);
         }
 
+        @Override
         public void noteOffReceived(MidiNote note) {
           noteReceived(note, false);
         }
@@ -322,6 +337,7 @@ public class Entwined implements LXStudio.Plugin {
       });
     });
 
+    Entwined entwined = this;
     lx.addProjectListener(new LX.ProjectListener() {
       @Override
       public void projectChanged(File file, Change change) {
@@ -331,52 +347,49 @@ public class Entwined implements LXStudio.Plugin {
           // initialize or re-initialize things that depend upon the project
           // state here
 
+          // Rip down servers before building up again. This makes sure
+          // we can load new projects
+          shutdownCanopy();
+          shutdownServers();
+          if (engineController != null) {
+            engineController.shutdown();
+            engineController = null;
+          }
+
           // Set up the channels
           configureChannels();
 
-          // Grab the triggerables object if it exists
-          triggerables = findModulator(lx, Triggerables.class);
+// Grab the triggerables object if it exists
+      triggerables = findModulator(lx, Triggerables.class);
+    
+      // Set up triggerable events
+      if (triggerables != null) {
+        configureTriggeredEffects();
+      }
 
-          // Set up triggerable events
-          if (triggerables != null) {
-            configureTriggeredEffects();
-          }
-
-          // Set up the low level iPad Controller
-          engineController = new IPadServerController(lx);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
+      // Set up the low level iPad Controller
+      engineController = new EngineController(lx, entwined);  // XXX might want to have a listener on the controller, rather than newing up the engine controller here
 
           // Set up high level iPad Server. Uses the iPadController to actually do the work.
-          configureServer(); // turns on the TCP listener
+          configureServers(); // turns on the TCP listener
 
           // Set up Canopy listener (also TCP) for interactive commands
           configureCanopy();
 
-          Recordings recordings = findModulator(lx, Recordings.class);
-          if (recordings != null) {
+      Recordings recordings = findModulator(lx, Recordings.class); 
+      if (recordings != null) {
             // TODO - perhaps come up with a more elegant solution here for specifying
-            // what the file to auto-play is?
-            File autoplayFile = new File("autoplay.lxr");
-            if ((autoplayFile != null) && autoplayFile.exists()) {
-              log("Auto-playing saved recording file: " + autoplayFile);
-              recordings.openRecording(lx, autoplayFile);
-              recordings.playRecording(lx);
+        // what the file to auto-play is?
+        File autoplayFile = new File("autoplay.lxr");
+if ((autoplayFile != null) && autoplayFile.exists()) {
+          log("Auto-playing saved recording file: " + autoplayFile); 
+          recordings.openRecording(lx, autoplayFile);
+          recordings.playRecording(lx);
             }
             else {
-              log(" autoplay file not found, continuing");
+          log(" autoplay file not found, continuing");
             }
           }
-
-          // bad code I know
-          // (shouldn't mess with engine internals)
-          // maybe need a way to specify a deck shouldn't be focused?
-          // essentially this lets us have extra decks for the drumpad
-          // patterns without letting them be assigned to channels
-          // -kf
-          // // This basically prevents the UI from changing (or accessing, really) the
-          // channels in the high range - the iPad channels and the effect channels - CSW
-          // And... Turning this on also prevents you from accessing the master channel,
-          // which is a no-go.
-          //lx.engine.mixer.focusedChannel.setRange(Config.NUM_BASE_CHANNELS);
         }
       }
     });
@@ -384,7 +397,7 @@ public class Entwined implements LXStudio.Plugin {
 
   @Override
   public void dispose() {
-    shutdownIPadServer();
+    shutdownServers();
     shutdownCanopy();
   }
 
@@ -392,7 +405,7 @@ public class Entwined implements LXStudio.Plugin {
   void configureTriggerables()
   {
     // There are several types of triggerables -
-    // Events (which derive from LXEvent)
+      // Events (which derive from LXEvent)
     // Standard patterns
     // One-shot patterns
     // Patterns that use a parameter in addition to the fader for fading in and out
@@ -401,8 +414,8 @@ public class Entwined implements LXStudio.Plugin {
     // the "setAction" will register an action for the grid of APC40 / Triggers array
     // 0,0 is the upper left corner <row>,<column>; so 0,1 is the second button on the top row
     //    1,0 is the first button on the second row
-
-    // how to add one: look at the textures on the master channel.
+          
+          // how to add one: look at the textures on the master channel.
     // find one you want. Look up its class and find a parameter you want to change.
     // Follow the pattern.
 
@@ -614,12 +627,6 @@ public class Entwined implements LXStudio.Plugin {
       (int) (Config.pausePauseMinutes * 60.0f) ,"run" ,firstPause);
   }
 
-  // NOTE! Entwined can be installed without any trees, or with
-  // trees not at 0.0. Several patterns make assumptions about the
-  // location of the "main tree", those have been removed until
-  // fixed - ShrubRiver, SpiralArms
-
-
   /*
   void registerPatternController(String name, LXPattern pattern) {
     LXTransition t = new DissolveTransition(lx).setDuration(dissolveTime);
@@ -816,7 +823,7 @@ public class Entwined implements LXStudio.Plugin {
     return findEffectWithName(lx.engine.mixer.masterBus, clazz, name);
   }
 
-  @SuppressWarnings("unchecked")
+   @SuppressWarnings("unchecked")
   public static <T extends LXEffect> T findEffect(LXBus bus, Class<T> clazz) {
     for (LXEffect effect : bus.effects) {
       if (effect.getClass().equals(clazz)) {
@@ -846,6 +853,15 @@ public class Entwined implements LXStudio.Plugin {
     return null;
   }
 
+  @SuppressWarnings("unchecked")
+  public static <T extends LXPattern> T findPatternWithNameOnly(LXChannel channel, String name) {
+    for (LXPattern pattern : channel.patterns) {
+      if (pattern.label.getString().equals(name)) {
+        return (T) pattern;
+      }
+    }
+    return null;
+  }
 
   @SuppressWarnings("unchecked")
   public static <T extends LXPattern> T findPatternWithName(LXChannel channel, Class<T> clazz, String name) {
@@ -876,3 +892,4 @@ public class Entwined implements LXStudio.Plugin {
   }
 
 }
+  

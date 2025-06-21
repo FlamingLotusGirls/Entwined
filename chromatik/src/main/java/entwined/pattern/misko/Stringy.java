@@ -4,7 +4,7 @@ import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SawLFO;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BoundedParameter;
+import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 
 public class Stringy extends LXPattern {
@@ -12,21 +12,17 @@ public class Stringy extends LXPattern {
   // private float waveWidth = 1;
   private float speedMult = 1000;
 
-  // this is a bomb. The number has to be bigger than something
-  // but it's not clear what. Add a bunch of cubes and it might explode.
-  final static int MAX_THING = 2300;
-
   private double total_ms1 =0.0;
   private double total_ms2 =0.0;
-  static float[][] d = new float[MAX_THING][MAX_THING]; //1900*1900*4bytes/(1024*1024)=13.8MB
-  static float[] norms = new float[MAX_THING]; //0.007MB
-  static float[][] shadow = new float[MAX_THING][3]; //0.021 MB
+  static float[][] d;
+  static float[] norms;
+  static float[][] shadow;
   private int n=3;
   private int current_cube_r[];
   private int current_cube_g[];
   private int current_cube_b[];
-  final BoundedParameter speedParam = new BoundedParameter("Speed", 5, 20, .01);
-  final BoundedParameter waveSlope = new BoundedParameter("wvSlope", 360, 1, 720);
+  final CompoundParameter speedParam = new CompoundParameter("Speed", 5, 20, .01);
+  final CompoundParameter waveSlope = new CompoundParameter("wvSlope", 360, 1, 720);
   final SawLFO wave360 = new SawLFO(0, 360, speedParam.getValuef() * speedMult);
   final SinLFO wave100 = new SinLFO(0, 100, speedParam.getValuef() * speedMult);
 
@@ -46,6 +42,10 @@ public class Stringy extends LXPattern {
     addModulator(wave100).start();
     addParameter("waveSlope", waveSlope);
     addParameter("speedParam", speedParam);
+
+    d = new float[model.points.length][model.points.length];
+    norms = new float[model.points.length];
+    shadow = new float[model.points.length][3];
 
     for (int i=0; i<model.points.length; i++) {
       shadow[i][0]=0;
