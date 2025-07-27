@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1753599306112,
+  "timestamp": 1753599928783,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -549,11 +549,11 @@
       {
         "jsonFixtureType": "Examples/Square",
         "jsonParameters": {
-          "size": 47.0,
-          "pointsPerEdge": 14,
+          "size": 29.0,
+          "pointsPerEdge": 12,
           "center": false
         },
-        "id": 783127,
+        "id": 783406,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -562,14 +562,14 @@
         },
         "parameters": {
           "label": "N.C Window 1",
-          "x": 297.8716657012701,
-          "y": 32.09717341884971,
-          "z": -373.58278504014015,
-          "yaw": -38.0,
-          "pitch": 15.0,
-          "roll": -14.0,
+          "x": 202.1253261268139,
+          "y": 165.3031507395208,
+          "z": -397.005014449358,
+          "yaw": -27.0,
+          "pitch": 19.0,
+          "roll": -47.0,
           "scale": 1.0,
-          "selected": false,
+          "selected": true,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -597,12 +597,12 @@
         },
         "parameters": {
           "label": "N.C Window 2",
-          "x": 245.37915061414242,
-          "y": 61.08548065647483,
-          "z": -393.35369792580605,
+          "x": 249.2073941603303,
+          "y": 166.24541958793998,
+          "z": -371.7854174822569,
           "yaw": -27.0,
           "pitch": 19.0,
-          "roll": -21.0,
+          "roll": 36.0,
           "scale": 1.0,
           "selected": false,
           "deactivate": false,
@@ -619,11 +619,11 @@
       {
         "jsonFixtureType": "Examples/Square",
         "jsonParameters": {
-          "size": 29.0,
-          "pointsPerEdge": 12,
+          "size": 47.0,
+          "pointsPerEdge": 14,
           "center": false
         },
-        "id": 783406,
+        "id": 783127,
         "class": "heronarts.lx.structure.JsonFixture",
         "internal": {
           "modulationColor": 0,
@@ -632,12 +632,12 @@
         },
         "parameters": {
           "label": "N.C Window 3",
-          "x": 207.8716657012701,
-          "y": 101.0971734188497,
-          "z": -403.35369792580605,
-          "yaw": -27.0,
-          "pitch": 19.0,
-          "roll": -106.0,
+          "x": 284.6833061873913,
+          "y": 191.387261595577,
+          "z": -350.0895127058029,
+          "yaw": -38.0,
+          "pitch": 15.0,
+          "roll": 24.0,
           "scale": 1.0,
           "selected": false,
           "deactivate": false,
@@ -754,7 +754,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": true,
+          "selected": false,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -16814,22 +16814,22 @@
         "depth": 2.0,
         "camera": {
           "active": false,
-          "radius": 2086.83421401333,
-          "theta": 41.0479983240366,
-          "phi": 20.332181453704834,
-          "x": -149.86138824559748,
-          "y": 82.74154934100807,
-          "z": 293.174882190302
+          "radius": 1347.7387590823807,
+          "theta": 30.771180406212807,
+          "phi": 15.894463658332825,
+          "x": -43.89896092005074,
+          "y": 85.31629892997444,
+          "z": 191.9597645420581
         },
         "cue": [
           {
             "active": false,
-            "radius": 2086.83421401333,
-            "theta": 41.0479983240366,
-            "phi": 20.332181453704834,
-            "x": -149.86138824559748,
-            "y": 82.74154934100807,
-            "z": 293.174882190302
+            "radius": 1347.7387590823807,
+            "theta": 30.771180406212807,
+            "phi": 15.894463658332825,
+            "x": -43.89896092005074,
+            "y": 85.31629892997444,
+            "z": 191.9597645420581
           },
           {
             "active": false,
