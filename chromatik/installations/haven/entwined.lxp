@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1753598738327,
+  "timestamp": 1753599306112,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -63,15 +63,15 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 Stained",
-          "x": -327.20522218570113,
-          "y": 231.10822373628616,
-          "z": -315.56811536103487,
+          "label": "N.M Stained",
+          "x": -320.6525870524347,
+          "y": 173.93079351261258,
+          "z": -343.17402746528387,
           "yaw": 50.0,
           "pitch": 20.0,
           "roll": 100.0,
           "scale": 1.0,
-          "selected": true,
+          "selected": false,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -93,7 +93,7 @@
           "ddpDataOffset": 0,
           "kinetPort": 1,
           "numPoints": 100,
-          "radius": 100.0,
+          "radius": 42.0,
           "degrees": 360.0,
           "positionMode": 0
         },
@@ -114,12 +114,12 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 Window 1",
-          "x": -382.25173872709274,
-          "y": 24.31146999821067,
-          "z": -328.05720656365156,
+          "label": "N.M Window 1",
+          "x": -525.0987406075001,
+          "y": 174.88149513304234,
+          "z": -81.09644507616758,
           "yaw": 49.0,
-          "pitch": 17.0,
+          "pitch": 29.0,
           "roll": 14.0,
           "scale": 1.0,
           "selected": false,
@@ -149,13 +149,13 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 Window 2",
-          "x": -541.0212981104851,
-          "y": -3.3824367225170135,
-          "z": -107.69616585224867,
+          "label": "N.M Window 2",
+          "x": -562.4513299167156,
+          "y": -14.001505590975285,
+          "z": -130.4641716107726,
           "yaw": 54.0,
-          "pitch": 13.0,
-          "roll": 24.0,
+          "pitch": 18.0,
+          "roll": 14.0,
           "scale": 1.0,
           "selected": false,
           "deactivate": false,
@@ -178,7 +178,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 PBird Up 1",
+          "label": "N.M PBird Up 1",
           "x": -273.0212981104851,
           "y": 298.41193993389606,
           "z": -385.69616585224867,
@@ -221,7 +221,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 PBird Up 2",
+          "label": "N.M PBird Up 2",
           "x": -220.02129811048508,
           "y": 298.41193993389606,
           "z": -371.69616585224867,
@@ -264,7 +264,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 Spot 1",
+          "label": "N.M Spot 1",
           "x": -212.62218233197927,
           "y": 190.20697811245918,
           "z": -250.59050811082125,
@@ -305,7 +305,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 Spot 2",
+          "label": "N.M Spot 2",
           "x": -403.6392605602741,
           "y": -3.6547998785972595,
           "z": -217.96508549898863,
@@ -346,7 +346,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 Spot 3",
+          "label": "N.M Spot 3",
           "x": -411.4304649233818,
           "y": 200.87292686104774,
           "z": -83.22010098397732,
@@ -387,7 +387,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 Spot 4",
+          "label": "N.M Spot 4",
           "x": -662.5322909802198,
           "y": 6.868749026209116,
           "z": -153.59629037231207,
@@ -428,7 +428,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 Spot 5",
+          "label": "N.M Spot 5",
           "x": -426.16157043911517,
           "y": 336.97708059102297,
           "z": -269.27241045609117,
@@ -469,7 +469,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N1 Spot 6",
+          "label": "N.M Spot 6",
           "x": -403.8175151646137,
           "y": 16.017906550318003,
           "z": -506.9771309196949,
@@ -510,7 +510,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Stained",
+          "label": "N.C Stained",
           "x": 409.04018054902554,
           "y": 79.10759246349335,
           "z": -247.32948868721724,
@@ -540,7 +540,7 @@
           "ddpDataOffset": 0,
           "kinetPort": 1,
           "numPoints": 100,
-          "radius": 100.0,
+          "radius": 42.0,
           "degrees": 360.0,
           "positionMode": 0
         },
@@ -561,7 +561,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Window 1",
+          "label": "N.C Window 1",
           "x": 297.8716657012701,
           "y": 32.09717341884971,
           "z": -373.58278504014015,
@@ -596,7 +596,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Window 2",
+          "label": "N.C Window 2",
           "x": 245.37915061414242,
           "y": 61.08548065647483,
           "z": -393.35369792580605,
@@ -631,7 +631,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Window 3",
+          "label": "N.C Window 3",
           "x": 207.8716657012701,
           "y": 101.0971734188497,
           "z": -403.35369792580605,
@@ -660,7 +660,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 PBird Up 1",
+          "label": "N.C PBird Up 1",
           "x": 516.2236081808805,
           "y": 299.6866961121559,
           "z": -73.78022882342339,
@@ -703,7 +703,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 PBird Up 2",
+          "label": "N.C PBird Up 2",
           "x": 495.22360818088055,
           "y": 299.6866961121559,
           "z": -28.780228823423386,
@@ -746,7 +746,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Spot 1",
+          "label": "N.C Spot 1",
           "x": 418.63333685323596,
           "y": 177.6296752691269,
           "z": -56.25803895294666,
@@ -754,7 +754,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": false,
+          "selected": true,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -787,7 +787,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Spot 2",
+          "label": "N.C Spot 2",
           "x": 377.66071866452694,
           "y": 16.749154202640057,
           "z": -199.02429351210594,
@@ -828,7 +828,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Spot 3",
+          "label": "N.C Spot 3",
           "x": 212.57427909225225,
           "y": 140.49027260765433,
           "z": -295.19439905136824,
@@ -869,7 +869,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Spot 4",
+          "label": "N.C Spot 4",
           "x": 376.8204705566168,
           "y": 38.51736491173506,
           "z": -406.3342186510563,
@@ -910,7 +910,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Spot 5",
+          "label": "N.C Spot 5",
           "x": 408.909269079566,
           "y": 315.67189110815525,
           "z": -262.2664016187191,
@@ -951,7 +951,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N2 Spot 6",
+          "label": "N.C Spot 6",
           "x": 592.9881031364202,
           "y": 6.568873643875122,
           "z": -211.5061465203762,
@@ -992,7 +992,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 Stained",
+          "label": "N.O Stained",
           "x": -2.9192384527996182,
           "y": 122.65771566703916,
           "z": 530.9717993121594,
@@ -1022,7 +1022,7 @@
           "ddpDataOffset": 0,
           "kinetPort": 1,
           "numPoints": 100,
-          "radius": 100.0,
+          "radius": 42.0,
           "degrees": 360.0,
           "positionMode": 0
         },
@@ -1043,7 +1043,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 Window 1",
+          "label": "N.O Window 1",
           "x": 173.83135677874088,
           "y": 87.16776895523071,
           "z": 510.64299996197224,
@@ -1072,7 +1072,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 PBird Up 1",
+          "label": "N.O PBird Up 1",
           "x": -146.16864322125912,
           "y": 301.22473326325417,
           "z": 451.64299996197224,
@@ -1115,7 +1115,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 PBird Up 2",
+          "label": "N.O PBird Up 2",
           "x": -150.16864322125912,
           "y": 301.22473326325417,
           "z": 400.64299996197224,
@@ -1158,7 +1158,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 Spot 1",
+          "label": "N.O Spot 1",
           "x": -159.0753279235214,
           "y": 238.5506867747754,
           "z": 356.2124207727611,
@@ -1199,7 +1199,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 Spot 2",
+          "label": "N.O Spot 2",
           "x": 28.02200062572956,
           "y": 41.563433326780796,
           "z": 407.8106080442667,
@@ -1240,7 +1240,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 Spot 3",
+          "label": "N.O Spot 3",
           "x": 171.32875184156,
           "y": 215.48420414328575,
           "z": 365.5635588876903,
@@ -1281,7 +1281,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 Spot 4",
+          "label": "N.O Spot 4",
           "x": 219.91350699961185,
           "y": 9.593577452003956,
           "z": 658.9369030371308,
@@ -1322,7 +1322,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 Spot 5",
+          "label": "N.O Spot 5",
           "x": 10.857743993401527,
           "y": 342.14802483841777,
           "z": 495.4216483607888,
@@ -1363,7 +1363,7 @@
           "modulationsExpanded": true
         },
         "parameters": {
-          "label": "N3 Spot 6",
+          "label": "N.O Spot 6",
           "x": -146.21847972273827,
           "y": 9.508613750338554,
           "z": 687.6459599584341,
@@ -16814,22 +16814,22 @@
         "depth": 2.0,
         "camera": {
           "active": false,
-          "radius": 1633.8276093368518,
-          "theta": 148.02032233774662,
-          "phi": 72.88408303260803,
-          "x": -178.25959651358426,
-          "y": 63.60134766437113,
-          "z": -54.860649874433875
+          "radius": 2086.83421401333,
+          "theta": 41.0479983240366,
+          "phi": 20.332181453704834,
+          "x": -149.86138824559748,
+          "y": 82.74154934100807,
+          "z": 293.174882190302
         },
         "cue": [
           {
             "active": false,
-            "radius": 1633.8276093368518,
-            "theta": 148.02032233774662,
-            "phi": 72.88408303260803,
-            "x": -178.25959651358426,
-            "y": 63.60134766437113,
-            "z": -54.860649874433875
+            "radius": 2086.83421401333,
+            "theta": 41.0479983240366,
+            "phi": 20.332181453704834,
+            "x": -149.86138824559748,
+            "y": 82.74154934100807,
+            "z": 293.174882190302
           },
           {
             "active": false,
