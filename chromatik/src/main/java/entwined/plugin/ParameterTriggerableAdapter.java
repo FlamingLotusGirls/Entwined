@@ -1,6 +1,5 @@
 package entwined.plugin;
 
-
 import heronarts.lx.LX;
 import heronarts.lx.LXLoopTask;
 import heronarts.lx.modulator.DampedParameter;
@@ -31,11 +30,14 @@ interface Triggerable {
 public class ParameterTriggerableAdapter implements Triggerable, LXLoopTask {
 
   private final LX lx;
-  private final BooleanParameter triggeredEventParameter = new BooleanParameter("ANON");
-  private final DampedParameter triggeredEventDampedParameter = new DampedParameter(triggeredEventParameter, 2);
+  private final BooleanParameter triggeredEventParameter = new BooleanParameter(
+    "ANON");
+  private final DampedParameter triggeredEventDampedParameter = new DampedParameter(
+    triggeredEventParameter, 2);
   private final BooleanParameter isDampening = new BooleanParameter("ANON");
-  //private double strength;
-  private double strength = 1; // used to be from the drumpad; now I'm just setting it to 1 all the time.
+  // private double strength;
+  private double strength = 1; // used to be from the drumpad; now I'm just
+                               // setting it to 1 all the time.
 
   private final LXNormalizedParameter enabledParameter;
   private final double offValue;
@@ -45,7 +47,8 @@ public class ParameterTriggerableAdapter implements Triggerable, LXLoopTask {
     this(lx, enabledParameter, 0, 1);
   }
 
-  ParameterTriggerableAdapter(LX lx, LXNormalizedParameter enabledParameter, double offValue, double onValue) {
+  ParameterTriggerableAdapter(LX lx, LXNormalizedParameter enabledParameter,
+    double offValue, double onValue) {
     this.lx = lx;
     this.enabledParameter = enabledParameter;
     this.offValue = offValue;
@@ -57,13 +60,17 @@ public class ParameterTriggerableAdapter implements Triggerable, LXLoopTask {
 
   public void loop(double deltaMs) {
     if (isDampening.isOn()) {
-      enabledParameter.setValue((onValue - offValue) * strength * triggeredEventDampedParameter.getValue() + offValue);
-      if (triggeredEventDampedParameter.getValue() == triggeredEventParameter.getValue()) {
+      enabledParameter.setValue((onValue - offValue) * strength
+        * triggeredEventDampedParameter.getValue() + offValue);
+      if (triggeredEventDampedParameter.getValue() == triggeredEventParameter
+        .getValue()) {
         isDampening.setValue(false);
       }
     } else {
-      if (triggeredEventDampedParameter.getValue() != triggeredEventParameter.getValue()) {
-        enabledParameter.setValue((onValue - offValue) * strength * triggeredEventDampedParameter.getValue() + offValue);
+      if (triggeredEventDampedParameter.getValue() != triggeredEventParameter
+        .getValue()) {
+        enabledParameter.setValue((onValue - offValue) * strength
+          * triggeredEventDampedParameter.getValue() + offValue);
         isDampening.setValue(true);
       }
     }
@@ -90,13 +97,15 @@ public class ParameterTriggerableAdapter implements Triggerable, LXLoopTask {
 
   public void onTriggered() {
     // this.strength = strength;
-    triggeredEventDampedParameter.setValue((enabledParameter.getValue() - offValue) / (onValue - offValue));
+    triggeredEventDampedParameter.setValue(
+      (enabledParameter.getValue() - offValue) / (onValue - offValue));
     // println((enabledParameter.getValue() - offValue) / (onValue - offValue));
     triggeredEventParameter.setValue(true);
   }
 
   public void onReleased() {
-    triggeredEventDampedParameter.setValue((enabledParameter.getValue() - offValue) / (onValue - offValue));
+    triggeredEventDampedParameter.setValue(
+      (enabledParameter.getValue() - offValue) / (onValue - offValue));
     triggeredEventParameter.setValue(false);
   }
 }

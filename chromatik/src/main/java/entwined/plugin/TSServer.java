@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 /*
  * class TSServer
  *
@@ -59,10 +58,11 @@ class TSServer implements Runnable {
       // public void serverEvent(Server s, Client c);
       // which is called when a new guy connects
       try {
-        serverEventMethod =
-          parent.getClass().getMethod("serverEvent", TSServer.class, TSClient.class);
+        serverEventMethod = parent.getClass().getMethod("serverEvent",
+          TSServer.class, TSClient.class);
       } catch (Exception e) {
-        System.out.println("INFO: TSServer create: no server event on this object");
+        System.out
+          .println("INFO: TSServer create: no server event on this object");
       }
 
     } catch (IOException e) {
@@ -71,12 +71,10 @@ class TSServer implements Runnable {
     }
   }
 
-
   public void disconnect(TSClient client) {
     client.stop();
     clients.remove(client);
   }
-
 
   protected void disconnectAll() {
     for (TSClient client : clients) {
@@ -89,22 +87,15 @@ class TSServer implements Runnable {
     clients.clear();
   }
 
-
   public boolean active() {
     return thread != null;
   }
 
   /*
-  static public String ip() {
-    try {
-      return InetAddress.getLocalHost().getHostAddress();
-    } catch (UnknownHostException e) {
-      e.printStackTrace();
-      return null;
-    }
-  }
-  */
-
+   * static public String ip() { try { return
+   * InetAddress.getLocalHost().getHostAddress(); } catch (UnknownHostException
+   * e) { e.printStackTrace(); return null; } }
+   */
 
   // the last index used for available. can't just cycle through
   // the clients in order from 0 each time, because if client 0 won't
@@ -113,41 +104,40 @@ class TSServer implements Runnable {
   // wasn't right. Let's just use a standard java primitive.
 
   /**
-   * Returns the next client in line with a new message.
-   * and oh by the way reaps out inactive clients
+   * Returns the next client in line with a new message. and oh by the way reaps
+   * out inactive clients
    *
    */
   public TSClient available() {
     ArrayList<TSClient> deletes = null;
     TSClient av = null;
-      // the fairness thing is cute, but let's let it alone
-      for (TSClient client : clients) {
-        //Check for valid client
-        if (!client.active()){
-          if (deletes == null) deletes = new ArrayList<TSClient>();
-          deletes.add(client);
-        }
-        if (client.available() > 0) {
-          av = client;
-          break;
-        }
+    // the fairness thing is cute, but let's let it alone
+    for (TSClient client : clients) {
+      // Check for valid client
+      if (!client.active()) {
+        if (deletes == null)
+          deletes = new ArrayList<TSClient>();
+        deletes.add(client);
       }
+      if (client.available() > 0) {
+        av = client;
+        break;
+      }
+    }
 
-      if (null != deletes) {
-        for (TSClient client : deletes) {
-          client.stop();
-          clients.remove(client);
-        }
+    if (null != deletes) {
+      for (TSClient client : deletes) {
+        client.stop();
+        clients.remove(client);
       }
+    }
 
     return av;
   }
 
-
   public void stop() {
     dispose();
   }
-
 
   protected void dispose() {
     thread = null;
@@ -167,7 +157,6 @@ class TSServer implements Runnable {
     }
   }
 
-
   @Override
   public void run() {
     while (Thread.currentThread() == thread) {
@@ -182,7 +171,8 @@ class TSServer implements Runnable {
             System.err.println("Disabling serverEvent() for port " + port);
             Throwable cause = e;
             // unwrap the exception if it came from the user code
-            if (e instanceof InvocationTargetException && e.getCause() != null) {
+            if (e instanceof InvocationTargetException
+              && e.getCause() != null) {
               cause = e.getCause();
             }
             cause.printStackTrace();
@@ -190,17 +180,16 @@ class TSServer implements Runnable {
           }
         }
       } catch (SocketException e) {
-        //thrown when server.close() is called and server is waiting on accept
+        // thrown when server.close() is called and server is waiting on accept
         System.err.println("Server SocketException: " + e.getMessage());
         thread = null;
       } catch (IOException e) {
-        //errorMessage("run", e);
+        // errorMessage("run", e);
         e.printStackTrace();
         thread = null;
       }
     }
   }
-
 
   public void writeAll(int data) {  // will also cover char
     ArrayList<TSClient> deletes = null;
@@ -208,19 +197,19 @@ class TSServer implements Runnable {
       if (client.active()) {
         client.write(data);
       } else {
-        if (deletes == null) deletes = new ArrayList<TSClient>(0);
+        if (deletes == null)
+          deletes = new ArrayList<TSClient>(0);
         deletes.add(client);
       }
     }
 
     if (null != deletes) {
-      for (TSClient client : deletes ) {
+      for (TSClient client : deletes) {
         client.stop();
         clients.remove(client);
       }
     }
   }
-
 
   public void writeAll(byte data[]) {
     ArrayList<TSClient> deletes = null;
@@ -228,41 +217,38 @@ class TSServer implements Runnable {
       if (client.active()) {
         client.write(data);
       } else {
-        if (deletes == null) deletes = new ArrayList<TSClient>(0);
+        if (deletes == null)
+          deletes = new ArrayList<TSClient>(0);
         deletes.add(client);
       }
     }
 
     if (null != deletes) {
-      for (TSClient client : deletes ) {
+      for (TSClient client : deletes) {
         client.stop();
         clients.remove(client);
       }
     }
   }
-
 
   public void writeAll(String data) {
     ArrayList<TSClient> deletes = null;
-  for (TSClient client : clients) {
+    for (TSClient client : clients) {
       if (client.active()) {
         client.write(data);
       } else {
-        if (deletes == null) deletes = new ArrayList<TSClient>(0);
+        if (deletes == null)
+          deletes = new ArrayList<TSClient>(0);
         deletes.add(client);
       }
     }
 
     if (null != deletes) {
-      for (TSClient client : deletes ) {
+      for (TSClient client : deletes) {
         client.stop();
         clients.remove(client);
       }
     }
   }
 
-
-
 }
-
-

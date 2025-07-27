@@ -26,7 +26,6 @@ class TSClient implements Runnable {
   int bufferIndex;
   int bufferLast;
 
-
   public TSClient(Object parent, String host, int port) {
     this.parent = parent;
     this.host = host;
@@ -40,7 +39,6 @@ class TSClient implements Runnable {
     }
   }
 
-
   public TSClient(Object parent, Socket socket) {
     this.parent = parent;
     this.socket = socket;
@@ -51,7 +49,6 @@ class TSClient implements Runnable {
       dispose();
     }
   }
-
 
   private void _init() throws IOException {
     // Set up io
@@ -64,22 +61,21 @@ class TSClient implements Runnable {
 
     // Hook into parent events, should they exist
     try {
-      this.clientEventMethod =
-        this.parent.getClass().getMethod("clientEvent", TSClient.class);
+      this.clientEventMethod = this.parent.getClass().getMethod("clientEvent",
+        TSClient.class);
     } catch (Exception e) {
       System.out.println(" Client: parent has no client event method, ok ");
     }
     try {
-      this.disconnectEventMethod =
-        this.parent.getClass().getMethod("disconnectEvent", TSClient.class);
+      this.disconnectEventMethod = this.parent.getClass()
+        .getMethod("disconnectEvent", TSClient.class);
     } catch (Exception e) {
       System.out.println(" Client: parent has no disconnect method, ok ");
     }
   }
 
-
   public void stop() {
-    if (disconnectEventMethod != null && thread != null){
+    if (disconnectEventMethod != null && thread != null) {
       try {
         disconnectEventMethod.invoke(parent, this);
       } catch (Exception e) {
@@ -94,7 +90,6 @@ class TSClient implements Runnable {
     }
     dispose();
   }
-
 
   protected void dispose() {
     thread = null;
@@ -126,16 +121,17 @@ class TSClient implements Runnable {
     }
   }
 
-
   @Override
   public void run() {
     byte[] readBuffer;
     { // make the read buffer same size as socket receive buffer so that
       // we don't waste cycles calling listeners when there is more data waiting
-      int readBufferSize = 1 << 16; // 64 KB (default socket receive buffer size)
+      int readBufferSize = 1 << 16; // 64 KB (default socket receive buffer
+                                    // size)
       try {
         readBufferSize = socket.getReceiveBufferSize();
-      } catch (SocketException ignore) { }
+      } catch (SocketException ignore) {
+      }
       readBuffer = new byte[readBufferSize];
     }
     while (Thread.currentThread() == thread) {
@@ -148,13 +144,15 @@ class TSClient implements Runnable {
           try {
             readCount = input.read(readBuffer, 0, readBuffer.length);
           } catch (SocketException e) {
-             System.err.println("Client SocketException: " + e.getMessage());
-             // the socket had a problem reading so don't try to read from it again.
-             stop();
-             return;
+            System.err.println("Client SocketException: " + e.getMessage());
+            // the socket had a problem reading so don't try to read from it
+            // again.
+            stop();
+            return;
           }
 
-          // read returns -1 if end-of-stream occurs (for example if the host disappears)
+          // read returns -1 if end-of-stream occurs (for example if the host
+          // disappears)
           if (readCount == -1) {
             System.err.println("Client got end-of-stream. SERVER");
             stop();
@@ -170,18 +168,22 @@ class TSClient implements Runnable {
               if (bufferLength + readCount > buffer.length) {
                 // can't fit even after compacting, resize the buffer
                 // find the next power of two which can fit everything in
-                int newSize = Integer.highestOneBit(bufferLength + readCount - 1) << 1;
+                int newSize = Integer
+                  .highestOneBit(bufferLength + readCount - 1) << 1;
                 if (newSize > MAX_BUFFER_SIZE) {
                   // buffer is full because client is not reading (fast enough)
-                  System.err.println("Client: can't receive more data, buffer is full. " +
-                                         "Make sure you read the data from the client.");
+                  System.err
+                    .println("Client: can't receive more data, buffer is full. "
+                      + "Make sure you read the data from the client.");
                   stop();
                   return;
                 }
                 targetBuffer = new byte[newSize];
               }
-              // compact the buffer (either in-place or into the new bigger buffer)
-              System.arraycopy(buffer, bufferIndex, targetBuffer, 0, bufferLength);
+              // compact the buffer (either in-place or into the new bigger
+              // buffer)
+              System.arraycopy(buffer, bufferIndex, targetBuffer, 0,
+                bufferLength);
               bufferLast -= bufferIndex;
               bufferIndex = 0;
               buffer = targetBuffer;
@@ -199,7 +201,8 @@ class TSClient implements Runnable {
               System.err.println("error, disabling clientEvent() for " + host);
               Throwable cause = e;
               // unwrap the exception if it came from the user code
-              if (e instanceof InvocationTargetException && e.getCause() != null) {
+              if (e instanceof InvocationTargetException
+                && e.getCause() != null) {
                 cause = e.getCause();
               }
               cause.printStackTrace();
@@ -208,32 +211,28 @@ class TSClient implements Runnable {
           }
         }
       } catch (IOException e) {
-        //errorMessage("run", e);
+        // errorMessage("run", e);
         e.printStackTrace();
       }
     }
   }
 
-
   public boolean active() {
     return (thread != null);
   }
 
-
   public String ip() {
-    if (socket != null){
+    if (socket != null) {
       return socket.getInetAddress().getHostAddress();
     }
     return null;
   }
-
 
   public int available() {
     synchronized (bufferLock) {
       return (bufferLast - bufferIndex);
     }
   }
-
 
   public void clear() {
     synchronized (bufferLock) {
@@ -242,14 +241,14 @@ class TSClient implements Runnable {
     }
   }
 
-
   /**
-   * Returns a number between 0 and 255 for the next byte that's waiting in
-   * the buffer. Returns -1 if there is no byte
+   * Returns a number between 0 and 255 for the next byte that's waiting in the
+   * buffer. Returns -1 if there is no byte
    */
   public int read() {
     synchronized (bufferLock) {
-      if (bufferIndex == bufferLast) return -1;
+      if (bufferIndex == bufferLast)
+        return -1;
 
       int outgoing = buffer[bufferIndex++] & 0xff;
       if (bufferIndex == bufferLast) {  // rewind
@@ -260,22 +259,22 @@ class TSClient implements Runnable {
     }
   }
 
-
   /**
    * Returns the next byte in the buffer as a char. Returns -1 or 0xffff if
    * nothing is there.
    */
   public char readChar() {
     synchronized (bufferLock) {
-      if (bufferIndex == bufferLast) return (char) (-1);
+      if (bufferIndex == bufferLast)
+        return (char) (-1);
       return (char) read();
     }
   }
 
-
   public byte[] readBytes() {
     synchronized (bufferLock) {
-      if (bufferIndex == bufferLast) return null;
+      if (bufferIndex == bufferLast)
+        return null;
 
       int length = bufferLast - bufferIndex;
       byte outgoing[] = new byte[length];
@@ -287,13 +286,14 @@ class TSClient implements Runnable {
     }
   }
 
-
   public byte[] readBytes(int max) {
     synchronized (bufferLock) {
-      if (bufferIndex == bufferLast) return null;
+      if (bufferIndex == bufferLast)
+        return null;
 
       int length = bufferLast - bufferIndex;
-      if (length > max) length = max;
+      if (length > max)
+        length = max;
       byte outgoing[] = new byte[length];
       System.arraycopy(buffer, bufferIndex, outgoing, 0, length);
 
@@ -307,13 +307,14 @@ class TSClient implements Runnable {
     }
   }
 
-
   public int readBytes(byte bytebuffer[]) {
     synchronized (bufferLock) {
-      if (bufferIndex == bufferLast) return 0;
+      if (bufferIndex == bufferLast)
+        return 0;
 
       int length = bufferLast - bufferIndex;
-      if (length > bytebuffer.length) length = bytebuffer.length;
+      if (length > bytebuffer.length)
+        length = bytebuffer.length;
       System.arraycopy(buffer, bufferIndex, bytebuffer, 0, length);
 
       bufferIndex += length;
@@ -325,12 +326,12 @@ class TSClient implements Runnable {
     }
   }
 
-
   public byte[] readBytesUntil(int interesting) {
-    byte what = (byte)interesting;
+    byte what = (byte) interesting;
 
     synchronized (bufferLock) {
-      if (bufferIndex == bufferLast) return null;
+      if (bufferIndex == bufferLast)
+        return null;
 
       int found = -1;
       for (int k = bufferIndex; k < bufferLast; k++) {
@@ -339,7 +340,8 @@ class TSClient implements Runnable {
           break;
         }
       }
-      if (found == -1) return null;
+      if (found == -1)
+        return null;
 
       int length = found - bufferIndex + 1;
       byte outgoing[] = new byte[length];
@@ -354,12 +356,12 @@ class TSClient implements Runnable {
     }
   }
 
-
   public int readBytesUntil(int interesting, byte byteBuffer[]) {
-    byte what = (byte)interesting;
+    byte what = (byte) interesting;
 
     synchronized (bufferLock) {
-      if (bufferIndex == bufferLast) return 0;
+      if (bufferIndex == bufferLast)
+        return 0;
 
       int found = -1;
       for (int k = bufferIndex; k < bufferLast; k++) {
@@ -368,16 +370,17 @@ class TSClient implements Runnable {
           break;
         }
       }
-      if (found == -1) return 0;
+      if (found == -1)
+        return 0;
 
       int length = found - bufferIndex + 1;
       if (length > byteBuffer.length) {
-        System.err.println("readBytesUntil() byte buffer is" +
-                           " too small for the " + length +
-                           " bytes up to and including char " + interesting);
+        System.err
+          .println("readBytesUntil() byte buffer is" + " too small for the "
+            + length + " bytes up to and including char " + interesting);
         return -1;
       }
-      //byte outgoing[] = new byte[length];
+      // byte outgoing[] = new byte[length];
       System.arraycopy(buffer, bufferIndex, byteBuffer, 0, length);
 
       bufferIndex += length;
@@ -389,24 +392,23 @@ class TSClient implements Runnable {
     }
   }
 
-
   /**
-   * Returns the all the data from the buffer as a String, assumes
-   * incoming characters are ASCII.
-  */
+   * Returns the all the data from the buffer as a String, assumes incoming
+   * characters are ASCII.
+   */
   public String readString() {
     byte b[] = readBytes();
-    if (b == null) return null;
+    if (b == null)
+      return null;
     return new String(b);
   }
-
 
   public String readStringUntil(int interesting) {
     byte b[] = readBytesUntil(interesting);
-    if (b == null) return null;
+    if (b == null)
+      return null;
     return new String(b);
   }
-
 
   public void write(int data) {  // will also cover char
     try {
@@ -414,15 +416,14 @@ class TSClient implements Runnable {
       output.flush();   // hmm, not sure if a good idea
 
     } catch (Exception e) { // null pointer or port dead
-      //errorMessage("write", e);
-      //e.printStackTrace();
-      //dispose();
-      //disconnect(e);
+      // errorMessage("write", e);
+      // e.printStackTrace();
+      // dispose();
+      // disconnect(e);
       e.printStackTrace();
       stop();
     }
   }
-
 
   public void write(byte data[]) {
     try {
@@ -430,18 +431,15 @@ class TSClient implements Runnable {
       output.flush();   // hmm, not sure if a good idea
 
     } catch (Exception e) { // null pointer or serial port dead
-      //errorMessage("write", e);
-      //e.printStackTrace();
-      //disconnect(e);
+      // errorMessage("write", e);
+      // e.printStackTrace();
+      // disconnect(e);
       e.printStackTrace();
       stop();
     }
   }
 
-
   public void write(String data) {
     write(data.getBytes());
   }
 }
-
-

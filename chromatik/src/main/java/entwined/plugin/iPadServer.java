@@ -26,7 +26,6 @@ import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.pattern.LXPattern;
 
-
 /*
  * IPadServer. Handles communication between the iPad and the iPadController.
  * This module handles the connectivity with the iPad (or other device speaking the
@@ -50,9 +49,12 @@ class AppServer {
     server = new TSServer(lx, 5204);
 
     ClientCommunicator clientCommunicator = new ClientCommunicator(server);
-    ClientModelUpdater clientModelUpdater = new ClientModelUpdater(engineController, clientCommunicator);
-    ClientTimerUpdater clientTimerUpdater = new ClientTimerUpdater(engineController, clientCommunicator);
-    parseClientTask = new ParseClientTask(engineController, server, clientModelUpdater, clientTimerUpdater);
+    ClientModelUpdater clientModelUpdater = new ClientModelUpdater(
+      engineController, clientCommunicator);
+    ClientTimerUpdater clientTimerUpdater = new ClientTimerUpdater(
+      engineController, clientCommunicator);
+    parseClientTask = new ParseClientTask(engineController, server,
+      clientModelUpdater, clientTimerUpdater);
     lx.engine.addLoopTask(parseClientTask);
   }
 
@@ -71,7 +73,9 @@ class AppServer {
 
     boolean hasActiveClients = false;
 
-    ParseClientTask(EngineController engineController, TSServer server, ClientModelUpdater clientModelUpdater, ClientTimerUpdater clientTimerUpdater) {
+    ParseClientTask(EngineController engineController, TSServer server,
+      ClientModelUpdater clientModelUpdater,
+      ClientTimerUpdater clientTimerUpdater) {
       this.engineController = engineController;
       this.server = server;
       this.clientModelUpdater = clientModelUpdater;
@@ -89,15 +93,15 @@ class AppServer {
           }
         }
 
-        if ( server.clients.size() != 0)
+        if (server.clients.size() != 0)
           return;
 
-        System.out.println(" detected all clients disconnected, forcing autoplay ");
+        System.out
+          .println(" detected all clients disconnected, forcing autoplay ");
 
         hasActiveClients = false;
       }
     }
-
 
     public void enableAutoplay() {
       if (false == engineController.isAutoplaying) {
@@ -105,7 +109,6 @@ class AppServer {
       }
       engineController.setMasterBrightness(1.0);
     }
-
 
     public void loop(double deltaMs) {
       try {
@@ -118,94 +121,122 @@ class AppServer {
 
         // Check for incoming requests
         TSClient client = server.available();
-        if (client == null) return;
+        if (client == null)
+          return;
 
         hasActiveClients = true;
 
         // Read incoming request
         String whatClientSaid = client.readStringUntil('\n');
-        if (whatClientSaid == null) return;
+        if (whatClientSaid == null)
+          return;
 
         // System.out.print("Request: " + whatClientSaid);
 
         Map<String, Object> message = null;
         try {
-          message = gson.fromJson(whatClientSaid.trim(), new TypeToken<Map<String, Object>>() {}.getType());
+          message = gson.fromJson(whatClientSaid.trim(),
+            new TypeToken<Map<String, Object>>() {
+            }.getType());
         } catch (Exception e) {
           System.out.println(e);
           System.out.println("Server Exception: Got: " + message);
           return;
         }
 
-        if (message == null) return;
+        if (message == null)
+          return;
 
-        // Vector message to receivers. Most messages will get sent to the enginecontroller,
+        // Vector message to receivers. Most messages will get sent to the
+        // enginecontroller,
         // which can actually change things in the system.
         // Requests for status, such as 'loadModel' and 'getTimer'
-        // are served by the ClientModelUpdater and the ClientTimerUpdater, which
+        // are served by the ClientModelUpdater and the ClientTimerUpdater,
+        // which
         // for all intents and purposes, are just functions.
-        // (Note that I do not see any provision for handling multiple simultaneous clients. Maybe state of
-        // which client you're addressing is held in the TSServer; maybe everything explodes if you attempt
-        // two simultaneous connections. Not that two simultaneous connections necessarily a good thing.)
-        String method = (String)message.get("method");
+        // (Note that I do not see any provision for handling multiple
+        // simultaneous clients. Maybe state of
+        // which client you're addressing is held in the TSServer; maybe
+        // everything explodes if you attempt
+        // two simultaneous connections. Not that two simultaneous connections
+        // necessarily a good thing.)
+        String method = (String) message.get("method");
         @SuppressWarnings("unchecked")
-        Map<String, Object> params = (Map<String, Object>)message.get("params");
+        Map<String, Object> params = (Map<String, Object>) message
+          .get("params");
 
-        if (method == null) return;
-        if (params == null) params = new HashMap<String, Object>();
+        if (method == null)
+          return;
+        if (params == null)
+          params = new HashMap<String, Object>();
 
         if (method.equals("loadModel")) {
           clientModelUpdater.sendModel();
         } else if (method.equals("setAutoplay")) {
-          Boolean autoplay = (Boolean)params.get("autoplay");
-          if (autoplay == null) return;
+          Boolean autoplay = (Boolean) params.get("autoplay");
+          if (autoplay == null)
+            return;
           engineController.setAutoplay(autoplay.booleanValue());
         } else if (method.equals("setBrightness")) {
-          Double brightness = (Double)params.get("brightness");
-          if (brightness == null) return;
+          Double brightness = (Double) params.get("brightness");
+          if (brightness == null)
+            return;
           engineController.setMasterBrightness(brightness);
         } else if (method.equals("setAutoplayBrightness")) {
-          Double autoplayBrightness = (Double)params.get("autoplayBrightness");
-          if (autoplayBrightness == null) return;
+          Double autoplayBrightness = (Double) params.get("autoplayBrightness");
+          if (autoplayBrightness == null)
+            return;
           engineController.setAutoplayBrightness(autoplayBrightness);
         } else if (method.equals("setHue")) {
-          Double hue = (Double)params.get("hue");
-          if (hue == null) return;
+          Double hue = (Double) params.get("hue");
+          if (hue == null)
+            return;
           engineController.setHue(hue);
         } else if (method.equals("setChannelPattern")) {
-          Double channelIndex = (Double)params.get("channelIndex");
-          Double patternIndex = (Double)params.get("patternIndex");
-          if (channelIndex == null || patternIndex == null) return;
-          engineController.setChannelPattern(channelIndex.intValue() + engineController.baseChannelIndex, patternIndex.intValue());
+          Double channelIndex = (Double) params.get("channelIndex");
+          Double patternIndex = (Double) params.get("patternIndex");
+          if (channelIndex == null || patternIndex == null)
+            return;
+          engineController.setChannelPattern(
+            channelIndex.intValue() + engineController.baseChannelIndex,
+            patternIndex.intValue());
         } else if (method.equals("setChannelVisibility")) {
-          Double channelIndex = (Double)params.get("channelIndex");
-          Double visibility = (Double)params.get("visibility");
-          if (channelIndex == null || visibility == null) return;
-          engineController.setChannelVisibility(channelIndex.intValue() + engineController.baseChannelIndex, visibility);
+          Double channelIndex = (Double) params.get("channelIndex");
+          Double visibility = (Double) params.get("visibility");
+          if (channelIndex == null || visibility == null)
+            return;
+          engineController.setChannelVisibility(
+            channelIndex.intValue() + engineController.baseChannelIndex,
+            visibility);
         } else if (method.equals("setActiveColorEffect")) {
-          Double effectIndex = (Double)params.get("effectIndex");
-          if (effectIndex == null) return;
+          Double effectIndex = (Double) params.get("effectIndex");
+          if (effectIndex == null)
+            return;
           engineController.setActiveColorEffect(effectIndex.intValue());
         } else if (method.equals("setSpeed")) {
-          Double amount = (Double)params.get("amount");
-          if (amount == null) return;
+          Double amount = (Double) params.get("amount");
+          if (amount == null)
+            return;
           engineController.setSpeed(amount);
-        /* } else if (method.equals("setSpin")) {
-          Double amount = (Double)params.get("amount");
-          if (amount == null) return;
-          engineController.setSpin(amount); */
+          /*
+           * } else if (method.equals("setSpin")) { Double amount =
+           * (Double)params.get("amount"); if (amount == null) return;
+           * engineController.setSpin(amount);
+           */
         } else if (method.equals("setBlur")) {
-          Double amount = (Double)params.get("amount");
-          if (amount == null) return;
+          Double amount = (Double) params.get("amount");
+          if (amount == null)
+            return;
           engineController.setBlur(amount);
         } else if (method.equals("setScramble")) {
-          Double amount = (Double)params.get("amount");
-          if (amount == null) return;
+          Double amount = (Double) params.get("amount");
+          if (amount == null)
+            return;
           engineController.setScramble(amount);
         } else if (method.equals("getTimer")) {
           clientTimerUpdater.sendTimer();
-        }
-        else if (method.equals("resetTimerRun")) {  // No longer supporting autopause
+        } else if (method.equals("resetTimerRun")) {  // No longer supporting
+                                                      // autopause
           // engineController.autoPauseTask.pauseResetRunning();
         } else if (method.equals("resetTimerPause")) {
           // engineController.autoPauseTask.pauseResetPaused();
@@ -216,26 +247,22 @@ class AppServer {
     }
   }
 
-
   /*
-   * Client model updater
-   * Invoked when an iPad when a client explicitly makes a
-   * 'loadmodel'request (which it presumably does when it attaches)
-   * Sends the current state of client-controllable features, including:
-   *  -- AutoplayState
-   *  -- BrightnessLevels
-   *  -- Patterns on addressable channels (8-11)
-   *  -- Effects registered for iPad usage
-   *  -- Values of global effects - speed, blur, scramble, spin
-   *  -- Pause/run state information
-   *  (This is basically a function masquerading as a class.)
+   * Client model updater Invoked when an iPad when a client explicitly makes a
+   * 'loadmodel'request (which it presumably does when it attaches) Sends the
+   * current state of client-controllable features, including: -- AutoplayState
+   * -- BrightnessLevels -- Patterns on addressable channels (8-11) -- Effects
+   * registered for iPad usage -- Values of global effects - speed, blur,
+   * scramble, spin -- Pause/run state information (This is basically a function
+   * masquerading as a class.)
    */
 
   class ClientModelUpdater {
     EngineController engineController;
     ClientCommunicator communicator;
 
-    ClientModelUpdater(EngineController engineController, ClientCommunicator communicator) {
+    ClientModelUpdater(EngineController engineController,
+      ClientCommunicator communicator) {
       this.engineController = engineController;
       this.communicator = communicator;
     }
@@ -245,14 +272,16 @@ class AppServer {
 
       returnParams.put("autoplay", engineController.isAutoplaying);
       returnParams.put("brightness", engineController.getMasterBrightness());
-      //returnParams.put("hue", engineController.hueEffect.amount.getValue());
+      // returnParams.put("hue", engineController.hueEffect.amount.getValue());
 
-      List<Map <String, Object>> channelsParams = new ArrayList<Map <String, Object>>(engineController.numServerChannels);
+      List<Map<String, Object>> channelsParams = new ArrayList<Map<String, Object>>(
+        engineController.numServerChannels);
       for (LXAbstractChannel abstractChannel : engineController.getChannels()) {
         if (abstractChannel instanceof LXChannel) {
-          LXChannel channel = (LXChannel)abstractChannel;
+          LXChannel channel = (LXChannel) abstractChannel;
           Map<String, Object> channelParams = new HashMap<String, Object>();
-          channelParams.put("index", channel.getIndex() - engineController.baseChannelIndex);
+          channelParams.put("index",
+            channel.getIndex() - engineController.baseChannelIndex);
           int currentPatternIndex = channel.getNextPatternIndex();
           if (currentPatternIndex == 0) {
             currentPatternIndex = -1;
@@ -262,12 +291,18 @@ class AppServer {
           channelParams.put("currentPatternIndex", currentPatternIndex);
           channelParams.put("visibility", channel.fader.getValue());
 
-          List<Map <String, Object>> patternsParams = new ArrayList<Map<String, Object>>(channel.getPatterns().size());
-          for (int i = 1; i < channel.getPatterns().size(); i++) {  // NB - intentionally skipping id 0, which is NoPattern
+          List<Map<String, Object>> patternsParams = new ArrayList<Map<String, Object>>(
+            channel.getPatterns().size());
+          for (int i = 1; i < channel.getPatterns().size(); i++) {  // NB -
+                                                                    // intentionally
+                                                                    // skipping
+                                                                    // id 0,
+                                                                    // which is
+                                                                    // NoPattern
             LXPattern pattern = channel.getPatterns().get(i);
             Map<String, Object> patternParams = new HashMap<String, Object>();
             patternParams.put("name", pattern.getLabel());
-            patternParams.put("index", i-1);
+            patternParams.put("index", i - 1);
             patternsParams.add(patternParams);
           }
           channelParams.put("patterns", patternsParams);
@@ -277,9 +312,11 @@ class AppServer {
       }
       returnParams.put("channels", channelsParams);
 
-      List<Map<String, Object>> effectsParams = new ArrayList<Map<String,Object>>(engineController.effectControllers.size());
+      List<Map<String, Object>> effectsParams = new ArrayList<Map<String, Object>>(
+        engineController.effectControllers.size());
       for (int i = 0; i < engineController.effectControllers.size(); i++) {
-        TSEffectController effectController = engineController.effectControllers.get(i);
+        TSEffectController effectController = engineController.effectControllers
+          .get(i);
         Map<String, Object> effectParams = new HashMap<String, Object>();
         effectParams.put("index", i);
         effectParams.put("name", effectController.getName());
@@ -287,19 +324,22 @@ class AppServer {
       }
       returnParams.put("colorEffects", effectsParams);
 
-      returnParams.put("activeColorEffectIndex", engineController.activeEffectControllerIndex);
+      returnParams.put("activeColorEffectIndex",
+        engineController.activeEffectControllerIndex);
 
       returnParams.put("speed", engineController.speedEffect.speed.getValue());
       // returnParams.put("spin", engineController.spinEffect.spin.getValue());
       returnParams.put("blur", engineController.blurEffect.level.getValue());
       returnParams.put("scramble", engineController.scrambleEffect.getAmount());
 
-      // NB - Pause params really not used any more. Keeping this data here because client
-      // may rely on it. And who knows, maybe one day we'll want to use the interface again.
+      // NB - Pause params really not used any more. Keeping this data here
+      // because client
+      // may rely on it. And who knows, maybe one day we'll want to use the
+      // interface again.
       Map<String, Object> pauseParams = new HashMap<String, Object>();
-      pauseParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
-      pauseParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
-      pauseParams.put("state",  "run");
+      pauseParams.put("runSeconds", Config.pauseRunMinutes * 60.0);
+      pauseParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0);
+      pauseParams.put("state", "run");
       pauseParams.put("timeRemaining", 60);
       returnParams.put("pauseTimer", pauseParams);
 
@@ -308,16 +348,18 @@ class AppServer {
   }
 
   /*
-   * Update attached iPad client about the current run/pause state.
-   * Called when the client makes a 'loadtimer' request.
+   * Update attached iPad client about the current run/pause state. Called when
+   * the client makes a 'loadtimer' request.
    *
-   * (Like ClientModelUpdater, this is largely a function masquerading as a class)
+   * (Like ClientModelUpdater, this is largely a function masquerading as a
+   * class)
    */
   class ClientTimerUpdater {
     EngineController engineController;
     ClientCommunicator communicator;
 
-    ClientTimerUpdater(EngineController engineController, ClientCommunicator communicator) {
+    ClientTimerUpdater(EngineController engineController,
+      ClientCommunicator communicator) {
       this.engineController = engineController;
       this.communicator = communicator;
     }
@@ -325,22 +367,22 @@ class AppServer {
     // client can request the current status of the "timers"
     // there are 4 parts:
     // what mode "paused" or "running"
-    // 3 times: period of run, period of pause (these are mostly the same all the time)
+    // 3 times: period of run, period of pause (these are mostly the same all
+    // the time)
     // time remaining in period (changes rapidly)
 
     void sendTimer() {
       Map<String, Object> returnParams = new HashMap<String, Object>();
 
       // See comment about AutoPause in sendModel.
-      returnParams.put("runSeconds", Config.pauseRunMinutes * 60.0 );
-      returnParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0 );
-      returnParams.put("state",  "run");
-      returnParams.put("timeRemaining", 60 );
+      returnParams.put("runSeconds", Config.pauseRunMinutes * 60.0);
+      returnParams.put("pauseSeconds", Config.pausePauseMinutes * 60.0);
+      returnParams.put("state", "run");
+      returnParams.put("timeRemaining", 60);
 
       communicator.send("pauseTimer", returnParams);
     }
   }
-
 
   class ClientCommunicator {
     Gson gson = new Gson();
@@ -367,15 +409,14 @@ class AppServer {
   }
 
   /*
-  ** This is a Server class originally from processing, but it doesn't work
-  ** well. Thus, pulling it in, and seeing to make it better. This shouldn't
-  ** be hard, we're just reading from TCP connections until we get a NL
-  **
-  ** BB- no idea yet what the best parent is. LX? LXEngine? One of those
-  ** will have stop methods.
-  ** CSW - is there an issue with keeping it here, especially since we no longer control lx or lxengine?
-  */
-
+   ** This is a Server class originally from processing, but it doesn't work
+   ** well. Thus, pulling it in, and seeing to make it better. This shouldn't be
+   * hard, we're just reading from TCP connections until we get a NL
+   **
+   ** BB- no idea yet what the best parent is. LX? LXEngine? One of those will
+   * have stop methods. CSW - is there an issue with keeping it here, especially
+   * since we no longer control lx or lxengine?
+   */
 
   class TSServer implements Runnable {
     LX parent;
@@ -424,23 +465,25 @@ class AppServer {
         // public void serverEvent(Server s, Client c);
         // which is called when a new guy connects
         try {
-          serverEventMethod =
-            parent.getClass().getMethod("serverEvent", TSServer.class, TSClient.class);
+          serverEventMethod = parent.getClass().getMethod("serverEvent",
+            TSServer.class, TSClient.class);
         } catch (Exception e) {
-          // At the moment, this is the standard path. This code was brought over
-          // from Processing and heavily modified; we do not use the serverEventMethod
-          // functionality.  CSW - 11/2022
-          //System.out.println("server create: no server event on this object");
+          // At the moment, this is the standard path. This code was brought
+          // over
+          // from Processing and heavily modified; we do not use the
+          // serverEventMethod
+          // functionality. CSW - 11/2022
+          // System.out.println("server create: no server event on this
+          // object");
         }
 
       } catch (IOException e) {
-        //e.printStackTrace();
+        // e.printStackTrace();
         thread = null;
         throw new RuntimeException(e);
-        //errorMessage("<init>", e);
+        // errorMessage("<init>", e);
       }
     }
-
 
     /**
      * Disconnect a particular client.
@@ -451,24 +494,23 @@ class AppServer {
      */
     public void disconnect(TSClient client) {
       client.stop();
-    clients.remove(client);
+      clients.remove(client);
     }
 
     protected void disconnectAll() {
-        for (TSClient client : clients) {
-          try {
-            client.stop();
-          } catch (Exception e) {
-            // ignore
-          }
+      for (TSClient client : clients) {
+        try {
+          client.stop();
+        } catch (Exception e) {
+          // ignore
         }
-        clients.clear();
       }
-
+      clients.clear();
+    }
 
     /**
-     * Returns true if this server is still active and hasn't run
-     * into any trouble.
+     * Returns true if this server is still active and hasn't run into any
+     * trouble.
      *
      * @webref server:server
      * @brief Return true if this server is still active.
@@ -476,7 +518,6 @@ class AppServer {
     public boolean active() {
       return thread != null;
     }
-
 
     static public String ip() {
       try {
@@ -487,7 +528,6 @@ class AppServer {
       }
     }
 
-
     // the last index used for available. can't just cycle through
     // the clients in order from 0 each time, because if client 0 won't
     // shut up, then the rest of the clients will never be heard from.
@@ -495,8 +535,8 @@ class AppServer {
     // wasn't right. Let's just use a standard java primitive.
 
     /**
-     * Returns the next client in line with a new message.
-     * and oh by the way reaps out inactive clients
+     * Returns the next client in line with a new message. and oh by the way
+     * reaps out inactive clients
      *
      * @brief Returns the next client in line with a new message.
      * @webref server
@@ -505,37 +545,37 @@ class AppServer {
     public TSClient available() {
       ArrayList<TSClient> deletes = null;
       TSClient av = null;
-        // the fairness thing is cute, but let's let it alone
-        for (TSClient client : clients) {
-          //Check for valid client
-          if (!client.active()){
-            if (deletes == null) deletes = new ArrayList<TSClient>();
-            deletes.add(client);
-          }
-          if (client.available() > 0) {
-            av = client;
-            break;
-          }
+      // the fairness thing is cute, but let's let it alone
+      for (TSClient client : clients) {
+        // Check for valid client
+        if (!client.active()) {
+          if (deletes == null)
+            deletes = new ArrayList<TSClient>();
+          deletes.add(client);
         }
+        if (client.available() > 0) {
+          av = client;
+          break;
+        }
+      }
 
-        if (null != deletes) {
-          for (TSClient client : deletes) {
-            client.stop();
-            clients.remove(client);
-          }
+      if (null != deletes) {
+        for (TSClient client : deletes) {
+          client.stop();
+          clients.remove(client);
         }
+      }
 
       return av;
     }
 
-
     /**
      * Disconnects all clients and stops the server.
-    *
+     *
      * Use this to shut down the server if you finish using it while your applet
      * is still running. Otherwise, it will be automatically be shut down by the
      * host PApplet using dispose(), which is identical.
-
+     * 
      * @brief Disconnects all clients and stops the server.
      * @webref server
      * @usage application
@@ -543,7 +583,6 @@ class AppServer {
     public void stop() {
       dispose();
     }
-
 
     /**
      * Disconnect all clients and stop the server: internal use only.
@@ -566,7 +605,6 @@ class AppServer {
       }
     }
 
-
     @Override
     public void run() {
       while (Thread.currentThread() == thread) {
@@ -581,7 +619,8 @@ class AppServer {
               System.err.println("Disabling serverEvent() for port " + port);
               Throwable cause = e;
               // unwrap the exception if it came from the user code
-              if (e instanceof InvocationTargetException && e.getCause() != null) {
+              if (e instanceof InvocationTargetException
+                && e.getCause() != null) {
                 cause = e.getCause();
               }
               cause.printStackTrace();
@@ -589,17 +628,17 @@ class AppServer {
             }
           }
         } catch (SocketException e) {
-          //thrown when server.close() is called and server is waiting on accept
+          // thrown when server.close() is called and server is waiting on
+          // accept
           System.err.println("Server SocketException: " + e.getMessage());
           thread = null;
         } catch (IOException e) {
-          //errorMessage("run", e);
+          // errorMessage("run", e);
           e.printStackTrace();
           thread = null;
         }
       }
     }
-
 
     /**
      * Writes a value to all the connected clients. It sends bytes out from the
@@ -612,65 +651,64 @@ class AppServer {
      */
     public void writeAll(int data) {  // will also cover char
       ArrayList<TSClient> deletes = null;
-    for (TSClient client : clients) {
+      for (TSClient client : clients) {
         if (client.active()) {
           client.write(data);
         } else {
-          if (deletes == null) deletes = new ArrayList<TSClient>(0);
+          if (deletes == null)
+            deletes = new ArrayList<TSClient>(0);
           deletes.add(client);
         }
       }
 
       if (null != deletes) {
-        for (TSClient client : deletes ) {
+        for (TSClient client : deletes) {
           client.stop();
           clients.remove(client);
         }
+      }
     }
-    }
-
 
     public void writeAll(byte data[]) {
       ArrayList<TSClient> deletes = null;
-    for (TSClient client : clients) {
+      for (TSClient client : clients) {
         if (client.active()) {
           client.write(data);
         } else {
-          if (deletes == null) deletes = new ArrayList<TSClient>(0);
+          if (deletes == null)
+            deletes = new ArrayList<TSClient>(0);
           deletes.add(client);
         }
       }
 
       if (null != deletes) {
-        for (TSClient client : deletes ) {
+        for (TSClient client : deletes) {
           client.stop();
           clients.remove(client);
         }
+      }
     }
-    }
-
 
     public void writeAll(String data) {
       ArrayList<TSClient> deletes = null;
-    for (TSClient client : clients) {
+      for (TSClient client : clients) {
         if (client.active()) {
           client.write(data);
         } else {
-          if (deletes == null) deletes = new ArrayList<TSClient>(0);
+          if (deletes == null)
+            deletes = new ArrayList<TSClient>(0);
           deletes.add(client);
         }
       }
 
       if (null != deletes) {
-        for (TSClient client : deletes ) {
+        for (TSClient client : deletes) {
           client.stop();
           clients.remove(client);
         }
-    }
+      }
     }
 
   }
-
-
 
 }
