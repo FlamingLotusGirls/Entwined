@@ -240,6 +240,13 @@ class AppServer {
           // engineController.autoPauseTask.pauseResetRunning();
         } else if (method.equals("resetTimerPause")) {
           // engineController.autoPauseTask.pauseResetPaused();
+        } else if (method.equals("inputEvent")) {
+          System.out.println("message:");
+          System.out.println(message);
+          System.out.println("method:");
+          System.out.println(method);
+          System.out.println("params:");
+          System.out.println(params);
         }
       } catch (Exception e) {
         e.printStackTrace();
