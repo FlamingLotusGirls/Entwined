@@ -129,6 +129,7 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.eric_gauderman.CounterSpin.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.DiscreteColors.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.FreeFall.class);
+    lx.registry.addPattern(entwined.pattern.eric_gauderman.Haven_Eric_001.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.Radar.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.UpDown.class);
     lx.registry.addPattern(entwined.pattern.evy.CircleBreath.class);
