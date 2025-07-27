@@ -46,15 +46,11 @@ public class BiasedFloatRange extends FloatRange {
     }
 
     /**
-     * @param min
-     *            min value (inclusive)
-     * @param max
-     *            max value (inclusive)
-     * @param bias
-     *            bias value (can be outside the min/max range, but values will
+     * @param min min value (inclusive)
+     * @param max max value (inclusive)
+     * @param bias bias value (can be outside the min/max range, but values will
      *            be clipped)
-     * @param sd
-     *            standard deviation (if bias at range mean sd=1.0, the entire
+     * @param sd standard deviation (if bias at range mean sd=1.0, the entire
      *            range will be covered)
      */
     public BiasedFloatRange(float min, float max, float bias, float sd) {
@@ -65,7 +61,7 @@ public class BiasedFloatRange extends FloatRange {
 
     public BiasedFloatRange copy() {
         BiasedFloatRange r = new BiasedFloatRange(min, max, bias,
-                standardDeviation * 2);
+            standardDeviation * 2);
         r.currValue = currValue;
         return r;
     }
@@ -87,23 +83,21 @@ public class BiasedFloatRange extends FloatRange {
     @Override
     public float pickRandom() {
         do {
-            currValue = (float) (random.nextGaussian() * standardDeviation * (max - min))
-                    + bias;
+            currValue = (float) (random.nextGaussian() * standardDeviation
+                * (max - min)) + bias;
         } while (currValue < min || currValue >= max);
         return currValue;
     }
 
     /**
-     * @param bias
-     *            the bias to set
+     * @param bias the bias to set
      */
     public void setBias(float bias) {
         this.bias = MathUtils.clip(bias, min, max);
     }
 
     /**
-     * @param sd
-     *            the standardDeviation to set
+     * @param sd the standardDeviation to set
      */
     public void setStandardDeviation(float sd) {
         this.standardDeviation = MathUtils.clip(sd, 0, 1.0f) * 0.5f;
@@ -112,6 +106,6 @@ public class BiasedFloatRange extends FloatRange {
     @Override
     public String toString() {
         return "BiasedFloatRange: " + min + " -> " + max + " bias: " + bias
-                + " q: " + standardDeviation;
+            + " q: " + standardDeviation;
     }
 }

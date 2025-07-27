@@ -84,8 +84,7 @@ public class Ray2D extends Vec2D {
     /**
      * Uses a normalized copy of the given vector as the ray direction.
      *
-     * @param d
-     *            new direction
+     * @param d new direction
      * @return itself
      */
     public Ray2D setDirection(ReadonlyVec2D d) {
@@ -103,8 +102,7 @@ public class Ray2D extends Vec2D {
      * with the ray origin and its other end point at the given distance along
      * the ray.
      *
-     * @param dist
-     *            end point distance
+     * @param dist end point distance
      * @return line segment
      */
     public Line2D toLine2DWithPointAtDistance(float dist) {

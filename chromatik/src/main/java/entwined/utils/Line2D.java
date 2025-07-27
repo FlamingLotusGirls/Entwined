@@ -42,11 +42,7 @@ public class Line2D {
     public static class LineIntersection {
 
         public static enum Type {
-            COINCIDENT,
-            COINCIDENT_NO_INTERSECT,
-            PARALLEL,
-            NON_INTERSECTING,
-            INTERSECTING
+            COINCIDENT, COINCIDENT_NO_INTERSECT, PARALLEL, NON_INTERSECTING, INTERSECTING
         }
 
         private final Type type;
@@ -57,12 +53,11 @@ public class Line2D {
             this(type, pos, 0, 0);
         }
 
-        public LineIntersection(Type type, ReadonlyVec2D pos, float ua, float ub) {
+        public LineIntersection(Type type, ReadonlyVec2D pos, float ua,
+            float ub) {
             this.type = type;
             this.pos = pos;
-            this.coeff = new float[] {
-                    ua, ub
-            };
+            this.coeff = new float[] { ua, ub };
         }
 
         public float[] getCoefficients() {
@@ -101,20 +96,15 @@ public class Line2D {
      * first point (A) can be omitted and not be added to the list if so
      * desired.
      *
-     * @param a
-     *            start point
-     * @param b
-     *            end point (always added to results)
-     * @param stepLength
-     *            desired distance between points
-     * @param segments
-     *            existing array list for results (or a new list, if null)
-     * @param addFirst
-     *            false, if A is NOT to be added to results
+     * @param a start point
+     * @param b end point (always added to results)
+     * @param stepLength desired distance between points
+     * @param segments existing array list for results (or a new list, if null)
+     * @param addFirst false, if A is NOT to be added to results
      * @return list of result vectors
      */
     public static final List<Vec2D> splitIntoSegments(Vec2D a, Vec2D b,
-            float stepLength, List<Vec2D> segments, boolean addFirst) {
+        float stepLength, List<Vec2D> segments, boolean addFirst) {
         if (segments == null) {
             segments = new ArrayList<Vec2D>();
         }
@@ -169,8 +159,7 @@ public class Line2D {
     /**
      * Computes the closest point on this line to the point given.
      *
-     * @param p
-     *            point to check against
+     * @param p point to check against
      * @return closest point on the line
      */
     public Vec2D closestPointTo(ReadonlyVec2D p) {
@@ -211,7 +200,7 @@ public class Line2D {
         }
         Line2D l = (Line2D) obj;
         return (a.equals(l.a) || a.equals(l.b))
-                && (b.equals(l.b) || b.equals(l.a));
+            && (b.equals(l.b) || b.equals(l.a));
     }
 
     public Circle getBoundingCircle() {
@@ -296,17 +285,16 @@ public class Line2D {
      *
      * Based on: http://local.wasp.uwa.edu.au/~pbourke/geometry/lineline2d/
      *
-     * @param l
-     *            line to intersect with
+     * @param l line to intersect with
      * @return intersection result
      */
     public LineIntersection intersectLine(Line2D l) {
         LineIntersection isec = null;
-        float denom = (l.b.y - l.a.y) * (b.x - a.x) - (l.b.x - l.a.x)
-                * (b.y - a.y);
+        float denom = (l.b.y - l.a.y) * (b.x - a.x)
+            - (l.b.x - l.a.x) * (b.y - a.y);
 
-        float na = (l.b.x - l.a.x) * (a.y - l.a.y) - (l.b.y - l.a.y)
-                * (a.x - l.a.x);
+        float na = (l.b.x - l.a.x) * (a.y - l.a.y)
+            - (l.b.y - l.a.y) * (a.x - l.a.x);
         float nb = (b.x - a.x) * (a.y - l.a.y) - (b.y - a.y) * (a.x - l.a.x);
 
         if (denom != 0.0) {
@@ -324,7 +312,7 @@ public class Line2D {
                     isec = new LineIntersection(Type.COINCIDENT, null);
                 } else {
                     isec = new LineIntersection(Type.COINCIDENT_NO_INTERSECT,
-                            null);
+                        null);
                 }
             } else {
                 isec = new LineIntersection(Type.PARALLEL, null);
@@ -363,8 +351,8 @@ public class Line2D {
         return this;
     }
 
-    public List<Vec2D> splitIntoSegments(List<Vec2D> segments,
-            float stepLength, boolean addFirst) {
+    public List<Vec2D> splitIntoSegments(List<Vec2D> segments, float stepLength,
+        boolean addFirst) {
         return splitIntoSegments(a, b, stepLength, segments, addFirst);
     }
 

@@ -38,19 +38,19 @@ import toxi.math.ScaleMap;
 public class Vec4D implements ReadonlyVec4D, Cloneable {
 
     /** X coordinate */
-    //@XmlAttribute(required = true)
+    // @XmlAttribute(required = true)
     public float x;
 
     /** Y coordinate */
-    //@XmlAttribute(required = true)
+    // @XmlAttribute(required = true)
     public float y;
 
     /** Z coordinate */
-    //@XmlAttribute(required = true)
+    // @XmlAttribute(required = true)
     public float z;
 
     /** W coordinate (weight) */
-    //@XmlAttribute(required = true)
+    // @XmlAttribute(required = true)
     public float w;
 
     public Vec4D() {
@@ -132,8 +132,7 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
      * Returns the (4-space) angle in radians between this vector and the vector
      * parameter; the return value is constrained to the range [0,PI].
      *
-     * @param v
-     *            the other vector
+     * @param v the other vector
      * @return the angle in radians in the range [0,PI]
      */
     public final float angleBetween(ReadonlyVec4D v) {
@@ -204,8 +203,7 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
      * Returns true if the Object v is of type ReadonlyVec4D and all of the data
      * members of v are equal to the corresponding data members in this vector.
      *
-     * @param v
-     *            the Object with which the comparison is made
+     * @param v the Object with which the comparison is made
      * @return true or false
      */
     @Override
@@ -224,8 +222,7 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
      * Returns true if the Object v is of type Vec4D and all of the data members
      * of v are equal to the corresponding data members in this vector.
      *
-     * @param v
-     *            the vector with which the comparison is made
+     * @param v the vector with which the comparison is made
      * @return true or false
      */
     public boolean equals(ReadonlyVec4D v) {
@@ -282,15 +279,15 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
 
     public Vec4D getMapped(ScaleMap map) {
         return new Vec4D((float) map.getClippedValueFor(x),
-                (float) map.getClippedValueFor(y),
-                (float) map.getClippedValueFor(z),
-                (float) map.getClippedValueFor(w));
+            (float) map.getClippedValueFor(y),
+            (float) map.getClippedValueFor(z),
+            (float) map.getClippedValueFor(w));
     }
 
     public Vec4D getMappedXYZ(ScaleMap map) {
         return new Vec4D((float) map.getClippedValueFor(x),
-                (float) map.getClippedValueFor(y),
-                (float) map.getClippedValueFor(z), w);
+            (float) map.getClippedValueFor(y),
+            (float) map.getClippedValueFor(z), w);
     }
 
     public Vec4D getNormalized() {
@@ -353,10 +350,9 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
     }
 
     public final Vec4D interpolateTo(ReadonlyVec4D v, float f,
-            InterpolateStrategy s) {
-        return new Vec4D(s.interpolate(x, v.x(), f),
-                s.interpolate(y, v.y(), f), s.interpolate(z, v.z(), f),
-                s.interpolate(w, v.w(), f));
+        InterpolateStrategy s) {
+        return new Vec4D(s.interpolate(x, v.x(), f), s.interpolate(y, v.y(), f),
+            s.interpolate(z, v.z(), f), s.interpolate(w, v.w(), f));
     }
 
     public final Vec4D interpolateToSelf(ReadonlyVec4D v, float t) {
@@ -368,7 +364,7 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
     }
 
     public final Vec4D interpolateToSelf(ReadonlyVec4D v, float f,
-            InterpolateStrategy s) {
+        InterpolateStrategy s) {
         x = s.interpolate(x, v.x(), f);
         y = s.interpolate(y, v.y(), f);
         z = s.interpolate(z, v.z(), f);
@@ -385,9 +381,9 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
 
     public final boolean isZeroVector() {
         return MathUtils.abs(x) < MathUtils.EPS
-                && MathUtils.abs(y) < MathUtils.EPS
-                && MathUtils.abs(z) < MathUtils.EPS
-                && MathUtils.abs(w) < MathUtils.EPS;
+            && MathUtils.abs(y) < MathUtils.EPS
+            && MathUtils.abs(z) < MathUtils.EPS
+            && MathUtils.abs(w) < MathUtils.EPS;
     }
 
     public final float magnitude() {
@@ -418,8 +414,7 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
     /**
      * Normalizes the vector to the given length.
      *
-     * @param len
-     *            desired length
+     * @param len desired length
      * @return itself
      */
     public final Vec4D normalizeTo(float len) {
@@ -437,10 +432,8 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
     /**
      * Rotates the vector around the giving axis.
      *
-     * @param axis
-     *            rotation axis vector
-     * @param theta
-     *            rotation angle (in radians)
+     * @param axis rotation axis vector
+     * @param theta rotation angle (in radians)
      *
      * @return itself
      */
@@ -460,14 +453,13 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
         final double si = Math.sin(theta);
         final double co = Math.cos(theta);
         float xx = (float) (ax * (ux + vy + wz)
-                + (x * (ay * ay + az * az) - ax * (vy + wz)) * co + (-wy + vz)
-                * si);
+            + (x * (ay * ay + az * az) - ax * (vy + wz)) * co
+            + (-wy + vz) * si);
         float yy = (float) (ay * (ux + vy + wz)
-                + (y * (ax * ax + az * az) - ay * (ux + wz)) * co + (wx - uz)
-                * si);
+            + (y * (ax * ax + az * az) - ay * (ux + wz)) * co + (wx - uz) * si);
         float zz = (float) (az * (ux + vy + wz)
-                + (z * (ax * ax + ay * ay) - az * (ux + vy)) * co + (-vx + uy)
-                * si);
+            + (z * (ax * ax + ay * ay) - az * (ux + vy)) * co
+            + (-vx + uy) * si);
         x = xx;
         y = yy;
         z = zz;
@@ -477,8 +469,7 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
     /**
      * Rotates the vector by the given angle around the X axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return itself
      */
@@ -494,8 +485,7 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
     /**
      * Rotates the vector by the given angle around the Y axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return itself
      */
@@ -511,8 +501,7 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
     /**
      * Rotates the vector by the given angle around the Z axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return itself
      */
@@ -577,14 +566,10 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
     /**
      * Overrides coordinates with the given values.
      *
-     * @param x
-     *            the x
-     * @param y
-     *            the y
-     * @param z
-     *            the z
-     * @param w
-     *            the w
+     * @param x the x
+     * @param y the y
+     * @param z the z
+     * @param w the w
      *
      * @return itself
      */
@@ -670,9 +655,7 @@ public class Vec4D implements ReadonlyVec4D, Cloneable {
     }
 
     public float[] toArray() {
-        return new float[] {
-                x, y, z, w
-        };
+        return new float[] { x, y, z, w };
     }
 
     @Override

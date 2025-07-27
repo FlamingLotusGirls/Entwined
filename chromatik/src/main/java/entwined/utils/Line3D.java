@@ -40,8 +40,7 @@ public class Line3D {
     public static class LineIntersection {
 
         public static enum Type {
-            NON_INTERSECTING,
-            INTERSECTING
+            NON_INTERSECTING, INTERSECTING
         }
 
         private final Type type;
@@ -55,9 +54,7 @@ public class Line3D {
         private LineIntersection(Type type, Line3D line, float mua, float mub) {
             this.type = type;
             this.line = line;
-            this.coeff = new float[] {
-                    mua, mub
-            };
+            this.coeff = new float[] { mua, mub };
         }
 
         public float[] getCoefficients() {
@@ -84,7 +81,7 @@ public class Line3D {
 
         public boolean isIntersectionInside() {
             return type == Type.INTERSECTING && coeff[0] >= 0 && coeff[0] <= 1
-                    && coeff[1] >= 0 && coeff[1] <= 1;
+                && coeff[1] >= 0 && coeff[1] <= 1;
         }
 
         @Override
@@ -101,20 +98,15 @@ public class Line3D {
      * first point (A) can be omitted and not be added to the list if so
      * desired.
      *
-     * @param a
-     *            start point
-     * @param b
-     *            end point (always added to results)
-     * @param stepLength
-     *            desired distance between points
-     * @param segments
-     *            existing array list for results (or a new list, if null)
-     * @param addFirst
-     *            false, if A is NOT to be added to results
+     * @param a start point
+     * @param b end point (always added to results)
+     * @param stepLength desired distance between points
+     * @param segments existing array list for results (or a new list, if null)
+     * @param addFirst false, if A is NOT to be added to results
      * @return list of result vectors
      */
     public static final List<Vec3D> splitIntoSegments(Vec3D a, Vec3D b,
-            float stepLength, List<Vec3D> segments, boolean addFirst) {
+        float stepLength, List<Vec3D> segments, boolean addFirst) {
         if (segments == null) {
             segments = new ArrayList<Vec3D>();
         }
@@ -194,14 +186,13 @@ public class Line3D {
         Vec3D pa = a.add(p21.scaleSelf(mua));
         Vec3D pb = l.a.add(p43.scaleSelf(mub));
         return new LineIntersection(Type.INTERSECTING, new Line3D(pa, pb), mua,
-                mub);
+            mub);
     }
 
     /**
      * Computes the closest point on this line to the given one.
      *
-     * @param p
-     *            point to check against
+     * @param p point to check against
      * @return closest point on the line
      */
     public Vec3D closestPointTo(ReadonlyVec3D p) {
@@ -234,7 +225,7 @@ public class Line3D {
         }
         Line3D l = (Line3D) obj;
         return (a.equals(l.a) || a.equals(l.b))
-                && (b.equals(l.b) || b.equals(l.a));
+            && (b.equals(l.b) || b.equals(l.a));
     }
 
     /**
@@ -337,8 +328,8 @@ public class Line3D {
         return this;
     }
 
-    public List<Vec3D> splitIntoSegments(List<Vec3D> segments,
-            float stepLength, boolean addFirst) {
+    public List<Vec3D> splitIntoSegments(List<Vec3D> segments, float stepLength,
+        boolean addFirst) {
         return splitIntoSegments(a, b, stepLength, segments, addFirst);
     }
 

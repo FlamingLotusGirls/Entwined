@@ -73,8 +73,8 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      */
     public static final int DEFAULT_STRIDE = 4;
 
-    protected static final Logger logger = Logger.getLogger(TriangleMesh.class
-            .getName());
+    protected static final Logger logger = Logger
+        .getLogger(TriangleMesh.class.getName());
 
     /**
      * Mesh name
@@ -108,8 +108,7 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
     /**
      * Creates a new mesh instance with initial default buffer sizes.
      *
-     * @param name
-     *            mesh name
+     * @param name mesh name
      */
     public TriangleMesh(String name) {
         this(name, DEFAULT_NUM_VERTICES, DEFAULT_NUM_FACES);
@@ -120,12 +119,9 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * numbers are no limits and the mesh can be smaller or grow later on.
      * They're only used to initialise the underlying collections.
      *
-     * @param name
-     *            mesh name
-     * @param numV
-     *            initial vertex buffer size
-     * @param numF
-     *            initial face list size
+     * @param name mesh name
+     * @param numV initial vertex buffer size
+     * @param numF initial face list size
      */
     public TriangleMesh(String name, int numV, int numF) {
         init(name, numV, numF);
@@ -135,8 +131,8 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
         return addFace(a, b, c, null, null, null, null);
     }
 
-    public TriangleMesh addFace(Vec3D a, Vec3D b, Vec3D c, Vec2D uvA,
-            Vec2D uvB, Vec2D uvC) {
+    public TriangleMesh addFace(Vec3D a, Vec3D b, Vec3D c, Vec2D uvA, Vec2D uvB,
+        Vec2D uvC) {
         return addFace(a, b, c, null, uvA, uvB, uvC);
     }
 
@@ -145,7 +141,7 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
     }
 
     public TriangleMesh addFace(Vec3D a, Vec3D b, Vec3D c, Vec3D n, Vec2D uvA,
-            Vec2D uvB, Vec2D uvC) {
+        Vec2D uvB, Vec2D uvC) {
         Vertex va = checkVertex(a);
         Vertex vb = checkVertex(b);
         Vertex vc = checkVertex(c);
@@ -172,8 +168,7 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
     /**
      * Adds all faces from the given mesh to this one.
      *
-     * @param m
-     *            source mesh instance
+     * @param m source mesh instance
      */
     public TriangleMesh addMesh(Mesh3D m) {
         for (Face f : m.getFaces()) {
@@ -184,8 +179,8 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
 
     public AABB center(ReadonlyVec3D origin) {
         computeCentroid();
-        Vec3D delta = origin != null ? origin.sub(centroid) : centroid
-                .getInverted();
+        Vec3D delta = origin != null ? origin.sub(centroid)
+            : centroid.getInverted();
         for (Vertex v : vertices.values()) {
             v.addSelf(delta);
         }
@@ -259,7 +254,8 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * @return new mesh instance
      */
     public TriangleMesh copy() {
-        TriangleMesh m = new TriangleMesh(name + "-copy", numVertices, numFaces);
+        TriangleMesh m = new TriangleMesh(name + "-copy", numVertices,
+            numFaces);
         for (Face f : faces) {
             m.addFace(f.a, f.b, f.c, f.normal, f.uvA, f.uvB, f.uvC);
         }
@@ -355,16 +351,14 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      *
      * @see #getMeshAsVertexArray(float[], int, int)
      *
-     * @param normals
-     *            existing float array or null to automatically create one
-     * @param offset
-     *            start index in array to place normals
-     * @param stride
-     *            stride/alignment setting for individual coordinates (min value
-     *            = 3)
+     * @param normals existing float array or null to automatically create one
+     * @param offset start index in array to place normals
+     * @param stride stride/alignment setting for individual coordinates (min
+     *            value = 3)
      * @return array of xyz normal coords
      */
-    public float[] getFaceNormalsAsArray(float[] normals, int offset, int stride) {
+    public float[] getFaceNormalsAsArray(float[] normals, int offset,
+        int stride) {
         stride = MathUtils.max(stride, 3);
         if (normals == null) {
             normals = new float[faces.size() * 3 * stride];
@@ -466,12 +460,9 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * </ul>
      * </ul>
      *
-     * @param verts
-     *            an existing target array or null to automatically create one
-     * @param offset
-     *            start index in arrtay to place vertices
-     * @param stride
-     *            stride/alignment setting for individual coordinates
+     * @param verts an existing target array or null to automatically create one
+     * @param offset start index in arrtay to place vertices
+     * @param stride stride/alignment setting for individual coordinates
      * @return array of xyz vertex coords
      */
     public float[] getMeshAsVertexArray(float[] verts, int offset, int stride) {
@@ -590,17 +581,14 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      *
      * @see #getMeshAsVertexArray(float[], int, int)
      *
-     * @param normals
-     *            existing float array or null to automatically create one
-     * @param offset
-     *            start index in array to place normals
-     * @param stride
-     *            stride/alignment setting for individual coordinates (min value
-     *            = 3)
+     * @param normals existing float array or null to automatically create one
+     * @param offset start index in array to place normals
+     * @param stride stride/alignment setting for individual coordinates (min
+     *            value = 3)
      * @return array of xyz normal coords
      */
     public float[] getVertexNormalsAsArray(float[] normals, int offset,
-            int stride) {
+        int stride) {
         stride = MathUtils.max(stride, 3);
         if (normals == null) {
             normals = new float[faces.size() * 3 * stride];
@@ -628,21 +616,13 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
     }
 
     /*
-    protected void handleSaveAsSTL(STLWriter stl, boolean useFlippedY) {
-        if (useFlippedY) {
-            stl.setScale(new Vec3D(1, -1, 1));
-            for (Face f : faces) {
-                stl.face(f.a, f.b, f.c, f.normal, STLWriter.DEFAULT_RGB);
-            }
-        } else {
-            for (Face f : faces) {
-                stl.face(f.b, f.a, f.c, f.normal, STLWriter.DEFAULT_RGB);
-            }
-        }
-        stl.endSave();
-        logger.info(numFaces + " faces written");
-    }
-    */
+     * protected void handleSaveAsSTL(STLWriter stl, boolean useFlippedY) { if
+     * (useFlippedY) { stl.setScale(new Vec3D(1, -1, 1)); for (Face f : faces) {
+     * stl.face(f.a, f.b, f.c, f.normal, STLWriter.DEFAULT_RGB); } } else { for
+     * (Face f : faces) { stl.face(f.b, f.a, f.c, f.normal,
+     * STLWriter.DEFAULT_RGB); } } stl.endSave(); logger.info(numFaces +
+     * " faces written"); }
+     */
 
     public TriangleMesh init(String name, int numV, int numF) {
         setName(name);
@@ -683,13 +663,13 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * the given direction. This version uses the positive Z-axis as default
      * forward direction.
      *
-     * @param dir
-     *            new target direction to point in
+     * @param dir new target direction to point in
      * @return itself
      */
     public TriangleMesh pointTowards(ReadonlyVec3D dir) {
-        return transform(Quaternion.getAlignmentQuat(dir, Vec3D.Z_AXIS)
-                .toMatrix4x4(matrix), true);
+        return transform(
+            Quaternion.getAlignmentQuat(dir, Vec3D.Z_AXIS).toMatrix4x4(matrix),
+            true);
     }
 
     /**
@@ -697,16 +677,14 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * the given direction. This version allows to specify the forward
      * direction.
      *
-     * @param dir
-     *            new target direction to point in
-     * @param forward
-     *            current forward axis
+     * @param dir new target direction to point in
+     * @param forward current forward axis
      * @return itself
      */
     public TriangleMesh pointTowards(ReadonlyVec3D dir, ReadonlyVec3D forward) {
         return transform(
-                Quaternion.getAlignmentQuat(dir, forward).toMatrix4x4(matrix),
-                true);
+            Quaternion.getAlignmentQuat(dir, forward).toMatrix4x4(matrix),
+            true);
     }
 
     public void removeFace(Face f) {
@@ -736,37 +714,19 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * @param obj
      */
     /*
-    public void saveAsOBJ(OBJWriter obj) {
-        saveAsOBJ(obj, true);
-    }
-
-    public void saveAsOBJ(OBJWriter obj, boolean saveNormals) {
-        int vOffset = obj.getCurrVertexOffset() + 1;
-        int nOffset = obj.getCurrNormalOffset() + 1;
-        logger.info("writing OBJMesh: " + this.toString());
-        obj.newObject(name);
-        // vertices
-        for (Vertex v : vertices.values()) {
-            obj.vertex(v);
-        }
-        // faces
-        if (saveNormals) {
-            // normals
-            for (Vertex v : vertices.values()) {
-                obj.normal(v.normal);
-            }
-            for (Face f : faces) {
-                obj.faceWithNormals(f.b.id + vOffset, f.a.id + vOffset, f.c.id
-                        + vOffset, f.b.id + nOffset, f.a.id + nOffset, f.c.id
-                        + nOffset);
-            }
-        } else {
-            for (Face f : faces) {
-                obj.face(f.b.id + vOffset, f.a.id + vOffset, f.c.id + vOffset);
-            }
-        }
-    }
-    */
+     * public void saveAsOBJ(OBJWriter obj) { saveAsOBJ(obj, true); }
+     * 
+     * public void saveAsOBJ(OBJWriter obj, boolean saveNormals) { int vOffset =
+     * obj.getCurrVertexOffset() + 1; int nOffset = obj.getCurrNormalOffset() +
+     * 1; logger.info("writing OBJMesh: " + this.toString());
+     * obj.newObject(name); // vertices for (Vertex v : vertices.values()) {
+     * obj.vertex(v); } // faces if (saveNormals) { // normals for (Vertex v :
+     * vertices.values()) { obj.normal(v.normal); } for (Face f : faces) {
+     * obj.faceWithNormals(f.b.id + vOffset, f.a.id + vOffset, f.c.id + vOffset,
+     * f.b.id + nOffset, f.a.id + nOffset, f.c.id + nOffset); } } else { for
+     * (Face f : faces) { obj.face(f.b.id + vOffset, f.a.id + vOffset, f.c.id +
+     * vOffset); } } }
+     */
 
     /**
      * Saves the mesh as OBJ format to the given {@link OutputStream}. Currently
@@ -775,13 +735,9 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * @param stream
      */
     /*
-    public void saveAsOBJ(OutputStream stream) {
-        OBJWriter obj = new OBJWriter();
-        obj.beginSave(stream);
-        saveAsOBJ(obj);
-        obj.endSave();
-    }
-    */
+     * public void saveAsOBJ(OutputStream stream) { OBJWriter obj = new
+     * OBJWriter(); obj.beginSave(stream); saveAsOBJ(obj); obj.endSave(); }
+     */
 
     /**
      * Saves the mesh as OBJ format to the given file path. Existing files will
@@ -790,17 +746,12 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * @param path
      */
     /*
-    public void saveAsOBJ(String path) {
-        saveAsOBJ(path, true);
-    }
-
-    public void saveAsOBJ(String path, boolean saveNormals) {
-        OBJWriter obj = new OBJWriter();
-        obj.beginSave(path);
-        saveAsOBJ(obj, saveNormals);
-        obj.endSave();
-    }
-    */
+     * public void saveAsOBJ(String path) { saveAsOBJ(path, true); }
+     * 
+     * public void saveAsOBJ(String path, boolean saveNormals) { OBJWriter obj =
+     * new OBJWriter(); obj.beginSave(path); saveAsOBJ(obj, saveNormals);
+     * obj.endSave(); }
+     */
 
     /**
      * Saves the mesh as binary STL format to the given {@link OutputStream}.
@@ -809,10 +760,9 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * @see #saveAsSTL(OutputStream, boolean)
      */
     /*
-    public final void saveAsSTL(OutputStream stream) {
-        saveAsSTL(stream, false);
-    }
-    */
+     * public final void saveAsSTL(OutputStream stream) { saveAsSTL(stream,
+     * false); }
+     */
 
     /**
      * Saves the mesh as binary STL format to the given {@link OutputStream}.
@@ -823,12 +773,10 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * @param useFlippedY
      */
     /*
-    public final void saveAsSTL(OutputStream stream, boolean useFlippedY) {
-        STLWriter stl = new STLWriter();
-        stl.beginSave(stream, numFaces);
-        handleSaveAsSTL(stl, useFlippedY);
-    }
-    */
+     * public final void saveAsSTL(OutputStream stream, boolean useFlippedY) {
+     * STLWriter stl = new STLWriter(); stl.beginSave(stream, numFaces);
+     * handleSaveAsSTL(stl, useFlippedY); }
+     */
 
     /**
      * Saves the mesh as binary STL format to the given {@link OutputStream} and
@@ -841,12 +789,10 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * @param useFlippedY
      */
     /*
-    public final void saveAsSTL(OutputStream stream, STLWriter stl,
-            boolean useFlippedY) {
-        stl.beginSave(stream, numFaces);
-        handleSaveAsSTL(stl, useFlippedY);
-    }
-    */
+     * public final void saveAsSTL(OutputStream stream, STLWriter stl, boolean
+     * useFlippedY) { stl.beginSave(stream, numFaces); handleSaveAsSTL(stl,
+     * useFlippedY); }
+     */
 
     /**
      * Saves the mesh as binary STL format to the given file path. Existing
@@ -855,10 +801,9 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * @param fileName
      */
     /*
-    public final void saveAsSTL(String fileName) {
-        saveAsSTL(fileName, false);
-    }
-    */
+     * public final void saveAsSTL(String fileName) { saveAsSTL(fileName,
+     * false); }
+     */
 
     /**
      * Saves the mesh as binary STL format to the given file path. The exported
@@ -869,16 +814,13 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
      * @param useFlippedY
      */
     /*
-    public final void saveAsSTL(String fileName, boolean useFlippedY) {
-        saveAsSTL(fileName, new STLWriter(), useFlippedY);
-    }
-
-    public final void saveAsSTL(String fileName, STLWriter stl,
-            boolean useFlippedY) {
-        stl.beginSave(fileName, numFaces);
-        handleSaveAsSTL(stl, useFlippedY);
-    }
-    */
+     * public final void saveAsSTL(String fileName, boolean useFlippedY) {
+     * saveAsSTL(fileName, new STLWriter(), useFlippedY); }
+     * 
+     * public final void saveAsSTL(String fileName, STLWriter stl, boolean
+     * useFlippedY) { stl.beginSave(fileName, numFaces); handleSaveAsSTL(stl,
+     * useFlippedY); }
+     */
 
     public TriangleMesh scale(float scale) {
         return transform(matrix.identity().scaleSelf(scale));
@@ -900,15 +842,13 @@ public class TriangleMesh implements Mesh3D, Intersector3D {
     @Override
     public String toString() {
         return "TriangleMesh: " + name + " vertices: " + getNumVertices()
-                + " faces: " + getNumFaces();
+            + " faces: " + getNumFaces();
     }
 
     /*
-    public WETriangleMesh toWEMesh() {
-        return new WETriangleMesh(name, vertices.size(), faces.size())
-                .addMesh(this);
-    }
-    */
+     * public WETriangleMesh toWEMesh() { return new WETriangleMesh(name,
+     * vertices.size(), faces.size()) .addMesh(this); }
+     */
 
     /**
      * Applies the given matrix transform to all mesh vertices and updates all

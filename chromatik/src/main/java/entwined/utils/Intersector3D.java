@@ -42,8 +42,7 @@ public interface Intersector3D {
      * details can then be queried via the {@link IsectData3D} instance returned
      * by {@link #getIntersectionData()}.
      *
-     * @param ray
-     *            ray to check
+     * @param ray ray to check
      * @return true, if ray hits the entity
      */
     public boolean intersectsRay(Ray3D ray);

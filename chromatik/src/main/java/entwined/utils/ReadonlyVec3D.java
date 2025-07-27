@@ -45,12 +45,9 @@ public interface ReadonlyVec3D {
     /**
      * Adds vector {a,b,c} and returns result as new vector.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
-     * @param c
-     *            Z coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
+     * @param c Z coordinate
      *
      * @return result as new vector
      */
@@ -61,8 +58,7 @@ public interface ReadonlyVec3D {
     /**
      * Add vector v and returns result as new vector.
      *
-     * @param v
-     *            vector to add
+     * @param v vector to add
      *
      * @return result as new vector
      */
@@ -73,8 +69,7 @@ public interface ReadonlyVec3D {
      * assumes both vectors are normalized, if this can't be guaranteed, use the
      * alternative implementation {@link #angleBetween(ReadonlyVec3D, boolean)}
      *
-     * @param v
-     *            vector
+     * @param v vector
      *
      * @return angle in radians, or NaN if vectors are parallel
      */
@@ -83,12 +78,10 @@ public interface ReadonlyVec3D {
     /**
      * Computes the angle between this vector and vector V.
      *
-     * @param v
-     *            vector
-     * @param forceNormalize
-     *            true, if normalized versions of the vectors are to be used
-     *            (Note: only copies will be used, original vectors will not be
-     *            altered by this method)
+     * @param v vector
+     * @param forceNormalize true, if normalized versions of the vectors are to
+     *            be used (Note: only copies will be used, original vectors will
+     *            not be altered by this method)
      *
      * @return angle in radians, or NaN if vectors are parallel
      */
@@ -97,8 +90,7 @@ public interface ReadonlyVec3D {
     /**
      * Compares the length of the vector with another one.
      *
-     * @param v
-     *            vector to compare with
+     * @param v vector to compare with
      *
      * @return -1 if other vector is longer, 0 if both are equal or else +1
      */
@@ -115,8 +107,7 @@ public interface ReadonlyVec3D {
      * Calculates cross-product with vector v. The resulting vector is
      * perpendicular to both the current and supplied vector.
      *
-     * @param v
-     *            vector to cross
+     * @param v vector to cross
      *
      * @return cross-product as new vector
      */
@@ -127,10 +118,8 @@ public interface ReadonlyVec3D {
      * perpendicular to both the current and supplied vector and stored in the
      * supplied result vector.
      *
-     * @param v
-     *            vector to cross
-     * @param result
-     *            result vector
+     * @param v vector to cross
+     * @param result result vector
      *
      * @return result vector
      */
@@ -139,8 +128,7 @@ public interface ReadonlyVec3D {
     /**
      * Calculates distance to another vector.
      *
-     * @param v
-     *            non-null vector
+     * @param v non-null vector
      *
      * @return distance or Float.NaN if v=null
      */
@@ -149,8 +137,7 @@ public interface ReadonlyVec3D {
     /**
      * Calculates the squared distance to another vector.
      *
-     * @param v
-     *            non-null vector
+     * @param v non-null vector
      *
      * @return distance or NaN if v=null
      *
@@ -161,8 +148,7 @@ public interface ReadonlyVec3D {
     /**
      * Computes the scalar product (dot product) with the given vector.
      *
-     * @param v
-     *            the v
+     * @param v the v
      *
      * @return dot product
      *
@@ -183,10 +169,8 @@ public interface ReadonlyVec3D {
      * the individual differences of all component values are within the given
      * tolerance.
      *
-     * @param v
-     *            the v
-     * @param tolerance
-     *            the tolerance
+     * @param v the v
+     * @param tolerance the tolerance
      *
      * @return true, if equal
      */
@@ -215,8 +199,7 @@ public interface ReadonlyVec3D {
     /**
      * Creates a copy of the vector which forcefully fits in the given AABB.
      *
-     * @param box
-     *            the box
+     * @param box the box
      *
      * @return fitted vector
      */
@@ -249,8 +232,7 @@ public interface ReadonlyVec3D {
      * Creates a copy of the vector with its magnitude limited to the length
      * given.
      *
-     * @param lim
-     *            new maximum magnitude
+     * @param lim new maximum magnitude
      *
      * @return result as new vector
      */
@@ -275,8 +257,7 @@ public interface ReadonlyVec3D {
     /**
      * Produces a new vector normalized to the given length.
      *
-     * @param len
-     *            new desired length
+     * @param len new desired length
      *
      * @return new vector
      */
@@ -294,10 +275,8 @@ public interface ReadonlyVec3D {
     /**
      * Gets the rotated around axis.
      *
-     * @param axis
-     *            the axis
-     * @param theta
-     *            the theta
+     * @param axis the axis
+     * @param theta the theta
      *
      * @return new result vector
      */
@@ -306,8 +285,7 @@ public interface ReadonlyVec3D {
     /**
      * Creates a new vector rotated by the given angle around the X axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return rotated vector
      */
@@ -316,8 +294,7 @@ public interface ReadonlyVec3D {
     /**
      * Creates a new vector rotated by the given angle around the Y axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return rotated vector
      */
@@ -326,8 +303,7 @@ public interface ReadonlyVec3D {
     /**
      * Creates a new vector rotated by the given angle around the Z axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return rotated vector
      */
@@ -392,10 +368,8 @@ public interface ReadonlyVec3D {
      * Interpolates the vector towards the given target vector, using linear
      * interpolation.
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
      *
      * @return result as new vector
      */
@@ -405,12 +379,9 @@ public interface ReadonlyVec3D {
      * Interpolates the vector towards the given target vector, using the given
      * {@link InterpolateStrategy}.
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
-     * @param s
-     *            InterpolateStrategy instance
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
+     * @param s InterpolateStrategy instance
      *
      * @return result as new vector
      */
@@ -419,8 +390,7 @@ public interface ReadonlyVec3D {
     /**
      * Checks if the point is inside the given AABB.
      *
-     * @param box
-     *            bounding box to check
+     * @param box bounding box to check
      *
      * @return true, if point is inside
      */
@@ -429,10 +399,8 @@ public interface ReadonlyVec3D {
     /**
      * Checks if the point is inside the given axis-aligned bounding box.
      *
-     * @param boxOrigin
-     *            bounding box origin/center
-     * @param boxExtent
-     *            bounding box extends (half measure)
+     * @param boxOrigin bounding box origin/center
+     * @param boxExtent bounding box extends (half measure)
      *
      * @return true, if point is inside the box
      */
@@ -475,8 +443,7 @@ public interface ReadonlyVec3D {
     /**
      * Scales vector uniformly and returns result as new vector.
      *
-     * @param s
-     *            scale factor
+     * @param s scale factor
      *
      * @return new vector
      */
@@ -485,12 +452,9 @@ public interface ReadonlyVec3D {
     /**
      * Scales vector non-uniformly and returns result as new vector.
      *
-     * @param a
-     *            scale factor for X coordinate
-     * @param b
-     *            scale factor for Y coordinate
-     * @param c
-     *            scale factor for Z coordinate
+     * @param a scale factor for X coordinate
+     * @param b scale factor for Y coordinate
+     * @param c scale factor for Z coordinate
      *
      * @return new vector
      */
@@ -499,8 +463,7 @@ public interface ReadonlyVec3D {
     /**
      * Scales vector non-uniformly by vector v and returns result as new vector.
      *
-     * @param s
-     *            scale vector
+     * @param s scale vector
      *
      * @return new vector
      */
@@ -509,12 +472,9 @@ public interface ReadonlyVec3D {
     /**
      * Subtracts vector {a,b,c} and returns result as new vector.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
-     * @param c
-     *            Z coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
+     * @param c Z coordinate
      *
      * @return result as new vector
      */
@@ -523,8 +483,7 @@ public interface ReadonlyVec3D {
     /**
      * Subtracts vector v and returns result as new vector.
      *
-     * @param v
-     *            vector to be subtracted
+     * @param v vector to be subtracted
      *
      * @return result as new vector
      */

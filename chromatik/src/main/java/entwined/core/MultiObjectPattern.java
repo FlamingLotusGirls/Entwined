@@ -9,7 +9,8 @@ import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.parameter.BoundedParameter;
 
-public abstract class MultiObjectPattern <ObjectType extends MultiObject> extends TSTriggerablePattern {
+public abstract class MultiObjectPattern<ObjectType extends MultiObject>
+  extends TSTriggerablePattern {
 
   protected BoundedParameter frequency;
 
@@ -18,7 +19,7 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
 
   final ArrayList<ObjectType> objects;
   double pauseTimerCountdown = 0;
-//  BoundedParameter fadeLength
+  // BoundedParameter fadeLength
 
   public MultiObjectPattern(LX lx) {
     this(lx, true);
@@ -38,8 +39,7 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
     addParameter("frequency", frequency);
 
     this.shouldAutofade = shouldAutofade;
-//    if (shouldAutofade) {
-
+    // if (shouldAutofade) {
 
     objects = new ArrayList<ObjectType>();
   }
@@ -48,13 +48,14 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
     return new BoundedParameter("FREQ", .5, .1, 40).setExponent(2);
   }
 
-//  BoundedParameter getAutofadeParameter() {
-//    return new BoundedParameter("TAIL",s
-//  }
+  // BoundedParameter getAutofadeParameter() {
+  // return new BoundedParameter("TAIL",s
+  // }
 
   @Override
   public void run(double deltaMs) {
-    if (getChannel().fader.getNormalized() == 0) return;
+    if (getChannel().fader.getNormalized() == 0)
+      return;
 
     if (triggered) {
       pauseTimerCountdown -= deltaMs;
@@ -64,13 +65,16 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
         makeObject(0);
       }
     } else if (objects.size() == 0) {
-      //System.out.println("No objects to show, turning off");
+      // System.out.println("No objects to show, turning off");
       enabled.setValue(false);
     }
 
     if (shouldAutofade) {
       for (LXPoint cube : model.points) {
-        blendColor(cube.index, LX.hsb(0, 0, 100 * EntwinedUtils.max(0, (float)(1 - deltaMs / fadeTime))), LXColor.Blend.MULTIPLY);
+        blendColor(cube.index,
+          LX.hsb(0, 0,
+            100 * EntwinedUtils.max(0, (float) (1 - deltaMs / fadeTime))),
+          LXColor.Blend.MULTIPLY);
       }
 
     } else {
@@ -83,7 +87,7 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
         ObjectType object = iter.next();
         if (!object.running) {
           removeLayer(object);
-          //layers.remove(object);
+          // layers.remove(object);
           iter.remove();
         }
       }
@@ -101,9 +105,9 @@ public abstract class MultiObjectPattern <ObjectType extends MultiObject> extend
   public void onTriggered() {
     super.onTriggered();
 
-    makeObject(1);  // 1 appears to be the default 'strength', which is basically ignored by all the makeObject  XXX
+    makeObject(1);  // 1 appears to be the default 'strength', which is
+                    // basically ignored by all the makeObject XXX
   }
 
   protected abstract ObjectType generateObject(float strength);
 }
-

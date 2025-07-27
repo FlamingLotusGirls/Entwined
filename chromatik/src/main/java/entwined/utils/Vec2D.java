@@ -45,8 +45,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
 
     public static enum Axis {
 
-        X(Vec2D.X_AXIS),
-        Y(Vec2D.Y_AXIS);
+        X(Vec2D.X_AXIS), Y(Vec2D.Y_AXIS);
 
         private final ReadonlyVec2D vector;
 
@@ -77,17 +76,17 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
      * bounding box operations.
      */
     public static final ReadonlyVec2D MIN_VALUE = new Vec2D(Float.MIN_VALUE,
-            Float.MIN_VALUE);
+        Float.MIN_VALUE);
 
     /**
      * Defines vector with both coords set to Float.MAX_VALUE. Useful for
      * bounding box operations.
      */
     public static final ReadonlyVec2D MAX_VALUE = new Vec2D(Float.MAX_VALUE,
-            Float.MAX_VALUE);
+        Float.MAX_VALUE);
 
     public static final ReadonlyVec2D NEG_MAX_VALUE = new Vec2D(
-            -Float.MAX_VALUE, -Float.MAX_VALUE);
+        -Float.MAX_VALUE, -Float.MAX_VALUE);
 
     /**
      * Creates a new vector from the given angle in the XY plane.
@@ -105,32 +104,28 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
      * Constructs a new vector consisting of the largest components of both
      * vectors.
      *
-     * @param b
-     *            the b
-     * @param a
-     *            the a
+     * @param b the b
+     * @param a the a
      *
      * @return result as new vector
      */
     public static final Vec2D max(ReadonlyVec2D a, ReadonlyVec2D b) {
-        return new Vec2D(MathUtils.max(a.x(), b.x()), MathUtils.max(a.y(),
-                b.y()));
+        return new Vec2D(MathUtils.max(a.x(), b.x()),
+            MathUtils.max(a.y(), b.y()));
     }
 
     /**
      * Constructs a new vector consisting of the smallest components of both
      * vectors.
      *
-     * @param b
-     *            comparing vector
-     * @param a
-     *            the a
+     * @param b comparing vector
+     * @param a the a
      *
      * @return result as new vector
      */
     public static final Vec2D min(ReadonlyVec2D a, ReadonlyVec2D b) {
-        return new Vec2D(MathUtils.min(a.x(), b.x()), MathUtils.min(a.y(),
-                b.y()));
+        return new Vec2D(MathUtils.min(a.x(), b.x()),
+            MathUtils.min(a.y(), b.y()));
     }
 
     /**
@@ -194,8 +189,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     /**
      * Creates a new vector with the coordinates of the given vector
      *
-     * @param v
-     *            vector to be copied
+     * @param v vector to be copied
      */
     public Vec2D(ReadonlyVec2D v) {
         this.x = v.x();
@@ -223,10 +217,8 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     /**
      * Adds vector {a,b,c} and overrides coordinates with result.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
      * @return itself
      */
     public final Vec2D addSelf(float a, float b) {
@@ -238,8 +230,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     /**
      * Adds vector v and overrides coordinates with result.
      *
-     * @param v
-     *            vector to add
+     * @param v vector to add
      * @return itself
      */
     public final Vec2D addSelf(Vec2D v) {
@@ -379,8 +370,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
      * Returns true if the Object v is of type ReadonlyVec2D and all of the data
      * members of v are equal to the corresponding data members in this vector.
      *
-     * @param v
-     *            the object with which the comparison is made
+     * @param v the object with which the comparison is made
      * @return true or false
      */
     @Override
@@ -400,8 +390,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
      * Returns true if all of the data members of ReadonlyVec2D v are equal to
      * the corresponding data members in this vector.
      *
-     * @param v
-     *            the vector with which the comparison is made
+     * @param v the vector with which the comparison is made
      * @return true or false
      */
     public boolean equals(ReadonlyVec2D v) {
@@ -469,20 +458,20 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
 
     public float getComponent(Axis id) {
         switch (id) {
-            case X:
-                return x;
-            case Y:
-                return y;
+        case X:
+            return x;
+        case Y:
+            return y;
         }
         return 0;
     }
 
     public final float getComponent(int id) {
         switch (id) {
-            case 0:
-                return x;
-            case 1:
-                return y;
+        case 0:
+            return x;
+        case 1:
+            return y;
         }
         throw new IllegalArgumentException("index must be 0 or 1");
     }
@@ -516,7 +505,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
 
     public Vec2D getMapped(ScaleMap map) {
         return new Vec2D((float) map.getClippedValueFor(x),
-                (float) map.getClippedValueFor(y));
+            (float) map.getClippedValueFor(y));
     }
 
     public final Vec2D getNormalized() {
@@ -580,8 +569,10 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
         return new Vec2D(x + (v.x() - x) * f, y + (v.y() - y) * f);
     }
 
-    public Vec2D interpolateTo(ReadonlyVec2D v, float f, InterpolateStrategy s) {
-        return new Vec2D(s.interpolate(x, v.x(), f), s.interpolate(y, v.y(), f));
+    public Vec2D interpolateTo(ReadonlyVec2D v, float f,
+        InterpolateStrategy s) {
+        return new Vec2D(s.interpolate(x, v.x(), f),
+            s.interpolate(y, v.y(), f));
     }
 
     public final Vec2D interpolateTo(Vec2D v, float f) {
@@ -596,10 +587,8 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
      * Interpolates the vector towards the given target vector, using linear
      * interpolation
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
      * @return itself, result overrides current vector
      */
     public final Vec2D interpolateToSelf(ReadonlyVec2D v, float f) {
@@ -612,16 +601,13 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
      * Interpolates the vector towards the given target vector, using the given
      * {@link InterpolateStrategy}
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
-     * @param s
-     *            InterpolateStrategy instance
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
+     * @param s InterpolateStrategy instance
      * @return itself, result overrides current vector
      */
     public Vec2D interpolateToSelf(ReadonlyVec2D v, float f,
-            InterpolateStrategy s) {
+        InterpolateStrategy s) {
         x = s.interpolate(x, v.x(), f);
         y = s.interpolate(y, v.y(), f);
         return this;
@@ -663,7 +649,8 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
         total_angles += Math.acos(v2.dot(v3));
         total_angles += Math.acos(v3.dot(v1));
 
-        return (MathUtils.abs((float) total_angles - MathUtils.TWO_PI) <= 0.005f);
+        return (MathUtils
+            .abs((float) total_angles - MathUtils.TWO_PI) <= 0.005f);
     }
 
     public final boolean isMajorAxis(float tol) {
@@ -680,7 +667,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
 
     public final boolean isZeroVector() {
         return MathUtils.abs(x) < MathUtils.EPS
-                && MathUtils.abs(y) < MathUtils.EPS;
+            && MathUtils.abs(y) < MathUtils.EPS;
     }
 
     public final Vec2D jitter(float j) {
@@ -691,10 +678,8 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
      * Adds random jitter to the vector in the range -j ... +j using the default
      * {@link Random} generator of {@link MathUtils}.
      *
-     * @param jx
-     *            maximum x jitter
-     * @param jy
-     *            maximum y jitter
+     * @param jx maximum x jitter
+     * @param jy maximum y jitter
      * @return itself
      */
     public final Vec2D jitter(float jx, float jy) {
@@ -724,8 +709,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     /**
      * Limits the vector's magnitude to the length given
      *
-     * @param lim
-     *            new maximum magnitude
+     * @param lim new maximum magnitude
      * @return itself
      */
     public final Vec2D limit(float lim) {
@@ -793,8 +777,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     /**
      * Normalizes the vector to the given length.
      *
-     * @param len
-     *            desired length
+     * @param len desired length
      * @return itself
      */
     public final Vec2D normalizeTo(float len) {
@@ -873,8 +856,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     /**
      * Scales vector uniformly and overrides coordinates with result
      *
-     * @param s
-     *            scale factor
+     * @param s scale factor
      * @return itself
      */
     public final Vec2D scaleSelf(float s) {
@@ -887,10 +869,8 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
      * Scales vector non-uniformly by vector {a,b,c} and overrides coordinates
      * with result
      *
-     * @param a
-     *            scale factor for X coordinate
-     * @param b
-     *            scale factor for Y coordinate
+     * @param a scale factor for X coordinate
+     * @param b scale factor for Y coordinate
      * @return itself
      */
     public final Vec2D scaleSelf(float a, float b) {
@@ -903,8 +883,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
      * Scales vector non-uniformly by vector v and overrides coordinates with
      * result
      *
-     * @param s
-     *            scale vector
+     * @param s scale vector
      * @return itself
      */
 
@@ -936,8 +915,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     /**
      * Overrides coordinates with the ones of the given vector
      *
-     * @param v
-     *            vector to be copied
+     * @param v vector to be copied
      * @return itself
      */
     public final Vec2D set(Vec2D v) {
@@ -948,27 +926,27 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
 
     public final Vec2D setComponent(Axis id, float val) {
         switch (id) {
-            case X:
-                x = val;
-                break;
-            case Y:
-                y = val;
-                break;
+        case X:
+            x = val;
+            break;
+        case Y:
+            y = val;
+            break;
         }
         return this;
     }
 
     public final Vec2D setComponent(int id, float val) {
         switch (id) {
-            case 0:
-                x = val;
-                break;
-            case 1:
-                y = val;
-                break;
-            default:
-                throw new IllegalArgumentException(
-                        "component id needs to be 0 or 1");
+        case 0:
+            x = val;
+            break;
+        case 1:
+            y = val;
+            break;
+        default:
+            throw new IllegalArgumentException(
+                "component id needs to be 0 or 1");
         }
         return this;
     }
@@ -1033,10 +1011,8 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     /**
      * Subtracts vector {a,b,c} and overrides coordinates with result.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
      * @return itself
      */
     public final Vec2D subSelf(float a, float b) {
@@ -1048,8 +1024,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     /**
      * Subtracts vector v and overrides coordinates with result.
      *
-     * @param v
-     *            vector to be subtracted
+     * @param v vector to be subtracted
      * @return itself
      */
     public final Vec2D subSelf(Vec2D v) {
@@ -1080,9 +1055,7 @@ public class Vec2D implements Comparable<ReadonlyVec2D>, ReadonlyVec2D {
     }
 
     public float[] toArray() {
-        return new float[] {
-                x, y
-        };
+        return new float[] { x, y };
     }
 
     public final Vec2D toCartesian() {

@@ -16,7 +16,8 @@ import heronarts.lx.studio.ui.modulation.UIModulatorControls;
 
 @LXCategory("Entwined")
 @LXModulator.Global("Global FX")
-public class GlobalEffects extends LXModulator implements UIModulatorControls<GlobalEffects> {
+public class GlobalEffects extends LXModulator
+  implements UIModulatorControls<GlobalEffects> {
 
   private static final int CONTROL_PADDING = 2;
   private static final int CONTROL_SPACING = 15;
@@ -41,7 +42,8 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
     } else {
       System.out.println("Could not find master color effect");
     }
-    HueFilterEffect hueFilter = Entwined.findMasterEffect(this.lx, HueFilterEffect.class);
+    HueFilterEffect hueFilter = Entwined.findMasterEffect(this.lx,
+      HueFilterEffect.class);
     if (hueFilter != null) {
       this.knobs[2].setParameter(hueFilter.hueFilter);
       this.knobs[3].setParameter(hueFilter.amount);
@@ -61,12 +63,11 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
       System.out.println("Could not find master speed effect");
     }
     /*
-    SpinEffect spin = findEffect(SpinEffect.class);
-    if (spin != null) {
-      this.knobs[6].setParameter(spin.spin);
-    }
-    */
-    CandyCloudTextureEffect candyCloud = Entwined.findMasterEffect(this.lx, CandyCloudTextureEffect.class);
+     * SpinEffect spin = findEffect(SpinEffect.class); if (spin != null) {
+     * this.knobs[6].setParameter(spin.spin); }
+     */
+    CandyCloudTextureEffect candyCloud = Entwined.findMasterEffect(this.lx,
+      CandyCloudTextureEffect.class);
     if (candyCloud != null) {
       this.knobs[7].setParameter(candyCloud.amount);
     } else {
@@ -75,19 +76,23 @@ public class GlobalEffects extends LXModulator implements UIModulatorControls<Gl
   }
 
   @Override
-  public void buildModulatorControls(UI ui, UIModulator uiModulator, GlobalEffects modulator) {
+  public void buildModulatorControls(UI ui, UIModulator uiModulator,
+    GlobalEffects modulator) {
     for (int i = 0; i < this.knobs.length; ++i) {
-      int controlX = CONTROL_PADDING + (i % CONTROLS_PER_ROW) * (UIKnob.WIDTH + CONTROL_SPACING);
-      int controlY = CONTROLS_Y + (i/CONTROLS_PER_ROW) * CONTROLS_ROW_HEIGHT;
+      int controlX = CONTROL_PADDING
+        + (i % CONTROLS_PER_ROW) * (UIKnob.WIDTH + CONTROL_SPACING);
+      int controlY = CONTROLS_Y + (i / CONTROLS_PER_ROW) * CONTROLS_ROW_HEIGHT;
       this.knobs[i] = new UIKnob(controlX, controlY);
     }
     setKnobs();
 
     // Listen for project changes and re-set the knobs!
-    lx.addProjectListener((file, change) -> { setKnobs(); });
+    lx.addProjectListener((file, change) -> {
+      setKnobs();
+    });
 
     uiModulator.addChildren(this.knobs);
-    uiModulator.setContentHeight(2*CONTROLS_ROW_HEIGHT);
+    uiModulator.setContentHeight(2 * CONTROLS_ROW_HEIGHT);
   }
 
   @Override

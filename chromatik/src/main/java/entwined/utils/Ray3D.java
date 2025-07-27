@@ -34,10 +34,10 @@ package entwined.utils;
 /**
  * A simple 3D ray datatype
  */
-//@XmlAccessorType(XmlAccessType.FIELD)
+// @XmlAccessorType(XmlAccessType.FIELD)
 public class Ray3D extends Vec3D {
 
-    //@XmlElement(required = true)
+    // @XmlElement(required = true)
     protected Vec3D dir;
 
     public Ray3D() {
@@ -89,8 +89,7 @@ public class Ray3D extends Vec3D {
     /**
      * Uses a normalized copy of the given vector as the ray direction.
      * 
-     * @param d
-     *            new direction
+     * @param d new direction
      * @return itself
      */
     public Ray3D setDirection(ReadonlyVec3D d) {
@@ -108,8 +107,7 @@ public class Ray3D extends Vec3D {
      * with the ray origin and its other end point at the given distance along
      * the ray.
      * 
-     * @param dist
-     *            end point distance
+     * @param dist end point distance
      * @return line segment
      */
     public Line3D toLine3DWithPointAtDistance(float dist) {

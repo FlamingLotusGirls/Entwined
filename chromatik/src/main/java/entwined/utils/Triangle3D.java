@@ -214,9 +214,9 @@ public class Triangle3D implements Shape3D {
     }
 
     public Vec3D fromBarycentric(ReadonlyVec3D p) {
-        return new Vec3D(a.x * p.x() + b.x * p.y() + c.x * p.z(), a.y * p.x()
-                + b.y * p.y() + c.y * p.z(), a.z * p.x() + b.z * p.y() + c.z
-                * p.z());
+        return new Vec3D(a.x * p.x() + b.x * p.y() + c.x * p.z(),
+            a.y * p.x() + b.y * p.y() + c.y * p.z(),
+            a.z * p.x() + b.z * p.y() + c.z * p.z());
     }
 
     public AABB getBoundingBox() {
@@ -229,8 +229,7 @@ public class Triangle3D implements Shape3D {
      * Finds and returns the closest point on any of the triangle edges to the
      * point given.
      *
-     * @param p
-     *            point to check
+     * @param p point to check
      * @return closest point
      */
 
@@ -284,7 +283,8 @@ public class Triangle3D implements Shape3D {
         return Triangle3D.isClockwiseInXY(a, b, c);
     }
 
-    private boolean isSameClockDir(Vec3D a, Vec3D b, ReadonlyVec3D p, Vec3D norm) {
+    private boolean isSameClockDir(Vec3D a, Vec3D b, ReadonlyVec3D p,
+        Vec3D norm) {
         float bax = b.x - a.x;
         float bay = b.y - a.y;
         float baz = b.z - a.z;

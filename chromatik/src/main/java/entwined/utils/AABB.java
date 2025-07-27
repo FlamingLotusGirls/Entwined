@@ -49,10 +49,8 @@ public class AABB extends Vec3D implements Shape3D {
      * Creates a new instance from two vectors specifying opposite corners of
      * the box
      *
-     * @param min
-     *            first corner point
-     * @param max
-     *            second corner point
+     * @param min first corner point
+     * @param max second corner point
      * @return new AABB with centre at the half point between the 2 input
      *         vectors
      */
@@ -128,8 +126,7 @@ public class AABB extends Vec3D implements Shape3D {
      * Creates a new instance from centre point and extent
      *
      * @param pos
-     * @param extent
-     *            box dimensions (the box will be double the size in each
+     * @param extent box dimensions (the box will be double the size in each
      *            direction)
      */
     public AABB(ReadonlyVec3D pos, ReadonlyVec3D extent) {
@@ -189,8 +186,7 @@ public class AABB extends Vec3D implements Shape3D {
     /**
      * Adjusts the box size and position such that it includes the given point.
      *
-     * @param p
-     *            point to include
+     * @param p point to include
      * @return itself
      */
     public AABB growToContainPoint(ReadonlyVec3D p) {
@@ -204,15 +200,14 @@ public class AABB extends Vec3D implements Shape3D {
     /**
      * Checks if the box intersects the passed in one.
      *
-     * @param box
-     *            box to check
+     * @param box box to check
      * @return true, if boxes overlap
      */
     public boolean intersectsBox(AABB box) {
         Vec3D t = box.sub(this);
         return MathUtils.abs(t.x) <= (extent.x + box.extent.x)
-                && MathUtils.abs(t.y) <= (extent.y + box.extent.y)
-                && MathUtils.abs(t.z) <= (extent.z + box.extent.z);
+            && MathUtils.abs(t.y) <= (extent.y + box.extent.y)
+            && MathUtils.abs(t.z) <= (extent.z + box.extent.z);
     }
 
     /**
@@ -226,8 +221,7 @@ public class AABB extends Vec3D implements Shape3D {
      * Efficient and Robust Ray-Box Intersection Algorithm" Journal of graphics
      * tools, 10(1):49-54, 2005
      *
-     * @param ray
-     *            incident ray
+     * @param ray incident ray
      * @param minDist
      * @param maxDist
      * @return intersection point on the bounding box (only the first is
@@ -279,10 +273,8 @@ public class AABB extends Vec3D implements Shape3D {
     }
 
     /**
-     * @param c
-     *            sphere centre
-     * @param r
-     *            sphere radius
+     * @param c sphere centre
+     * @param r sphere radius
      * @return true, if AABB intersects with sphere
      */
     public boolean intersectsSphere(Vec3D c, float r) {
@@ -342,43 +334,43 @@ public class AABB extends Vec3D implements Shape3D {
         // test the 9 tests first (this was faster)
         f = e0.getAbs();
         if (testAxis(e0.z, -e0.y, f.z, f.y, v0.y, v0.z, v2.y, v2.z, extent.y,
-                extent.z)) {
+            extent.z)) {
             return false;
         }
         if (testAxis(-e0.z, e0.x, f.z, f.x, v0.x, v0.z, v2.x, v2.z, extent.x,
-                extent.z)) {
+            extent.z)) {
             return false;
         }
         if (testAxis(e0.y, -e0.x, f.y, f.x, v1.x, v1.y, v2.x, v2.y, extent.x,
-                extent.y)) {
+            extent.y)) {
             return false;
         }
 
         f = e1.getAbs();
         if (testAxis(e1.z, -e1.y, f.z, f.y, v0.y, v0.z, v2.y, v2.z, extent.y,
-                extent.z)) {
+            extent.z)) {
             return false;
         }
         if (testAxis(-e1.z, e1.x, f.z, f.x, v0.x, v0.z, v2.x, v2.z, extent.x,
-                extent.z)) {
+            extent.z)) {
             return false;
         }
         if (testAxis(e1.y, -e1.x, f.y, f.x, v0.x, v0.y, v1.x, v1.y, extent.x,
-                extent.y)) {
+            extent.y)) {
             return false;
         }
 
         f = e2.getAbs();
         if (testAxis(e2.z, -e2.y, f.z, f.y, v0.y, v0.z, v1.y, v1.z, extent.y,
-                extent.z)) {
+            extent.z)) {
             return false;
         }
         if (testAxis(-e2.z, e2.x, f.z, f.x, v0.x, v0.z, v1.x, v1.z, extent.x,
-                extent.z)) {
+            extent.z)) {
             return false;
         }
         if (testAxis(e2.y, -e2.x, f.y, f.x, v1.x, v1.y, v2.x, v2.y, extent.x,
-                extent.y)) {
+            extent.y)) {
             return false;
         }
 
@@ -389,19 +381,19 @@ public class AABB extends Vec3D implements Shape3D {
 
         // test in X-direction
         if (MathUtils.min(v0.x, v1.x, v2.x) > extent.x
-                || MathUtils.max(v0.x, v1.x, v2.x) < -extent.x) {
+            || MathUtils.max(v0.x, v1.x, v2.x) < -extent.x) {
             return false;
         }
 
         // test in Y-direction
         if (MathUtils.min(v0.y, v1.y, v2.y) > extent.y
-                || MathUtils.max(v0.y, v1.y, v2.y) < -extent.y) {
+            || MathUtils.max(v0.y, v1.y, v2.y) < -extent.y) {
             return false;
         }
 
         // test in Z-direction
         if (MathUtils.min(v0.z, v1.z, v2.z) > extent.z
-                || MathUtils.max(v0.z, v1.z, v2.z) < -extent.z) {
+            || MathUtils.max(v0.z, v1.z, v2.z) < -extent.z) {
             return false;
         }
 
@@ -489,8 +481,7 @@ public class AABB extends Vec3D implements Shape3D {
     /**
      * Updates the size of the box and calls {@link #updateBounds()} immediately
      *
-     * @param extent
-     *            new box size
+     * @param extent new box size
      * @return itself, for method chaining
      */
     public AABB setExtent(ReadonlyVec3D extent) {
@@ -499,7 +490,7 @@ public class AABB extends Vec3D implements Shape3D {
     }
 
     private boolean testAxis(float a, float b, float fa, float fb, float va,
-            float vb, float wa, float wb, float ea, float eb) {
+        float vb, float wa, float wb, float ea, float eb) {
         float p0 = a * va + b * vb;
         float p2 = a * wa + b * wb;
         float min, max;
@@ -564,7 +555,7 @@ public class AABB extends Vec3D implements Shape3D {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("<aabb> pos: ").append(super.toString()).append(" ext: ")
-                .append(extent);
+            .append(extent);
         return sb.toString();
     }
 

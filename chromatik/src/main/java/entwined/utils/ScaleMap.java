@@ -145,8 +145,7 @@ public class ScaleMap {
      * Overrides the mapping function used for the scale conversion. By default
      * a linear mapping is used: {@link LinearInterpolation}.
      *
-     * @param func
-     *            interpolate strategy implementation
+     * @param func interpolate strategy implementation
      */
     public void setMapFunction(InterpolateStrategy func) {
         mapFunction = func;
@@ -155,10 +154,8 @@ public class ScaleMap {
     /**
      * Sets new minimum & maximum values for the output/target range
      *
-     * @param min
-     *            new min output value
-     * @param max
-     *            new max output value
+     * @param min new min output value
+     * @param max new max output value
      */
     public void setOutputRange(double min, double max) {
         out = new DoubleRange(min, max);

@@ -100,7 +100,7 @@ public class PerlinNoise {
             // this will take care of it
             perlin_cosTable = SinCosLUT.getDefaultInstance().getSinLUT();
             perlin_TWOPI = perlin_PI = SinCosLUT.getDefaultInstance()
-                    .getPeriod();
+                .getPeriod();
             perlin_PI >>= 1;
         }
 
@@ -182,8 +182,8 @@ public class PerlinNoise {
     // the new variables, defined above
     private float noise_fsc(float i) {
         // using bagel's cosine table instead
-        return 0.5f * (1.0f - perlin_cosTable[(int) ((i + 0.5f) * perlin_PI)
-                % perlin_TWOPI]);
+        return 0.5f * (1.0f
+            - perlin_cosTable[(int) ((i + 0.5f) * perlin_PI) % perlin_TWOPI]);
     }
 
     // [toxi 040903]

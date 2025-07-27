@@ -19,12 +19,14 @@ import heronarts.lx.studio.ui.modulation.UIModulatorControls;
 
 @LXCategory("Entwined")
 @LXModulator.Global("Triggerables")
-public class Triggerables extends LXModulator implements UIModulatorControls<Triggerables> {
+public class Triggerables extends LXModulator
+  implements UIModulatorControls<Triggerables> {
 
-  // XXX - the previous code had a 'strength' in the onTrigger, which was the drumpad velocity,
-  // or really, the midi note velocity. This was rarely used, but is a somewhat cool feature to have in
+  // XXX - the previous code had a 'strength' in the onTrigger, which was the
+  // drumpad velocity,
+  // or really, the midi note velocity. This was rarely used, but is a somewhat
+  // cool feature to have in
   // the APIs
-
 
   public static final int NUM_ROWS = APC40.CLIP_LAUNCH_ROWS + 1;
   public static final int NUM_COLS = APC40.NUM_CHANNELS + 1;
@@ -44,9 +46,8 @@ public class Triggerables extends LXModulator implements UIModulatorControls<Tri
     this.grid = new BooleanParameter[NUM_ROWS][NUM_COLS];
     for (int i = 0; i < NUM_ROWS; ++i) {
       for (int j = 0; j < NUM_COLS; ++j) {
-        this.grid[i][j] =
-          new BooleanParameter("Grid[" + i + "][" + j + "]", false)
-          .setMode(BooleanParameter.Mode.MOMENTARY)
+        this.grid[i][j] = new BooleanParameter("Grid[" + i + "][" + j + "]",
+          false).setMode(BooleanParameter.Mode.MOMENTARY)
           .setDescription("Grid button " + i + "/" + j);
         addParameter("grid-" + i + "-" + j, this.grid[i][j]);
       }
@@ -60,25 +61,27 @@ public class Triggerables extends LXModulator implements UIModulatorControls<Tri
 
   public Triggerables createPatternAction(int row, int col, LXPattern pattern) {
     if (pattern == null) {
-     return this;
+      return this;
     }
-   return setAction(row, col, new Triggerable() {
-     @Override
-     public void onTriggered() {
-       pattern.enabled.setValue(true);
-     }
-     @Override
-     public void onReleased() {
-       pattern.enabled.setValue(false);
+    return setAction(row, col, new Triggerable() {
+      @Override
+      public void onTriggered() {
+        pattern.enabled.setValue(true);
+      }
 
-     }
-     @Override
-     public void onTimeout() {
-       pattern.enabled.setValue(false);
+      @Override
+      public void onReleased() {
+        pattern.enabled.setValue(false);
 
-     }
-   });
-}
+      }
+
+      @Override
+      public void onTimeout() {
+        pattern.enabled.setValue(false);
+
+      }
+    });
+  }
 
   // Okay, he's calling a timeout on each of the triggerables
   @Override
@@ -104,10 +107,12 @@ public class Triggerables extends LXModulator implements UIModulatorControls<Tri
   }
 
   @Override
-  public void buildModulatorControls(UI ui, UIModulator uiModulator, Triggerables modulator) {
+  public void buildModulatorControls(UI ui, UIModulator uiModulator,
+    Triggerables modulator) {
     for (int row = 0; row < this.grid.length; ++row) {
       for (int col = 0; col < this.grid[row].length; ++col) {
-        new UIButton(3 + col*23, 3 + row*23, 19, 19).setParameter(grid[row][col]).addToContainer(uiModulator);
+        new UIButton(3 + col * 23, 3 + row * 23, 19, 19)
+          .setParameter(grid[row][col]).addToContainer(uiModulator);
       }
     }
     uiModulator.setContentHeight(140);
@@ -132,4 +137,3 @@ public class Triggerables extends LXModulator implements UIModulatorControls<Tri
     return 0;
   }
 }
-

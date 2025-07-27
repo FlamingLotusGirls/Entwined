@@ -47,9 +47,7 @@ public class Plane extends Vec3D implements Shape3D {
      * Classifier constant for {@link Plane#classifyPoint(ReadonlyVec3D, float)}
      */
     public enum Classifier {
-        FRONT,
-        BACK,
-        ON_PLANE;
+        FRONT, BACK, ON_PLANE;
     }
 
     public static final Plane XY = new Plane(new Vec3D(), Vec3D.Z_AXIS);
@@ -133,7 +131,7 @@ public class Plane extends Vec3D implements Shape3D {
             dir = normal;
         }
         Vec3D proj = new Ray3D(p, dir)
-                .getPointAtDistance(getDistanceToPoint(p));
+            .getPointAtDistance(getDistanceToPoint(p));
         return proj;
     }
 
@@ -143,8 +141,7 @@ public class Plane extends Vec3D implements Shape3D {
      * perpendicular to the plane. Normalized directional vectors expected (for
      * rayDir and planeNormal).
      *
-     * @param ray
-     *            intersection ray
+     * @param ray intersection ray
      * @return distance to plane in world units, -1 if no intersection.
      */
     public float intersectRayDistance(Ray3D ray) {
@@ -170,8 +167,7 @@ public class Plane extends Vec3D implements Shape3D {
      * Code ported from:
      * http://forums.create.msdn.com/forums/p/39074/234178.aspx#234178
      *
-     * @param plane
-     *            intersection partner
+     * @param plane intersection partner
      * @return intersection ray or null
      */
     public Ray3D intersectsPlane(Plane plane) {
@@ -186,8 +182,8 @@ public class Plane extends Vec3D implements Shape3D {
         double det = 1.0 / (1 - offDiagonal * offDiagonal);
         double a = (d - d2 * offDiagonal) * det;
         double b = (d2 - d * offDiagonal) * det;
-        Vec3D anchor = normal.scale((float) a).addSelf(
-                plane.normal.scale((float) b));
+        Vec3D anchor = normal.scale((float) a)
+            .addSelf(plane.normal.scale((float) b));
         Vec3D dir = normal.cross(plane.normal);
 
         return new Ray3D(anchor, dir);
@@ -197,8 +193,7 @@ public class Plane extends Vec3D implements Shape3D {
      * Creates a TriangleMesh representation of the plane as a finite, squared
      * quad of the requested size, centred around the current plane point.
      *
-     * @param size
-     *            desired edge length
+     * @param size desired edge length
      * @return mesh
      */
     public Mesh3D toMesh(float size) {
@@ -209,8 +204,9 @@ public class Plane extends Vec3D implements Shape3D {
         if (mesh == null) {
             mesh = new TriangleMesh("plane", 4, 2);
         }
-        ReadonlyVec3D p = equalsWithTolerance(Vec3D.ZERO, 0.01f) ? add(0.01f,
-                0.01f, 0.01f) : this;
+        ReadonlyVec3D p = equalsWithTolerance(Vec3D.ZERO, 0.01f)
+            ? add(0.01f, 0.01f, 0.01f)
+            : this;
         size *= 0.5f;
         Vec3D n = p.cross(normal).normalizeTo(size);
         Vec3D m = n.cross(normal).normalizeTo(size);
@@ -227,7 +223,7 @@ public class Plane extends Vec3D implements Shape3D {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("origin: ").append(super.toString()).append(" norm: ")
-                .append(normal.toString());
+            .append(normal.toString());
         return sb.toString();
     }
 }

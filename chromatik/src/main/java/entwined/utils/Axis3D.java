@@ -74,8 +74,7 @@ public class Axis3D {
     /**
      * Creates a new Axis3D from the world origin in the given direction.
      *
-     * @param dir
-     *            direction vector
+     * @param dir direction vector
      */
     public Axis3D(ReadonlyVec3D dir) {
         this(new Vec3D(), dir);
@@ -84,10 +83,8 @@ public class Axis3D {
     /**
      * Creates a new Axis3D from the given origin and direction.
      *
-     * @param o
-     *            origin
-     * @param dir
-     *            direction
+     * @param o origin
+     * @param dir direction
      */
     public Axis3D(ReadonlyVec3D o, ReadonlyVec3D dir) {
         this.origin = o;

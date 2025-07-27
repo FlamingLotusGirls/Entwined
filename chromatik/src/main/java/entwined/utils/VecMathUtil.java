@@ -51,8 +51,7 @@ class VecMathUtil {
      * of -0.0 and the other of which has a cooresponding field with a value of
      * 0.0.
      *
-     * @param d
-     *            an input double precision floating-point number
+     * @param d an input double precision floating-point number
      * @return the integer bits representing that floating-point number, after
      *         first mapping -0.0f to 0.0f
      */
@@ -79,8 +78,7 @@ class VecMathUtil {
      * of -0.0f and the other of which has a cooresponding field with a value of
      * 0.0f.
      *
-     * @param f
-     *            an input floating-point number
+     * @param f an input floating-point number
      * @return the integer bits representing that floating-point number, after
      *         first mapping -0.0f to 0.0f
      */

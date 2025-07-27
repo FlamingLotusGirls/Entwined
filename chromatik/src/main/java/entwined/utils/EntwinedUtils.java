@@ -25,11 +25,11 @@ public class EntwinedUtils {
   }
 
   static public final float sqrt(float n) {
-    return (float)Math.sqrt(n);
+    return (float) Math.sqrt(n);
   }
 
   static public final float pow(float n, float e) {
-    return (float)Math.pow(n, e);
+    return (float) Math.pow(n, e);
   }
 
   static public final int max(int a, int b) {
@@ -57,23 +57,23 @@ public class EntwinedUtils {
   }
 
   static public final float sin(float angle) {
-    return (float)Math.sin(angle);
+    return (float) Math.sin(angle);
   }
 
   static public final float cos(float angle) {
-    return (float)Math.cos(angle);
+    return (float) Math.cos(angle);
   }
 
   static public final float asin(float value) {
-    return (float)Math.asin(value);
+    return (float) Math.asin(value);
   }
 
   static public final float acos(float value) {
-    return (float)Math.acos(value);
+    return (float) Math.acos(value);
   }
 
   static public final float atan2(float y, float x) {
-    return (float)Math.atan2(y, x);
+    return (float) Math.atan2(y, x);
   }
 
   static public final int ceil(float n) {
@@ -85,7 +85,7 @@ public class EntwinedUtils {
   }
 
   static public final float lerp(float start, float stop, float amt) {
-    return start + (stop-start) * amt;
+    return start + (stop - start) * amt;
   }
 
   static private Random internalRandom;
@@ -111,17 +111,20 @@ public class EntwinedUtils {
   }
 
   static public final float random(float low, float high) {
-    if (low >= high) return low;
+    if (low >= high)
+      return low;
     float diff = high - low;
     return random(diff) + low;
   }
 
   // Maps a value
-  //static public final float map(float value, float currentMin, float currentMax, float targetMin, float targetMax) {
+  // static public final float map(float value, float currentMin, float
+  // currentMax, float targetMin, float targetMax) {
 
-  //}
+  // }
 
-  static public final float map(float value, float currentMin, float currentMax) {
+  static public final float map(float value, float currentMin,
+    float currentMax) {
     return (value - currentMin) / (currentMax - currentMin);
   }
 }

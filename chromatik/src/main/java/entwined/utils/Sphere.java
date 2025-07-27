@@ -45,9 +45,10 @@ public class Sphere extends Vec3D implements Shape3D {
      * Earth's mean radius in km
      * (http://en.wikipedia.org/wiki/Earth_radius#Mean_radii)
      */
-    public static final float EARTH_RADIUS = (float) ((2 * 6378.1370 + 6356.752314245) / 3.0);
+    public static final float EARTH_RADIUS = (float) ((2 * 6378.1370
+        + 6356.752314245) / 3.0);
 
-    //@XmlAttribute(required = true)
+    // @XmlAttribute(required = true)
     public float radius;
 
     public Sphere() {
@@ -112,9 +113,7 @@ public class Sphere extends Vec3D implements Shape3D {
                     }
                 }
             }
-            result = new float[] {
-                    a, b
-            };
+            result = new float[] { a, b };
         }
         return result;
     }
@@ -125,10 +124,8 @@ public class Sphere extends Vec3D implements Shape3D {
      * The point on abc closest to the sphere center is returned via the
      * supplied result vector argument.
      *
-     * @param t
-     *            triangle to check for intersection
-     * @param result
-     *            a non-null vector for storing the result
+     * @param t triangle to check for intersection
+     * @param result a non-null vector for storing the result
      * @return true, if sphere intersects triangle ABC
      */
     public boolean intersectSphereTriangle(Triangle3D t, Vec3D result) {
@@ -158,8 +155,8 @@ public class Sphere extends Vec3D implements Shape3D {
         double t3 = Math.cos(p.x - q.x);
         double t4 = t2 * t3;
         double t5 = t1 + t4;
-        double dist = Math.atan(-t5 / Math.sqrt(-t5 * t5 + 1)) + 2
-                * Math.atan(1);
+        double dist = Math.atan(-t5 / Math.sqrt(-t5 * t5 + 1))
+            + 2 * Math.atan(1);
         if (Double.isNaN(dist)) {
             dist = 0;
         } else {
@@ -185,8 +182,8 @@ public class Sphere extends Vec3D implements Shape3D {
     }
 
     public Mesh3D toMesh(Mesh3D mesh, int res) {
-        SurfaceMeshBuilder builder = new SurfaceMeshBuilder(new SphereFunction(
-                this));
+        SurfaceMeshBuilder builder = new SurfaceMeshBuilder(
+            new SphereFunction(this));
         return builder.createMesh(mesh, res, 1);
     }
 }

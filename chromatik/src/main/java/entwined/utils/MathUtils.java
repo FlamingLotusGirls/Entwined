@@ -200,12 +200,11 @@ public final class MathUtils {
     }
 
     /**
-     * Returns fast cosine approximation of a value. Note: code from <a
-     * href="http://wiki.java.net/bin/view/Games/JeffGems">wiki posting on
+     * Returns fast cosine approximation of a value. Note: code from
+     * <a href="http://wiki.java.net/bin/view/Games/JeffGems">wiki posting on
      * java.net by jeffpk</a>
      *
-     * @param theta
-     *            angle in radians.
+     * @param theta angle in radians.
      * @return cosine of theta.
      */
     public static final float cos(final float theta) {
@@ -228,8 +227,7 @@ public final class MathUtils {
     /**
      * Fast cosine approximation.
      *
-     * @param x
-     *            angle in -PI/2 .. +PI/2 interval
+     * @param x angle in -PI/2 .. +PI/2 interval
      * @return cosine
      */
     public static final double fastCos(final double x) {
@@ -252,10 +250,8 @@ public final class MathUtils {
      * Computes a fast approximation to <code>Math.pow(a, b)</code>. Adapted
      * from http://www.dctsystems.co.uk/Software/power.html.
      *
-     * @param a
-     *            a positive number
-     * @param b
-     *            a number
+     * @param a a positive number
+     * @param b a number
      * @return a^b
      *
      */
@@ -273,8 +269,7 @@ public final class MathUtils {
     /**
      * Fast sine approximation.
      *
-     * @param x
-     *            angle in -PI/2 .. +PI/2 interval
+     * @param x angle in -PI/2 .. +PI/2 interval
      * @return sine
      */
     public static final double fastSin(double x) {
@@ -305,8 +300,7 @@ public final class MathUtils {
     /**
      * This method is a *lot* faster than using (int)Math.floor(x).
      *
-     * @param x
-     *            value to be floored
+     * @param x value to be floored
      * @return floored value as integer
      * @since 0012
      */
@@ -347,10 +341,8 @@ public final class MathUtils {
      * attack and decay period is configurable via the k parameter. Code from:
      * http://www.iquilezles.org/www/articles/functions/functions.htm
      *
-     * @param k
-     *            smoothness
-     * @param t
-     *            time position (should be >= 0)
+     * @param k smoothness
+     * @param t time position (should be >= 0)
      * @return impulse value (as double)
      */
     public static double impulse(double k, double t) {
@@ -363,10 +355,8 @@ public final class MathUtils {
      * attack and decay period is configurable via the k parameter. Code from:
      * http://www.iquilezles.org/www/articles/functions/functions.htm
      *
-     * @param k
-     *            smoothness
-     * @param t
-     *            time position (should be >= 0)
+     * @param k smoothness
+     * @param t time position (should be >= 0)
      * @return impulse value (as float)
      */
     public static float impulse(float k, float t) {
@@ -387,12 +377,12 @@ public final class MathUtils {
     }
 
     public static double mapInterval(double x, double minIn, double maxIn,
-            double minOut, double maxOut) {
+        double minOut, double maxOut) {
         return minOut + (maxOut - minOut) * (x - minIn) / (maxIn - minIn);
     }
 
     public static float mapInterval(float x, float minIn, float maxIn,
-            float minOut, float maxOut) {
+        float minOut, float maxOut) {
         return minOut + (maxOut - minOut) * (x - minIn) / (maxIn - minIn);
     }
 
@@ -587,8 +577,7 @@ public final class MathUtils {
      * computation of sin/cos. This method is used by {@link #sin(float)} &
      * {@link #cos(float)}.
      *
-     * @param theta
-     *            angle in radians
+     * @param theta angle in radians
      * @return reduced angle
      * @see #sin(float)
      * @see #cos(float)
@@ -669,12 +658,11 @@ public final class MathUtils {
     }
 
     /**
-     * Returns a fast sine approximation of a value. Note: code from <a
-     * href="http://wiki.java.net/bin/view/Games/JeffGems">wiki posting on
+     * Returns a fast sine approximation of a value. Note: code from
+     * <a href="http://wiki.java.net/bin/view/Games/JeffGems">wiki posting on
      * java.net by jeffpk</a>
      *
-     * @param theta
-     *            angle in radians.
+     * @param theta angle in radians.
      * @return sine of theta.
      */
     public static final float sin(float theta) {

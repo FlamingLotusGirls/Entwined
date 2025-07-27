@@ -14,14 +14,16 @@ import heronarts.lx.studio.ui.modulation.UIModulatorControls;
 
 @LXCategory("Entwined")
 @LXModulator.Global("Pattern Chooser")
-public class PatternChooser extends LXModulator implements UIModulatorControls<PatternChooser> {
+public class PatternChooser extends LXModulator
+  implements UIModulatorControls<PatternChooser> {
 
   public PatternChooser(LX lx) {
     super("Pattern Chooser");
   }
 
   @Override
-  public void buildModulatorControls(UI ui, UIModulator uiModulator, PatternChooser modulator) {
+  public void buildModulatorControls(UI ui, UIModulator uiModulator,
+    PatternChooser modulator) {
     uiModulator.addListener(ui.lx.engine.mixer.focusedChannel, p -> {
       uiModulator.removeAllChildren();
       uiModulator.setLayout(UIModulator.Layout.VERTICAL);
@@ -31,25 +33,20 @@ public class PatternChooser extends LXModulator implements UIModulatorControls<P
         final LXChannel channel = (LXChannel) bus;
 
         new UIComponentLabel(0, 0, uiModulator.getContentWidth(), 18)
-        .setCanonical(false)
-        .setComponent(channel)
-        .setBorderRounding(4)
-        .setBackgroundColor(ui.theme.controlBackgroundColor)
-        .setTextAlignment(VGraphics.Align.LEFT, VGraphics.Align.MIDDLE)
-        .setTextOffset(4, 0)
-        .addToContainer(uiModulator);
+          .setCanonical(false).setComponent(channel).setBorderRounding(4)
+          .setBackgroundColor(ui.theme.controlBackgroundColor)
+          .setTextAlignment(VGraphics.Align.LEFT, VGraphics.Align.MIDDLE)
+          .setTextOffset(4, 0).addToContainer(uiModulator);
 
-        final UIPatternList list = (UIPatternList)
-          new UIPatternList(ui, 0, 0, (int) uiModulator.getContentWidth(), 320, channel)
-          .setDeleteEnabled(false)
-          .setReorderable(false);
+        final UIPatternList list = (UIPatternList) new UIPatternList(ui, 0, 0,
+          (int) uiModulator.getContentWidth(), 320, channel)
+          .setDeleteEnabled(false).setReorderable(false);
 
         list.addToContainer(uiModulator);
       }
     }, true);
 
   }
-
 
   @Override
   protected double computeValue(double deltaMs) {

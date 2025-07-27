@@ -45,10 +45,8 @@ public interface ReadonlyVec2D {
     /**
      * Adds vector {a,b,c} and returns result as new vector.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
      * @return result as new vector
      */
     public Vec2D add(float a, float b);
@@ -56,8 +54,7 @@ public interface ReadonlyVec2D {
     /**
      * Add vector v and returns result as new vector.
      *
-     * @param v
-     *            vector to add
+     * @param v vector to add
      * @return result as new vector
      */
     public Vec2D add(ReadonlyVec2D v);
@@ -67,8 +64,7 @@ public interface ReadonlyVec2D {
      * assumes both vectors are normalized, if this can't be guaranteed, use the
      * alternative implementation {@link #angleBetween(ReadonlyVec2D, boolean)}
      *
-     * @param v
-     *            vector
+     * @param v vector
      * @return angle in radians, or NaN if vectors are parallel
      */
     public float angleBetween(ReadonlyVec2D v);
@@ -76,12 +72,10 @@ public interface ReadonlyVec2D {
     /**
      * Computes the angle between this vector and vector V
      *
-     * @param v
-     *            vector
-     * @param forceNormalize
-     *            true, if normalized versions of the vectors are to be used
-     *            (Note: only copies will be used, original vectors will not be
-     *            altered by this method)
+     * @param v vector
+     * @param forceNormalize true, if normalized versions of the vectors are to
+     *            be used (Note: only copies will be used, original vectors will
+     *            not be altered by this method)
      * @return angle in radians, or NaN if vectors are parallel
      */
     public float angleBetween(ReadonlyVec2D v, boolean forceNormalize);
@@ -89,8 +83,7 @@ public interface ReadonlyVec2D {
     /**
      * Computes the perpendicular bisector of two points.
      *
-     * @param p
-     *            other point
+     * @param p other point
      * @return bisector coefficients as {@link Vec3D}
      */
     public Vec3D bisect(Vec2D p);
@@ -98,8 +91,7 @@ public interface ReadonlyVec2D {
     /**
      * Compares the length of the vector with another one.
      *
-     * @param v
-     *            vector to compare with
+     * @param v vector to compare with
      * @return -1 if other vector is longer, 0 if both are equal or else +1
      */
     public int compareTo(ReadonlyVec2D v);
@@ -112,8 +104,7 @@ public interface ReadonlyVec2D {
     /**
      * Calculates the cross-product with the given vector.
      *
-     * @param v
-     *            vector
+     * @param v vector
      * @return the magnitude of the vector that would result from a regular 3D
      *         cross product of the input vectors, taking their Z values
      *         implicitly as 0 (i.e. treating the 2D space as a plane in the 3D
@@ -128,8 +119,7 @@ public interface ReadonlyVec2D {
     /**
      * Calculates distance to another vector
      *
-     * @param v
-     *            non-null vector
+     * @param v non-null vector
      * @return distance or Float.NaN if v=null
      */
     public float distanceTo(ReadonlyVec2D v);
@@ -138,8 +128,7 @@ public interface ReadonlyVec2D {
      * Calculates the squared distance to another vector
      *
      * @see #magSquared()
-     * @param v
-     *            non-null vector
+     * @param v non-null vector
      * @return distance or NaN if v=null
      */
     public float distanceToSquared(ReadonlyVec2D v);
@@ -162,10 +151,8 @@ public interface ReadonlyVec2D {
      * the individual differences of all component values are within the given
      * tolerance.
      *
-     * @param v
-     *            the v
-     * @param tolerance
-     *            the tolerance
+     * @param v the v
+     * @param tolerance the tolerance
      *
      * @return true, if equal
      */
@@ -221,8 +208,7 @@ public interface ReadonlyVec2D {
      * Creates a copy of the vector with its magnitude limited to the length
      * given
      *
-     * @param lim
-     *            new maximum magnitude
+     * @param lim new maximum magnitude
      * @return result as new vector
      */
     public Vec2D getLimited(float lim);
@@ -246,8 +232,7 @@ public interface ReadonlyVec2D {
     /**
      * Produces a new vector normalized to the given length.
      *
-     * @param len
-     *            new desired length
+     * @param len new desired length
      *
      * @return new vector
      */
@@ -306,10 +291,8 @@ public interface ReadonlyVec2D {
      * Interpolates the vector towards the given target vector, using linear
      * interpolation
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
      * @return result as new vector
      */
     public Vec2D interpolateTo(ReadonlyVec2D v, float f);
@@ -318,12 +301,9 @@ public interface ReadonlyVec2D {
      * Interpolates the vector towards the given target vector, using the given
      * {@link InterpolateStrategy}
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
-     * @param s
-     *            InterpolateStrategy instance
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
+     * @param s InterpolateStrategy instance
      * @return result as new vector
      */
     public Vec2D interpolateTo(ReadonlyVec2D v, float f, InterpolateStrategy s);
@@ -331,10 +311,8 @@ public interface ReadonlyVec2D {
     /**
      * Checks if the point is inside the given sphere.
      *
-     * @param sO
-     *            circle origin/centre
-     * @param sR
-     *            circle radius
+     * @param sO circle origin/centre
+     * @param sR circle radius
      * @return true, if point is in sphere
      */
 
@@ -343,8 +321,7 @@ public interface ReadonlyVec2D {
     /**
      * Checks if the point is inside the given rectangle.
      *
-     * @param r
-     *            bounding rectangle
+     * @param r bounding rectangle
      * @return true, if point is inside
      */
     public boolean isInRectangle(Rect r);
@@ -410,8 +387,7 @@ public interface ReadonlyVec2D {
      * Constructs a new vector consisting of the smallest components of both
      * vectors.
      *
-     * @param v
-     *            comparing vector
+     * @param v comparing vector
      * @return result as new vector
      */
     public Vec2D min(ReadonlyVec2D v);
@@ -419,8 +395,7 @@ public interface ReadonlyVec2D {
     /**
      * Scales vector uniformly and returns result as new vector.
      *
-     * @param s
-     *            scale factor
+     * @param s scale factor
      * @return new vector
      */
     public Vec2D scale(float s);
@@ -428,10 +403,8 @@ public interface ReadonlyVec2D {
     /**
      * Scales vector non-uniformly and returns result as new vector.
      *
-     * @param a
-     *            scale factor for X coordinate
-     * @param b
-     *            scale factor for Y coordinate
+     * @param a scale factor for X coordinate
+     * @param b scale factor for Y coordinate
      * @return new vector
      */
     public Vec2D scale(float a, float b);
@@ -441,8 +414,7 @@ public interface ReadonlyVec2D {
     /**
      * Scales vector non-uniformly by vector v and returns result as new vector
      *
-     * @param s
-     *            scale vector
+     * @param s scale vector
      * @return new vector
      */
     public Vec2D scale(Vec2D s);
@@ -450,10 +422,8 @@ public interface ReadonlyVec2D {
     /**
      * Subtracts vector {a,b,c} and returns result as new vector.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
      * @return result as new vector
      */
     public Vec2D sub(float a, float b);
@@ -463,8 +433,7 @@ public interface ReadonlyVec2D {
     /**
      * Subtracts vector v and returns result as new vector.
      *
-     * @param v
-     *            vector to be subtracted
+     * @param v vector to be subtracted
      * @return result as new vector
      */
     public Vec2D sub(Vec2D v);
@@ -473,10 +442,8 @@ public interface ReadonlyVec2D {
      * Calculates the normal vector on the given ellipse in the direction of the
      * current point.
      *
-     * @param eO
-     *            ellipse origin/centre
-     * @param eR
-     *            ellipse radii
+     * @param eO ellipse origin/centre
+     * @param eR ellipse radii
      * @return a unit normal vector to the tangent plane of the ellipsoid in the
      *         point.
      */

@@ -42,8 +42,7 @@ public interface ReadonlyVec4D {
     /**
      * Add vector v and returns result as new vector.
      *
-     * @param v
-     *            vector to add
+     * @param v vector to add
      *
      * @return result as new vector
      */
@@ -54,12 +53,9 @@ public interface ReadonlyVec4D {
     /**
      * Adds vector {a,b,c} and returns result as new vector.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
-     * @param c
-     *            Z coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
+     * @param c Z coordinate
      *
      * @return result as new vector
      */
@@ -69,8 +65,7 @@ public interface ReadonlyVec4D {
      * Returns the (4-space) angle in radians between this vector and the vector
      * parameter; the return value is constrained to the range [0,PI].
      *
-     * @param v
-     *            the other vector
+     * @param v the other vector
      * @return the angle in radians in the range [0,PI]
      */
     public float angleBetween(ReadonlyVec4D v);
@@ -78,8 +73,7 @@ public interface ReadonlyVec4D {
     /**
      * Compares the length of the vector with another one.
      *
-     * @param v
-     *            vector to compare with
+     * @param v vector to compare with
      *
      * @return -1 if other vector is longer, 0 if both are equal or else +1
      */
@@ -95,8 +89,7 @@ public interface ReadonlyVec4D {
     /**
      * Calculates distance to another vector.
      *
-     * @param v
-     *            non-null vector
+     * @param v non-null vector
      *
      * @return distance or Float.NaN if v=null
      */
@@ -105,8 +98,7 @@ public interface ReadonlyVec4D {
     /**
      * Calculates the squared distance to another vector.
      *
-     * @param v
-     *            non-null vector
+     * @param v non-null vector
      *
      * @return distance or NaN if v=null
      *
@@ -117,8 +109,7 @@ public interface ReadonlyVec4D {
     /**
      * Computes the scalar product (dot product) with the given vector.
      *
-     * @param v
-     *            the v
+     * @param v the v
      *
      * @return dot product
      *
@@ -139,10 +130,8 @@ public interface ReadonlyVec4D {
      * the individual differences of all component values are within the given
      * tolerance.
      *
-     * @param v
-     *            the v
-     * @param tolerance
-     *            the tolerance
+     * @param v the v
+     * @param tolerance the tolerance
      *
      * @return true, if equal
      */
@@ -192,8 +181,7 @@ public interface ReadonlyVec4D {
     /**
      * Produces a new vector normalized to the given length.
      *
-     * @param len
-     *            new desired length
+     * @param len new desired length
      *
      * @return new vector
      */
@@ -202,10 +190,8 @@ public interface ReadonlyVec4D {
     /**
      * Gets the rotated around axis.
      *
-     * @param axis
-     *            the axis
-     * @param theta
-     *            the theta
+     * @param axis the axis
+     * @param theta the theta
      *
      * @return new result vector
      */
@@ -214,8 +200,7 @@ public interface ReadonlyVec4D {
     /**
      * Creates a new vector rotated by the given angle around the X axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return rotated vector
      */
@@ -224,8 +209,7 @@ public interface ReadonlyVec4D {
     /**
      * Creates a new vector rotated by the given angle around the Y axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return rotated vector
      */
@@ -234,8 +218,7 @@ public interface ReadonlyVec4D {
     /**
      * Creates a new vector rotated by the given angle around the Z axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return rotated vector
      */
@@ -258,10 +241,8 @@ public interface ReadonlyVec4D {
      * Interpolates the vector towards the given target vector, using linear
      * interpolation.
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
      *
      * @return result as new vector
      */
@@ -271,12 +252,9 @@ public interface ReadonlyVec4D {
      * Interpolates the vector towards the given target vector, using the given
      * {@link InterpolateStrategy}.
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
-     * @param s
-     *            InterpolateStrategy instance
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
+     * @param s InterpolateStrategy instance
      *
      * @return result as new vector
      */
@@ -309,8 +287,7 @@ public interface ReadonlyVec4D {
     /**
      * Scales vector uniformly and returns result as new vector.
      *
-     * @param s
-     *            scale factor
+     * @param s scale factor
      *
      * @return new vector
      */
@@ -319,12 +296,9 @@ public interface ReadonlyVec4D {
     /**
      * Scales vector non-uniformly and returns result as new vector.
      *
-     * @param x
-     *            scale factor for X coordinate
-     * @param y
-     *            scale factor for Y coordinate
-     * @param z
-     *            scale factor for Z coordinate
+     * @param x scale factor for X coordinate
+     * @param y scale factor for Y coordinate
+     * @param z scale factor for Z coordinate
      *
      * @return new vector
      */
@@ -333,8 +307,7 @@ public interface ReadonlyVec4D {
     /**
      * Scales vector non-uniformly by vector v and returns result as new vector.
      *
-     * @param s
-     *            scale vector
+     * @param s scale vector
      *
      * @return new vector
      */
@@ -343,8 +316,7 @@ public interface ReadonlyVec4D {
     /**
      * Subtracts vector v and returns result as new vector.
      *
-     * @param v
-     *            vector to be subtracted
+     * @param v vector to be subtracted
      *
      * @return result as new vector
      */
@@ -353,12 +325,9 @@ public interface ReadonlyVec4D {
     /**
      * Subtracts vector {a,b,c} and returns result as new vector.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
-     * @param c
-     *            Z coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
+     * @param c Z coordinate
      *
      * @return result as new vector
      */

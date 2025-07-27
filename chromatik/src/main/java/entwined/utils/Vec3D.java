@@ -31,7 +31,6 @@ import java.util.Random;
 
 //import javax.xml.bind.annotation.XmlAttribute;
 
-
 /**
  * Comprehensive 3D vector class with additional basic intersection and
  * collision detection features.
@@ -40,9 +39,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
 
     public static enum Axis {
 
-        X(Vec3D.X_AXIS),
-        Y(Vec3D.Y_AXIS),
-        Z(Vec3D.Z_AXIS);
+        X(Vec3D.X_AXIS), Y(Vec3D.Y_AXIS), Z(Vec3D.Z_AXIS);
 
         private final ReadonlyVec3D vector;
 
@@ -72,17 +69,17 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * bounding box operations.
      */
     public static final ReadonlyVec3D MIN_VALUE = new Vec3D(Float.MIN_VALUE,
-            Float.MIN_VALUE, Float.MIN_VALUE);
+        Float.MIN_VALUE, Float.MIN_VALUE);
 
     /**
      * Defines vector with all coords set to Float.MAX_VALUE. Useful for
      * bounding box operations.
      */
     public static final ReadonlyVec3D MAX_VALUE = new Vec3D(Float.MAX_VALUE,
-            Float.MAX_VALUE, Float.MAX_VALUE);
+        Float.MAX_VALUE, Float.MAX_VALUE);
 
     public static final ReadonlyVec3D NEG_MAX_VALUE = new Vec3D(
-            -Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
+        -Float.MAX_VALUE, -Float.MAX_VALUE, -Float.MAX_VALUE);
 
     /**
      * Creates a new vector from the given angle in the XY plane. The Z
@@ -90,8 +87,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      *
      * The resulting vector for theta=0 is equal to the positive X axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return new vector in the XY plane
      */
@@ -105,8 +101,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      *
      * The resulting vector for theta=0 is equal to the positive X axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return new vector in the XZ plane
      */
@@ -120,8 +115,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      *
      * The resulting vector for theta=0 is equal to the positive Y axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return new vector in the YZ plane
      */
@@ -133,32 +127,28 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * Constructs a new vector consisting of the largest components of both
      * vectors.
      *
-     * @param b
-     *            the b
-     * @param a
-     *            the a
+     * @param b the b
+     * @param a the a
      *
      * @return result as new vector
      */
     public static final Vec3D max(ReadonlyVec3D a, ReadonlyVec3D b) {
-        return new Vec3D(MathUtils.max(a.x(), b.x()), MathUtils.max(a.y(),
-                b.y()), MathUtils.max(a.z(), b.z()));
+        return new Vec3D(MathUtils.max(a.x(), b.x()),
+            MathUtils.max(a.y(), b.y()), MathUtils.max(a.z(), b.z()));
     }
 
     /**
      * Constructs a new vector consisting of the smallest components of both
      * vectors.
      *
-     * @param b
-     *            comparing vector
-     * @param a
-     *            the a
+     * @param b comparing vector
+     * @param a the a
      *
      * @return result as new vector
      */
     public static final Vec3D min(ReadonlyVec3D a, ReadonlyVec3D b) {
-        return new Vec3D(MathUtils.min(a.x(), b.x()), MathUtils.min(a.y(),
-                b.y()), MathUtils.min(a.z(), b.z()));
+        return new Vec3D(MathUtils.min(a.x(), b.x()),
+            MathUtils.min(a.y(), b.y()), MathUtils.min(a.z(), b.z()));
     }
 
     /**
@@ -177,27 +167,26 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * https://uncommons-maths.dev.java.net library for a good choice of
      * reliable and high quality random number generators.
      *
-     * @param rnd
-     *            the rnd
+     * @param rnd the rnd
      *
      * @return a new random normalized unit vector.
      */
     public static final Vec3D randomVector(Random rnd) {
         Vec3D v = new Vec3D(rnd.nextFloat() * 2 - 1, rnd.nextFloat() * 2 - 1,
-                rnd.nextFloat() * 2 - 1);
+            rnd.nextFloat() * 2 - 1);
         return v.normalize();
     }
 
     /** X coordinate. */
-    //@XmlAttribute(required = true)
+    // @XmlAttribute(required = true)
     public float x;
 
     /** Y coordinate. */
-    //@XmlAttribute(required = true)
+    // @XmlAttribute(required = true)
     public float y;
 
     /** Z coordinate. */
-    //@XmlAttribute(required = true)
+    // @XmlAttribute(required = true)
     public float z;
 
     /**
@@ -209,12 +198,9 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Creates a new vector with the given coordinates.
      *
-     * @param x
-     *            the x
-     * @param y
-     *            the y
-     * @param z
-     *            the z
+     * @param x the x
+     * @param y the y
+     * @param z the z
      */
     public Vec3D(float x, float y, float z) {
         this.x = x;
@@ -231,8 +217,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Creates a new vector with the coordinates of the given vector.
      *
-     * @param v
-     *            vector to be copied
+     * @param v vector to be copied
      */
     public Vec3D(ReadonlyVec3D v) {
         this.x = v.x();
@@ -267,12 +252,9 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Adds vector {a,b,c} and overrides coordinates with result.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
-     * @param c
-     *            Z coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
+     * @param c Z coordinate
      *
      * @return itself
      */
@@ -293,8 +275,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Adds vector v and overrides coordinates with result.
      *
-     * @param v
-     *            vector to add
+     * @param v vector to add
      *
      * @return itself
      */
@@ -344,8 +325,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Forcefully fits the vector in the given AABB.
      *
-     * @param box
-     *            the box
+     * @param box the box
      *
      * @return itself
      */
@@ -373,13 +353,13 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     }
 
     public final Vec3D cross(ReadonlyVec3D v) {
-        return new Vec3D(y * v.z() - v.y() * z, z * v.x() - v.z() * x, x
-                * v.y() - v.x() * y);
+        return new Vec3D(y * v.z() - v.y() * z, z * v.x() - v.z() * x,
+            x * v.y() - v.x() * y);
     }
 
     public final Vec3D cross(Vec3D v) {
-        return new Vec3D(y * v.z - v.y * z, z * v.x - v.z * x, x * v.y - v.x
-                * y);
+        return new Vec3D(y * v.z - v.y * z, z * v.x - v.z * x,
+            x * v.y - v.x * y);
     }
 
     public final Vec3D crossInto(ReadonlyVec3D v, Vec3D result) {
@@ -397,8 +377,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * perpendicular to both the current and supplied vector and overrides the
      * current.
      *
-     * @param v
-     *            the v
+     * @param v the v
      *
      * @return itself
      */
@@ -445,8 +424,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * Returns true if the Object v is of type ReadonlyVec3D and all of the data
      * members of v are equal to the corresponding data members in this vector.
      *
-     * @param v
-     *            the Object with which the comparison is made
+     * @param v the Object with which the comparison is made
      * @return true or false
      */
     @Override
@@ -465,8 +443,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * Returns true if the Object v is of type ReadonlyVec3D and all of the data
      * members of v are equal to the corresponding data members in this vector.
      *
-     * @param v
-     *            the vector with which the comparison is made
+     * @param v the vector with which the comparison is made
      * @return true or false
      */
     public boolean equals(ReadonlyVec3D v) {
@@ -565,24 +542,24 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
 
     public final float getComponent(Axis id) {
         switch (id) {
-            case X:
-                return x;
-            case Y:
-                return y;
-            case Z:
-                return z;
+        case X:
+            return x;
+        case Y:
+            return y;
+        case Z:
+            return z;
         }
         throw new IllegalArgumentException();
     }
 
     public final float getComponent(int id) {
         switch (id) {
-            case 0:
-                return x;
-            case 1:
-                return y;
-            case 2:
-                return z;
+        case 0:
+            return x;
+        case 1:
+            return y;
+        case 2:
+            return z;
         }
         throw new IllegalArgumentException("index must be 0, 1 or 2");
     }
@@ -637,8 +614,8 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
 
     public Vec3D getMapped(ScaleMap map) {
         return new Vec3D((float) map.getClippedValueFor(x),
-                (float) map.getClippedValueFor(y),
-                (float) map.getClippedValueFor(z));
+            (float) map.getClippedValueFor(y),
+            (float) map.getClippedValueFor(z));
     }
 
     /*
@@ -775,34 +752,32 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     }
 
     public final Vec3D interpolateTo(ReadonlyVec3D v, float f) {
-        return new Vec3D(x + (v.x() - x) * f, y + (v.y() - y) * f, z
-                + (v.z() - z) * f);
+        return new Vec3D(x + (v.x() - x) * f, y + (v.y() - y) * f,
+            z + (v.z() - z) * f);
     }
 
     public final Vec3D interpolateTo(ReadonlyVec3D v, float f,
-            InterpolateStrategy s) {
-        return new Vec3D(s.interpolate(x, v.x(), f),
-                s.interpolate(y, v.y(), f), s.interpolate(z, v.z(), f));
+        InterpolateStrategy s) {
+        return new Vec3D(s.interpolate(x, v.x(), f), s.interpolate(y, v.y(), f),
+            s.interpolate(z, v.z(), f));
     }
 
     public final Vec3D interpolateTo(Vec3D v, float f) {
-        return new Vec3D(x + (v.x - x) * f, y + (v.y - y) * f, z + (v.z - z)
-                * f);
+        return new Vec3D(x + (v.x - x) * f, y + (v.y - y) * f,
+            z + (v.z - z) * f);
     }
 
     public final Vec3D interpolateTo(Vec3D v, float f, InterpolateStrategy s) {
         return new Vec3D(s.interpolate(x, v.x, f), s.interpolate(y, v.y, f),
-                s.interpolate(z, v.z, f));
+            s.interpolate(z, v.z, f));
     }
 
     /**
      * Interpolates the vector towards the given target vector, using linear
      * interpolation.
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
      *
      * @return itself, result overrides current vector
      */
@@ -817,17 +792,14 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * Interpolates the vector towards the given target vector, using the given
      * {@link InterpolateStrategy}.
      *
-     * @param v
-     *            target vector
-     * @param f
-     *            interpolation factor (should be in the range 0..1)
-     * @param s
-     *            InterpolateStrategy instance
+     * @param v target vector
+     * @param f interpolation factor (should be in the range 0..1)
+     * @param s InterpolateStrategy instance
      *
      * @return itself, result overrides current vector
      */
     public final Vec3D interpolateToSelf(ReadonlyVec3D v, float f,
-            InterpolateStrategy s) {
+        InterpolateStrategy s) {
         x = s.interpolate(x, v.x(), f);
         y = s.interpolate(y, v.y(), f);
         z = s.interpolate(z, v.z(), f);
@@ -906,16 +878,15 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
 
     public final boolean isZeroVector() {
         return MathUtils.abs(x) < MathUtils.EPS
-                && MathUtils.abs(y) < MathUtils.EPS
-                && MathUtils.abs(z) < MathUtils.EPS;
+            && MathUtils.abs(y) < MathUtils.EPS
+            && MathUtils.abs(z) < MathUtils.EPS;
     }
 
     /**
      * Add random jitter to the vector in the range -j ... +j using the default
      * {@link Random} generator of {@link MathUtils}.
      *
-     * @param j
-     *            the j
+     * @param j the j
      *
      * @return the vec3 d
      */
@@ -927,12 +898,9 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * Adds random jitter to the vector in the range -j ... +j using the default
      * {@link Random} generator of {@link MathUtils}.
      *
-     * @param jx
-     *            maximum x jitter
-     * @param jy
-     *            maximum y jitter
-     * @param jz
-     *            maximum z jitter
+     * @param jx maximum x jitter
+     * @param jy maximum y jitter
+     * @param jz maximum z jitter
      *
      * @return itself
      */
@@ -963,8 +931,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * components and using the default {@link Random} generator of
      * {@link MathUtils}.
      *
-     * @param jitterVec
-     *            the jitter vec
+     * @param jitterVec the jitter vec
      *
      * @return itself
      */
@@ -975,8 +942,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Limits the vector's magnitude to the length given.
      *
-     * @param lim
-     *            new maximum magnitude
+     * @param lim new maximum magnitude
      *
      * @return itself
      */
@@ -998,8 +964,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Max self.
      *
-     * @param b
-     *            the b
+     * @param b the b
      *
      * @return the vec3 d
      */
@@ -1013,8 +978,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Min self.
      *
-     * @param b
-     *            the b
+     * @param b the b
      *
      * @return the vec3 d
      */
@@ -1029,8 +993,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * Applies a uniform modulo operation to the vector, using the same base for
      * all components.
      *
-     * @param base
-     *            the base
+     * @param base the base
      *
      * @return itself
      */
@@ -1044,12 +1007,9 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Calculates modulo operation for each vector component separately.
      *
-     * @param bx
-     *            the bx
-     * @param by
-     *            the by
-     * @param bz
-     *            the bz
+     * @param bx the bx
+     * @param by the by
+     * @param bz the bz
      *
      * @return itself
      */
@@ -1080,8 +1040,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Normalizes the vector to the given length.
      *
-     * @param len
-     *            desired length
+     * @param len desired length
      * @return itself
      */
     public final Vec3D normalizeTo(float len) {
@@ -1114,10 +1073,8 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Rotates the vector around the giving axis.
      *
-     * @param axis
-     *            rotation axis vector
-     * @param theta
-     *            rotation angle (in radians)
+     * @param axis rotation axis vector
+     * @param theta rotation angle (in radians)
      *
      * @return itself
      */
@@ -1137,14 +1094,13 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
         final double si = Math.sin(theta);
         final double co = Math.cos(theta);
         float xx = (float) (ax * (ux + vy + wz)
-                + (x * (ay * ay + az * az) - ax * (vy + wz)) * co + (-wy + vz)
-                * si);
+            + (x * (ay * ay + az * az) - ax * (vy + wz)) * co
+            + (-wy + vz) * si);
         float yy = (float) (ay * (ux + vy + wz)
-                + (y * (ax * ax + az * az) - ay * (ux + wz)) * co + (wx - uz)
-                * si);
+            + (y * (ax * ax + az * az) - ay * (ux + wz)) * co + (wx - uz) * si);
         float zz = (float) (az * (ux + vy + wz)
-                + (z * (ax * ax + ay * ay) - az * (ux + vy)) * co + (-vx + uy)
-                * si);
+            + (z * (ax * ax + ay * ay) - az * (ux + vy)) * co
+            + (-vx + uy) * si);
         x = xx;
         y = yy;
         z = zz;
@@ -1154,8 +1110,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Rotates the vector by the given angle around the X axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return itself
      */
@@ -1171,8 +1126,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Rotates the vector by the given angle around the Y axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return itself
      */
@@ -1188,8 +1142,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Rotates the vector by the given angle around the Z axis.
      *
-     * @param theta
-     *            the theta
+     * @param theta the theta
      *
      * @return itself
      */
@@ -1228,8 +1181,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Scales vector uniformly and overrides coordinates with result.
      *
-     * @param s
-     *            scale factor
+     * @param s scale factor
      *
      * @return itself
      */
@@ -1244,12 +1196,9 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * Scales vector non-uniformly by vector {a,b,c} and overrides coordinates
      * with result.
      *
-     * @param a
-     *            scale factor for X coordinate
-     * @param b
-     *            scale factor for Y coordinate
-     * @param c
-     *            scale factor for Z coordinate
+     * @param a scale factor for X coordinate
+     * @param b scale factor for Y coordinate
+     * @param c scale factor for Z coordinate
      *
      * @return itself
      */
@@ -1271,8 +1220,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
      * Scales vector non-uniformly by vector v and overrides coordinates with
      * result.
      *
-     * @param s
-     *            scale vector
+     * @param s scale vector
      *
      * @return itself
      */
@@ -1287,12 +1235,9 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Overrides coordinates with the given values.
      *
-     * @param x
-     *            the x
-     * @param y
-     *            the y
-     * @param z
-     *            the z
+     * @param x the x
+     * @param y the y
+     * @param z the z
      *
      * @return itself
      */
@@ -1313,8 +1258,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Overrides coordinates with the ones of the given vector.
      *
-     * @param v
-     *            vector to be copied
+     * @param v vector to be copied
      *
      * @return itself
      */
@@ -1327,30 +1271,30 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
 
     public final Vec3D setComponent(Axis id, float val) {
         switch (id) {
-            case X:
-                x = val;
-                break;
-            case Y:
-                y = val;
-                break;
-            case Z:
-                z = val;
-                break;
+        case X:
+            x = val;
+            break;
+        case Y:
+            y = val;
+            break;
+        case Z:
+            z = val;
+            break;
         }
         return this;
     }
 
     public final Vec3D setComponent(int id, float val) {
         switch (id) {
-            case 0:
-                x = val;
-                break;
-            case 1:
-                y = val;
-                break;
-            case 2:
-                z = val;
-                break;
+        case 0:
+            x = val;
+            break;
+        case 1:
+            y = val;
+            break;
+        case 2:
+            z = val;
+            break;
         }
         return this;
     }
@@ -1363,8 +1307,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Overrides XY coordinates with the ones of the given 2D vector.
      *
-     * @param v
-     *            2D vector
+     * @param v 2D vector
      *
      * @return itself
      */
@@ -1388,21 +1331,21 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
         float t;
         for (int i = 0; i < iterations; i++) {
             switch (MathUtils.random(3)) {
-                case 0:
-                    t = x;
-                    x = y;
-                    y = t;
-                    break;
-                case 1:
-                    t = x;
-                    x = z;
-                    z = t;
-                    break;
-                case 2:
-                    t = y;
-                    y = z;
-                    z = t;
-                    break;
+            case 0:
+                t = x;
+                x = y;
+                y = t;
+                break;
+            case 1:
+                t = x;
+                x = z;
+                z = t;
+                break;
+            case 2:
+                t = y;
+                y = z;
+                z = t;
+                break;
             }
         }
         return this;
@@ -1465,12 +1408,9 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Subtracts vector {a,b,c} and overrides coordinates with result.
      *
-     * @param a
-     *            X coordinate
-     * @param b
-     *            Y coordinate
-     * @param c
-     *            Z coordinate
+     * @param a X coordinate
+     * @param b Y coordinate
+     * @param c Z coordinate
      *
      * @return itself
      */
@@ -1491,8 +1431,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     /**
      * Subtracts vector v and overrides coordinates with result.
      *
-     * @param v
-     *            vector to be subtracted
+     * @param v vector to be subtracted
      *
      * @return itself
      */
@@ -1524,15 +1463,11 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     }
 
     public float[] toArray() {
-        return new float[] {
-                x, y, z
-        };
+        return new float[] { x, y, z };
     }
 
     public float[] toArray4(float w) {
-        return new float[] {
-                x, y, z, w
-        };
+        return new float[] { x, y, z, w };
     }
 
     public final Vec3D toCartesian() {
@@ -1561,7 +1496,7 @@ public class Vec3D implements Comparable<ReadonlyVec3D>, ReadonlyVec3D {
     public String toString() {
         final StringBuffer sb = new StringBuffer(48);
         sb.append("{x:").append(x).append(", y:").append(y).append(", z:")
-                .append(z).append("}");
+            .append(z).append("}");
         return sb.toString();
     }
 

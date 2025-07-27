@@ -47,14 +47,13 @@ public class Quaternion {
     /**
      * Creates a Quaternion from a axis and a angle.
      *
-     * @param axis
-     *            axis vector (will be normalized)
-     * @param angle
-     *            angle in radians.
+     * @param axis axis vector (will be normalized)
+     * @param angle angle in radians.
      *
      * @return new quaternion
      */
-    public static Quaternion createFromAxisAngle(ReadonlyVec3D axis, float angle) {
+    public static Quaternion createFromAxisAngle(ReadonlyVec3D axis,
+        float angle) {
         angle *= 0.5;
         float sin = MathUtils.sin(angle);
         float cos = MathUtils.cos(angle);
@@ -65,16 +64,14 @@ public class Quaternion {
     /**
      * Creates a Quaternion from Euler angles.
      *
-     * @param pitch
-     *            X-angle in radians.
-     * @param yaw
-     *            Y-angle in radians.
-     * @param roll
-     *            Z-angle in radians.
+     * @param pitch X-angle in radians.
+     * @param yaw Y-angle in radians.
+     * @param roll Z-angle in radians.
      *
      * @return new quaternion
      */
-    public static Quaternion createFromEuler(float pitch, float yaw, float roll) {
+    public static Quaternion createFromEuler(float pitch, float yaw,
+        float roll) {
         pitch *= 0.5;
         yaw *= 0.5;
         roll *= 0.5;
@@ -118,8 +115,7 @@ public class Quaternion {
      * Allan and Mark Watt's "Advanced Animation and Rendering Techniques" (ACM
      * Press 1992).
      *
-     * @param m
-     *            rotation matrix
+     * @param m rotation matrix
      * @return quaternion
      */
     public static Quaternion createFromMatrix(Matrix4x4 m) {
@@ -134,9 +130,7 @@ public class Quaternion {
             q[2] = (m.matrix[1][0] - m.matrix[0][1]) * s;
             q[3] = 0.25 / s;
         } else {
-            int[] nxt = new int[] {
-                    1, 2, 0
-            };
+            int[] nxt = new int[] { 1, 2, 0 };
             int i = 0, j = 0, k = 0;
 
             if (m.matrix[1][1] > m.matrix[0][0]) {
@@ -149,8 +143,8 @@ public class Quaternion {
 
             j = nxt[i];
             k = nxt[j];
-            s = 2.0f * Math
-                    .sqrt((m.matrix[i][i] - m.matrix[j][j] - m.matrix[k][k]) + 1.0f);
+            s = 2.0f * Math.sqrt(
+                (m.matrix[i][i] - m.matrix[j][j] - m.matrix[k][k]) + 1.0f);
 
             double ss = 1.0 / s;
             q[i] = s * 0.25f;
@@ -160,7 +154,7 @@ public class Quaternion {
         }
 
         return new Quaternion((float) q[3], (float) q[0], (float) q[1],
-                (float) q[2]);
+            (float) q[2]);
     }
 
     /**
@@ -172,7 +166,7 @@ public class Quaternion {
      * @return quaternion
      */
     public static Quaternion getAlignmentQuat(ReadonlyVec3D dir,
-            ReadonlyVec3D forward) {
+        ReadonlyVec3D forward) {
         Vec3D target = dir.getNormalized();
         ReadonlyVec3D axis = forward.cross(target);
         float length = axis.magnitude() + 0.0001f;
@@ -180,7 +174,7 @@ public class Quaternion {
         return createFromAxisAngle(axis, angle);
     }
 
-    //@XmlAttribute(required = true)
+    // @XmlAttribute(required = true)
     public float x, y, z, w;
 
     public Quaternion() {
@@ -292,10 +286,8 @@ public class Quaternion {
      * "http://www.gamasutra.com/view/feature/3278/rotating_objects_using_quaternions.php"
      * >GamaSutra</a>)
      *
-     * @param target
-     *            quaternion
-     * @param t
-     *            interpolation factor (0..1)
+     * @param target quaternion
+     * @param t interpolation factor (0..1)
      * @return new interpolated quat
      */
     public Quaternion interpolateTo(Quaternion target, float t) {
@@ -309,7 +301,7 @@ public class Quaternion {
      * @return interpolated quaternion as new instance
      */
     public Quaternion interpolateTo(Quaternion target, float t,
-            InterpolateStrategy is) {
+        InterpolateStrategy is) {
         return copy().interpolateToSelf(target, is.interpolate(0, 1, t));
     }
 
@@ -318,10 +310,8 @@ public class Quaternion {
      * "http://www.gamasutra.com/view/feature/3278/rotating_objects_using_quaternions.php"
      * >GamaSutra</a>)
      *
-     * @param target
-     *            quaternion
-     * @param t
-     *            interpolation factor (0..1)
+     * @param target quaternion
+     * @param t interpolation factor (0..1)
      * @return new interpolated quat
      */
     public Quaternion interpolateToSelf(Quaternion target, double t) {
@@ -362,7 +352,7 @@ public class Quaternion {
      * @return itself
      */
     public Quaternion interpolateToSelf(Quaternion target, float t,
-            InterpolateStrategy is) {
+        InterpolateStrategy is) {
         return interpolateToSelf(target, is.interpolate(0, 1, t));
     }
 
@@ -441,9 +431,7 @@ public class Quaternion {
     }
 
     public float[] toArray() {
-        return new float[] {
-                w, x, y, z
-        };
+        return new float[] { w, x, y, z };
     }
 
     /**
@@ -500,15 +488,15 @@ public class Quaternion {
         float wz = w * z2;
 
         return result.set(1 - (yy + zz), xy - wz, xz + wy, 0, xy + wz,
-                1 - (xx + zz), yz - wx, 0, xz - wy, yz + wx, 1 - (xx + yy), 0,
-                0, 0, 0, 1);
+            1 - (xx + zz), yz - wx, 0, xz - wy, yz + wx, 1 - (xx + yy), 0, 0, 0,
+            0, 1);
     }
 
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer(48);
         sb.append("{axis: [").append(x).append(",").append(y).append(",")
-                .append(z).append("], w: ").append(w).append("}");
+            .append(z).append("], w: ").append(w).append("}");
         return sb.toString();
     }
 }

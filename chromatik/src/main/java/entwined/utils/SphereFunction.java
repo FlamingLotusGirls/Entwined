@@ -61,8 +61,7 @@ public class SphereFunction implements SurfaceFunction {
     /**
      * Creates a new instance using the given sphere
      *
-     * @param s
-     *            sphere
+     * @param s sphere
      */
     public SphereFunction(Sphere s) {
         this.sphere = s;

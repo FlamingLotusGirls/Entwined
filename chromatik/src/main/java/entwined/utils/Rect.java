@@ -49,7 +49,8 @@ public class Rect implements Shape2D {
      * @param extent
      * @return new rect
      */
-    public static final Rect fromCenterExtent(ReadonlyVec2D center, Vec2D extent) {
+    public static final Rect fromCenterExtent(ReadonlyVec2D center,
+        Vec2D extent) {
         return new Rect(center.sub(extent), center.add(extent));
     }
 
@@ -83,10 +84,8 @@ public class Rect implements Shape2D {
     /**
      * Constructs a new rectangle using a point and dimensions
      *
-     * @param x
-     *            x of top left
-     * @param y
-     *            y of top left
+     * @param x x of top left
+     * @param y y of top left
      * @param width
      * @param height
      */
@@ -115,8 +114,7 @@ public class Rect implements Shape2D {
     /**
      * Checks if the given point is within the rectangle's bounds.
      *
-     * @param p
-     *            point to check
+     * @param p point to check
      * @return true, if point is contained
      */
     public boolean containsPoint(ReadonlyVec2D p) {
@@ -144,15 +142,15 @@ public class Rect implements Shape2D {
      * Returns true if the Object o is of type Rect and all of the data members
      * of o are equal to the corresponding data members in this rectangle.
      *
-     * @param o
-     *            the Object with which the comparison is made
+     * @param o the Object with which the comparison is made
      * @return true or false
      */
     @Override
     public boolean equals(Object o) {
         try {
             Rect r = (Rect) o;
-            return (x == r.x && y == r.y && width == r.width && height == r.height);
+            return (x == r.x && y == r.y && width == r.width
+                && height == r.height);
         } catch (NullPointerException e) {
             return false;
         } catch (ClassCastException e) {
@@ -187,7 +185,7 @@ public class Rect implements Shape2D {
 
     public Circle getBoundingCircle() {
         return new Circle(getCentroid(),
-                new Vec2D(width, height).magnitude() / 2);
+            new Vec2D(width, height).magnitude() / 2);
     }
 
     /**
@@ -233,31 +231,30 @@ public class Rect implements Shape2D {
      * <li>3 - left</li>
      * </ul>
      *
-     * @param id
-     *            edge ID
+     * @param id edge ID
      * @return edge as Line2D
      */
     public Line2D getEdge(int id) {
         Line2D edge = null;
         switch (id) {
         // top
-            case 0:
-                edge = new Line2D(x, y, x + width, y);
-                break;
-            // right
-            case 1:
-                edge = new Line2D(x + width, y, x + width, y + height);
-                break;
-            // bottom
-            case 2:
-                edge = new Line2D(x, y + height, x + width, y + height);
-                break;
-            // left
-            case 3:
-                edge = new Line2D(x, y, x, y + height);
-                break;
-            default:
-                throw new IllegalArgumentException("edge ID needs to be 0...3");
+        case 0:
+            edge = new Line2D(x, y, x + width, y);
+            break;
+        // right
+        case 1:
+            edge = new Line2D(x + width, y, x + width, y + height);
+            break;
+        // bottom
+        case 2:
+            edge = new Line2D(x, y + height, x + width, y + height);
+            break;
+        // left
+        case 3:
+            edge = new Line2D(x, y, x, y + height);
+            break;
+        default:
+            throw new IllegalArgumentException("edge ID needs to be 0...3");
         }
         return edge;
     }
@@ -281,8 +278,7 @@ public class Rect implements Shape2D {
      * {@link #getUnmappedPointInRect(Vec2D)} this function can be used to map a
      * point from one rectangle to another.
      *
-     * @param p
-     *            point to be mapped
+     * @param p point to be mapped
      * @return mapped Vec2D
      */
     public Vec2D getMappedPointInRect(Vec2D p) {
@@ -295,8 +291,8 @@ public class Rect implements Shape2D {
      * @return Vec2D
      */
     public Vec2D getRandomPoint() {
-        return new Vec2D(MathUtils.random(x, x + width), MathUtils.random(y, y
-                + height));
+        return new Vec2D(MathUtils.random(x, x + width),
+            MathUtils.random(y, y + height));
     }
 
     public float getRight() {
@@ -323,8 +319,7 @@ public class Rect implements Shape2D {
      * {@link #getUnmappedPointInRect(Vec2D)} this function can be used to map a
      * point from one rectangle to another.
      *
-     * @param p
-     *            point to be mapped
+     * @param p point to be mapped
      * @return mapped Vec2D
      */
     public Vec2D getUnmappedPointInRect(Vec2D p) {
@@ -373,8 +368,7 @@ public class Rect implements Shape2D {
      * the given other rect. The resulting bounds will be the rectangle of the
      * overlay area or null if the rects do not intersect.
      *
-     * @param r
-     *            intersection partner rect
+     * @param r intersection partner rect
      * @return new Rect or null
      */
     public final Rect intersectionRectWith(Rect r) {
@@ -415,16 +409,14 @@ public class Rect implements Shape2D {
      * the first intersection point. The method takes a min/max distance
      * interval along the ray in which the intersection must occur.
      *
-     * @param ray
-     *            intersection ray
-     * @param minDist
-     *            minimum distance
-     * @param maxDist
-     *            max distance
+     * @param ray intersection ray
+     * @param minDist minimum distance
+     * @param maxDist max distance
      * @return intersection point or null if no intersection in the given
      *         interval
      */
-    public ReadonlyVec2D intersectsRay(Ray2D ray, float minDist, float maxDist) {
+    public ReadonlyVec2D intersectsRay(Ray2D ray, float minDist,
+        float maxDist) {
         Vec2D invDir = ray.getDirection().reciprocal();
         boolean signDirX = invDir.x < 0;
         boolean signDirY = invDir.y < 0;
@@ -456,13 +448,12 @@ public class Rect implements Shape2D {
     /**
      * Checks if this rectangle intersects/overlaps the given one.
      *
-     * @param r
-     *            another rect
+     * @param r another rect
      * @return true, if intersecting
      */
     public boolean intersectsRect(Rect r) {
-        return !(x > r.x + r.width || x + width < r.x || y > r.y + r.height || y
-                + height < r.y);
+        return !(x > r.x + r.width || x + width < r.x || y > r.y + r.height
+            || y + height < r.y);
     }
 
     public Rect scale(float s) {
@@ -477,14 +468,10 @@ public class Rect implements Shape2D {
     /**
      * Sets new bounds for this rectangle.
      *
-     * @param x
-     *            x of top left
-     * @param y
-     *            y of top right
-     * @param w
-     *            width
-     * @param h
-     *            height
+     * @param x x of top left
+     * @param y y of top right
+     * @param w width
+     * @param h height
      * @return itself
      */
     public final Rect set(float x, float y, float w, float h) {
@@ -525,10 +512,10 @@ public class Rect implements Shape2D {
      * @param res
      */
     private void toPolyArc(Polygon2D poly, Vec2D o, float radius, float theta,
-            int res) {
+        int res) {
         for (int i = 0; i <= res; i++) {
             poly.add(o.add(Vec2D.fromTheta(theta + i * MathUtils.HALF_PI / res)
-                    .scaleSelf(radius)));
+                .scaleSelf(radius)));
         }
     }
 
@@ -551,29 +538,27 @@ public class Rect implements Shape2D {
      * instance with the given corner radius. The number of corner vertices to
      * be used, can be specified as well.
      *
-     * @param radius
-     *            corner radius
-     * @param res
-     *            number of vertices per corner
+     * @param radius corner radius
+     * @param res number of vertices per corner
      * @return rounded rect as polygon
      */
     public Polygon2D toPolygon2D(float radius, int res) {
         Polygon2D poly = new Polygon2D();
         toPolyArc(poly, new Vec2D(x + width - radius, y + radius), radius,
-                -MathUtils.HALF_PI, res);
+            -MathUtils.HALF_PI, res);
         toPolyArc(poly, new Vec2D(x + width - radius, y + height - radius),
-                radius, 0, res);
+            radius, 0, res);
         toPolyArc(poly, new Vec2D(x + radius, y + height - radius), radius,
-                MathUtils.HALF_PI, res);
-        toPolyArc(poly, new Vec2D(x + radius, y + radius), radius,
-                MathUtils.PI, res);
+            MathUtils.HALF_PI, res);
+        toPolyArc(poly, new Vec2D(x + radius, y + radius), radius, MathUtils.PI,
+            res);
         return poly;
     }
 
     @Override
     public String toString() {
         return "rect: {x:" + x + ", y:" + y + ", width:" + width + ", height:"
-                + height + "}";
+            + height + "}";
     }
 
     public Rect translate(float dx, float dy) {

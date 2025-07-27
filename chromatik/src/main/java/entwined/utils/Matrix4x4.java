@@ -60,7 +60,8 @@ public class Matrix4x4 {
      * @param width
      * @return true if the matrix is nonsingular, or false otherwise.
      */
-    static boolean LUDecomposition(double[] matrix0, int[] row_perm, int width) {
+    static boolean LUDecomposition(double[] matrix0, int[] row_perm,
+        int width) {
         double row_scale[] = new double[width];
         // Determine implicit scaling information by looping over rows
         {
@@ -196,10 +197,9 @@ public class Matrix4x4 {
         matrix[3][3] = 1;
     }
 
-    public Matrix4x4(double v11, double v12, double v13, double v14,
-            double v21, double v22, double v23, double v24, double v31,
-            double v32, double v33, double v34, double v41, double v42,
-            double v43, double v44) {
+    public Matrix4x4(double v11, double v12, double v13, double v14, double v21,
+        double v22, double v23, double v24, double v31, double v32, double v33,
+        double v34, double v41, double v42, double v43, double v44) {
         init();
         double[] m = matrix[0];
         m[0] = v11;
@@ -318,8 +318,8 @@ public class Matrix4x4 {
             double[] m = matrix[i];
             temp[i] = v.x * m[0] + v.y * m[1] + v.z * m[2] + m[3];
         }
-        v.set((float) temp[0], (float) temp[1], (float) temp[2]).scaleSelf(
-                (float) (1.0 / temp[3]));
+        v.set((float) temp[0], (float) temp[1], (float) temp[2])
+            .scaleSelf((float) (1.0 / temp[3]));
         return v;
     }
 
@@ -369,9 +369,8 @@ public class Matrix4x4 {
     }
 
     private final void init() {
-        matrix = new double[][] {
-                new double[4], new double[4], new double[4], new double[4]
-        };
+        matrix = new double[][] { new double[4], new double[4], new double[4],
+            new double[4] };
     }
 
     /**
@@ -475,8 +474,8 @@ public class Matrix4x4 {
         dst[15] = tmp[10] * src2 + tmp[4] * src0 + tmp[9] * src1;
         dst[15] -= tmp[8] * src1 + tmp[11] * src2 + tmp[5] * src0;
 
-        double det = 1.0 / (src[0] * dst[0] + src[1] * dst[1] + src[2] * dst[2] + src[3]
-                * dst[3]);
+        double det = 1.0 / (src[0] * dst[0] + src[1] * dst[1] + src[2] * dst[2]
+            + src[3] * dst[3]);
 
         for (int i = 0, k = 0; i < 4; i++) {
             double[] m = matrix[i];
@@ -488,12 +487,12 @@ public class Matrix4x4 {
     }
 
     public Matrix4x4 lookAt(ReadonlyVec3D eye, ReadonlyVec3D target,
-            ReadonlyVec3D up) {
+        ReadonlyVec3D up) {
         Vec3D f = eye.sub(target).normalize();
         Vec3D s = up.cross(f).normalize();
         Vec3D t = f.cross(s).normalize();
         return set(s.x, s.y, s.z, -s.dot(eye), t.x, t.y, t.z, -t.dot(eye), f.x,
-                f.y, f.z, -f.dot(eye), 0, 0, 0, 1);
+            f.y, f.z, -f.dot(eye), 0, 0, 0, 1);
     }
 
     public Matrix4x4 multiply(double factor) {
@@ -535,8 +534,8 @@ public class Matrix4x4 {
         for (int i = 0; i < 4; i++) {
             double[] m = matrix[i];
             for (int j = 0; j < 4; j++) {
-                temp[j] = m[0] * mm0[j] + m[1] * mm1[j] + m[2] * mm2[j] + m[3]
-                        * mm3[j];
+                temp[j] = m[0] * mm0[j] + m[1] * mm1[j] + m[2] * mm2[j]
+                    + m[3] * mm3[j];
             }
             m[0] = temp[0];
             m[1] = temp[1];
@@ -564,16 +563,15 @@ public class Matrix4x4 {
         tx = t * x;
         ty = t * y;
         TEMP.set(tx * x + c, tx * y + s * z, tx * z - s * y, 0, tx * y - s * z,
-                ty * y + c, ty * z + s * x, 0, tx * z + s * y, ty * z - s * x,
-                t * z * z + c, 0, 0, 0, 0, 1);
+            ty * y + c, ty * z + s * x, 0, tx * z + s * y, ty * z - s * x,
+            t * z * z + c, 0, 0, 0, 0, 1);
         return this.multiplySelf(TEMP);
     }
 
     /**
      * Applies rotation about X to this matrix.
      *
-     * @param theta
-     *            rotation angle in radians
+     * @param theta rotation angle in radians
      * @return itself
      */
     public Matrix4x4 rotateX(double theta) {
@@ -587,8 +585,7 @@ public class Matrix4x4 {
     /**
      * Applies rotation about Y to this matrix.
      *
-     * @param theta
-     *            rotation angle in radians
+     * @param theta rotation angle in radians
      * @return itself
      */
     public Matrix4x4 rotateY(double theta) {
@@ -635,8 +632,8 @@ public class Matrix4x4 {
     }
 
     public Matrix4x4 set(double a, double b, double c, double d, double e,
-            double f, double g, double h, double i, double j, double k,
-            double l, double m, double n, double o, double p) {
+        double f, double g, double h, double i, double j, double k, double l,
+        double m, double n, double o, double p) {
         double[] mat = matrix[0];
         mat[0] = a;
         mat[1] = b;
@@ -673,23 +670,23 @@ public class Matrix4x4 {
     }
 
     public Matrix4x4 setFrustum(double left, double right, double top,
-            double bottom, double near, double far) {
-        return set((2.0 * near) / (right - left), 0, (left + right)
-                / (right - left), 0, 0, (2.0 * near) / (top - bottom),
-                (top + bottom) / (top - bottom), 0, 0, 0, -(near + far)
-                        / (far - near), (-2 * near * far) / (far - near), 0, 0,
-                -1, 0);
+        double bottom, double near, double far) {
+        return set((2.0 * near) / (right - left), 0,
+            (left + right) / (right - left), 0, 0,
+            (2.0 * near) / (top - bottom), (top + bottom) / (top - bottom), 0,
+            0, 0, -(near + far) / (far - near),
+            (-2 * near * far) / (far - near), 0, 0, -1, 0);
     }
 
     public Matrix4x4 setOrtho(double left, double right, double top,
-            double bottom, double near, double far) {
+        double bottom, double near, double far) {
         return set(2.0 / (right - left), 0, 0, (left + right) / (right - left),
-                0, 2.0 / (top - bottom), 0, (top + bottom) / (top - bottom), 0,
-                0, -2.0 / (far - near), (far + near) / (far - near), 0, 0, 0, 1);
+            0, 2.0 / (top - bottom), 0, (top + bottom) / (top - bottom), 0, 0,
+            -2.0 / (far - near), (far + near) / (far - near), 0, 0, 0, 1);
     }
 
     public Matrix4x4 setPerspective(double fov, double aspect, double near,
-            double far) {
+        double far) {
         double y = near * Math.tan(0.5 * MathUtils.radians(fov));
         double x = aspect * y;
         return setFrustum(-x, x, y, -y, near, far);
@@ -728,8 +725,7 @@ public class Matrix4x4 {
     /**
      * Copies all matrix elements into an linear array.
      *
-     * @param result
-     *            array (or null to create a new one)
+     * @param result array (or null to create a new one)
      * @return matrix as 16 element array
      */
     public double[] toArray(double[] result) {
@@ -764,12 +760,11 @@ public class Matrix4x4 {
     @Override
     public String toString() {
         return "| " + matrix[0][0] + " " + matrix[0][1] + " " + matrix[0][2]
-                + " " + matrix[0][3] + " |\n" + "| " + matrix[1][0] + " "
-                + matrix[1][1] + " " + matrix[1][2] + " " + matrix[1][3]
-                + " |\n" + "| " + matrix[2][0] + " " + matrix[2][1] + " "
-                + matrix[2][2] + " " + matrix[2][3] + " |\n" + "| "
-                + matrix[3][0] + " " + matrix[3][1] + " " + matrix[3][2] + " "
-                + matrix[3][3] + " |";
+            + " " + matrix[0][3] + " |\n" + "| " + matrix[1][0] + " "
+            + matrix[1][1] + " " + matrix[1][2] + " " + matrix[1][3] + " |\n"
+            + "| " + matrix[2][0] + " " + matrix[2][1] + " " + matrix[2][2]
+            + " " + matrix[2][3] + " |\n" + "| " + matrix[3][0] + " "
+            + matrix[3][1] + " " + matrix[3][2] + " " + matrix[3][3] + " |";
     }
 
     public float[] toTransposedFloatArray(float[] result) {
@@ -790,7 +785,7 @@ public class Matrix4x4 {
 
     public Matrix4x4 translate(ReadonlyVec3D trans) {
         return new Matrix4x4(this).translateSelf(trans.x(), trans.y(),
-                trans.z());
+            trans.z());
     }
 
     public Matrix4x4 translateSelf(double dx, double dy, double dz) {
@@ -811,8 +806,8 @@ public class Matrix4x4 {
      */
     public Matrix4x4 transpose() {
         return set(matrix[0][0], matrix[1][0], matrix[2][0], matrix[3][0],
-                matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
-                matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],
-                matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
+            matrix[0][1], matrix[1][1], matrix[2][1], matrix[3][1],
+            matrix[0][2], matrix[1][2], matrix[2][2], matrix[3][2],
+            matrix[0][3], matrix[1][3], matrix[2][3], matrix[3][3]);
     }
 }

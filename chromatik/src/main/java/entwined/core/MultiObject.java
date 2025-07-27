@@ -85,7 +85,8 @@ public abstract class MultiObject extends LXLayer {
   }
 
   public float getBrightnessForCube(LXPoint cube) {
-    Vec2D cubePointPrime = VecUtils.movePointToSamePlane(currentPoint, CubeManager.getCube(lx, cube.index).cylinderPoint);
+    Vec2D cubePointPrime = VecUtils.movePointToSamePlane(currentPoint,
+      CubeManager.getCube(lx, cube.index).cylinderPoint);
     float dist = Float.MAX_VALUE;
 
     Vec2D localLastPoint = lastPoint;
@@ -95,27 +96,36 @@ public abstract class MultiObject extends LXLayer {
         point.limit(10).addSelf(localLastPoint);
 
         if (isInsideBoundingBox(cube, cubePointPrime, point)) {
-          dist = EntwinedUtils.min(dist, getDistanceFromGeometry(cube, cubePointPrime, point));
+          dist = EntwinedUtils.min(dist,
+            getDistanceFromGeometry(cube, cubePointPrime, point));
         }
         localLastPoint = point;
       }
     }
 
     if (isInsideBoundingBox(cube, cubePointPrime, currentPoint)) {
-      dist = EntwinedUtils.min(dist, getDistanceFromGeometry(cube, cubePointPrime, currentPoint));
+      dist = EntwinedUtils.min(dist,
+        getDistanceFromGeometry(cube, cubePointPrime, currentPoint));
     }
-    return 100 * EntwinedUtils.min(EntwinedUtils.max(1 - dist / thickness, 0), 1) * fadeIn * fadeOut;
+    return 100
+      * EntwinedUtils.min(EntwinedUtils.max(1 - dist / thickness, 0), 1)
+      * fadeIn * fadeOut;
   }
 
-  public boolean isInsideBoundingBox(LXPoint cube, Vec2D cubePointPrime, Vec2D currentPoint) {
-    return VecUtils.insideOfBoundingBox(currentPoint, cubePointPrime, thickness, thickness);
+  public boolean isInsideBoundingBox(LXPoint cube, Vec2D cubePointPrime,
+    Vec2D currentPoint) {
+    return VecUtils.insideOfBoundingBox(currentPoint, cubePointPrime, thickness,
+      thickness);
   }
 
-  public float getDistanceFromGeometry(LXPoint cube, Vec2D cubePointPrime, Vec2D currentPoint) {
+  public float getDistanceFromGeometry(LXPoint cube, Vec2D cubePointPrime,
+    Vec2D currentPoint) {
     return cubePointPrime.distanceTo(currentPoint);
   }
 
-  public void init() { }
+  public void init() {
+  }
 
-  public void onProgressChanged(float progress) { }
+  public void onProgressChanged(float progress) {
+  }
 }

@@ -53,7 +53,8 @@ public class SurfaceMeshBuilder {
         return createMesh(mesh, res, size, true);
     }
 
-    public Mesh3D createMesh(Mesh3D mesh, int res, float size, boolean isClosed) {
+    public Mesh3D createMesh(Mesh3D mesh, int res, float size,
+        boolean isClosed) {
         if (mesh == null) {
             mesh = new TriangleMesh();
         }
@@ -79,7 +80,7 @@ public class SurfaceMeshBuilder {
                 float theta;
                 theta = t * thetaRange * ires;
                 a = function.computeVertexFor(a, phiNext, theta)
-                        .scaleSelf(size);
+                    .scaleSelf(size);
                 auv.set(t * tres, 1 - (p + 1) * pres);
                 b = function.computeVertexFor(b, phi, theta).scaleSelf(size);
                 buv.set(t * tres, 1 - p * pres);
@@ -92,7 +93,7 @@ public class SurfaceMeshBuilder {
                         b.set(b0);
                     }
                     mesh.addFace(pa, pb, a, pauv.copy(), pbuv.copy(),
-                            auv.copy());
+                        auv.copy());
                     mesh.addFace(pb, b, a, pbuv.copy(), buv.copy(), auv.copy());
                 } else {
                     a0.set(a);
@@ -115,8 +116,7 @@ public class SurfaceMeshBuilder {
     }
 
     /**
-     * @param function
-     *            the function to set
+     * @param function the function to set
      */
     public void setFunction(SurfaceFunction function) {
         this.function = function;

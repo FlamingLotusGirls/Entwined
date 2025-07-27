@@ -73,8 +73,8 @@ public class Ellipse extends Vec2D implements Shape2D {
 
     public boolean containsPoint(ReadonlyVec2D p) {
         Vec2D[] foci = getFoci();
-        return p.distanceTo(foci[0]) + p.distanceTo(foci[1]) < 2 * MathUtils
-                .max(radius.x, radius.y);
+        return p.distanceTo(foci[0]) + p.distanceTo(foci[1]) < 2
+            * MathUtils.max(radius.x, radius.y);
     }
 
     /**
@@ -152,9 +152,10 @@ public class Ellipse extends Vec2D implements Shape2D {
      */
     public Vec2D getRandomPoint() {
         float theta = MathUtils.random(MathUtils.TWO_PI);
-        BiasedFloatRange rnd = new BiasedFloatRange(0f, 1f, 1f, MathUtils.SQRT2);
+        BiasedFloatRange rnd = new BiasedFloatRange(0f, 1f, 1f,
+            MathUtils.SQRT2);
         return Vec2D.fromTheta(theta).scaleSelf(radius.scale(rnd.pickRandom()))
-                .addSelf(this);
+            .addSelf(this);
     }
 
     /**
@@ -188,8 +189,7 @@ public class Ellipse extends Vec2D implements Shape2D {
      * Creates a {@link Polygon2D} instance of the ellipse sampling it at the
      * given resolution.
      *
-     * @param res
-     *            number of steps
+     * @param res number of steps
      * @return ellipse as polygon
      */
     public Polygon2D toPolygon2D(int res) {

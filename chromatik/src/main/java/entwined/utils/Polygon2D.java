@@ -51,12 +51,9 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
     /**
      * Constructs a new regular polygon from the given base line/edge.
      *
-     * @param baseA
-     *            left point of the base edge
-     * @param baseB
-     *            right point of the base edge
-     * @param res
-     *            number of polygon vertices
+     * @param baseA left point of the base edge
+     * @param baseB right point of the base edge
+     * @param res number of polygon vertices
      * @return polygon
      */
     public static Polygon2D fromBaseEdge(Vec2D baseA, Vec2D baseB, int res) {
@@ -81,10 +78,8 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
      * More information: http://en.wikipedia.org/wiki/Regular_polygon#Radius
      * </p>
      *
-     * @param len
-     *            desired edge length
-     * @param res
-     *            number of vertices
+     * @param len desired edge length
+     * @param res number of vertices
      * @return polygon
      */
     public static Polygon2D fromEdgeLength(float len, int res) {
@@ -95,10 +90,8 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
      * Computes the radius of the circle the regular polygon with the desired
      * edge length is inscribed in
      *
-     * @param len
-     *            edge length
-     * @param res
-     *            number of polygon vertices
+     * @param len edge length
+     * @param res number of polygon vertices
      * @return radius
      */
     public static float getRadiusForEdgeLength(float len, int res) {
@@ -137,8 +130,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
     /**
      * Adds a new vertex to the polygon (builder pattern).
      *
-     * @param p
-     *            vertex point to add
+     * @param p vertex point to add
      * @return itself
      */
     public Polygon2D add(Vec2D p) {
@@ -160,8 +152,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
     /**
      * Centers the polygon so that its new centroid is at the given point.
      *
-     * @param origin
-     *            new centroid or null to center around (0,0)
+     * @param origin new centroid or null to center around (0,0)
      * @return itself
      */
     public Polygon2D center(ReadonlyVec2D origin) {
@@ -221,8 +212,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
      * to the list end. Therefore the vertex at index -1 is the last vertex in
      * the list.
      *
-     * @param i
-     *            index
+     * @param i index
      * @return vertex
      */
     public Vec2D get(int i) {
@@ -240,7 +230,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
      */
     public float getApothem() {
         return vertices.get(0).interpolateTo(vertices.get(1), 0.5f)
-                .distanceTo(getCentroid());
+            .distanceTo(getCentroid());
     }
 
     /**
@@ -386,16 +376,15 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
         Vec2D p = ea.a.interpolateTo(ea.b, MathUtils.random(1f));
         // then randomly interpolate to another random point on edge B
         return p.interpolateToSelf(
-                eb.a.interpolateTo(eb.b, MathUtils.random(1f)),
-                MathUtils.random(1f));
+            eb.a.interpolateTo(eb.b, MathUtils.random(1f)),
+            MathUtils.random(1f));
     }
 
     /**
      * Repeatedly inserts vertices as mid points of the longest edges until the
      * new vertex count is reached.
      *
-     * @param count
-     *            new vertex count
+     * @param count new vertex count
      * @return itself
      */
     public Polygon2D increaseVertexCount(int count) {
@@ -405,8 +394,8 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
             int longestID = 0;
             float maxD = 0;
             for (int i = 0; i < num; i++) {
-                float d = vertices.get(i).distanceToSquared(
-                        vertices.get((i + 1) % num));
+                float d = vertices.get(i)
+                    .distanceToSquared(vertices.get((i + 1) % num));
                 if (d > maxD) {
                     longestID = i;
                     maxD = d;
@@ -414,7 +403,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
             }
             // insert mid point of longest segment in vertex list
             Vec2D m = vertices.get(longestID)
-                    .add(vertices.get((longestID + 1) % num)).scaleSelf(0.5f);
+                .add(vertices.get((longestID + 1) % num)).scaleSelf(0.5f);
             vertices.add(longestID + 1, m);
             num++;
         }
@@ -516,7 +505,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
      * @see http://alienryderflex.com/polygon_inset/
      */
     protected void offsetCorner(float x1, float y1, float x2, float y2,
-            float x3, float y3, float distance, Vec2D out) {
+        float x3, float y3, float distance, Vec2D out) {
 
         float c1 = x2, d1 = y2, c2 = x2, d2 = y2;
         float dx1, dy1, dist1, dx2, dy2, dist2, insetX, insetY;
@@ -569,8 +558,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
      * behavior with various self intersections. Should that happen, please try
      * to clean up the shape using the {@link #toOutline()} method.
      *
-     * @param distance
-     *            offset/inset distance (negative for inset)
+     * @param distance offset/inset distance (negative for inset)
      * @return itself
      */
     public Polygon2D offsetShape(float distance) {
@@ -592,7 +580,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
                 offsetCorner(a, b, c, d, e, f, distance, vertices.get(i));
             }
             offsetCorner(c, d, e, f, startX, startY, distance,
-                    vertices.get(num));
+                vertices.get(num));
         }
         return this;
     }
@@ -618,7 +606,8 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
                 prev = v;
             }
         }
-        if (vertices.get(0).distanceToSquared(vertices.get(num)) >= minEdgeLen) {
+        if (vertices.get(0)
+            .distanceToSquared(vertices.get(num)) >= minEdgeLen) {
             reduced.add(vertices.get(num));
         }
         vertices = reduced;
@@ -629,8 +618,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
      * Removes duplicate vertices from the polygon. Only successive points are
      * recognized as duplicates.
      *
-     * @param tolerance
-     *            snap distance for finding duplicates
+     * @param tolerance snap distance for finding duplicates
      * @return itself
      */
     public Polygon2D removeDuplicates(float tolerance) {
@@ -702,10 +690,8 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
      * To keep the average size of the polygon stable, this weight value should
      * be ~1/2 of the smooth amount.
      *
-     * @param amount
-     *            smooth amount (between 0 < x < 0.5)
-     * @param baseWeight
-     *            counter weight (0 <= x < 1/2 * smooth amount)
+     * @param amount smooth amount (between 0 < x < 0.5)
+     * @param baseWeight counter weight (0 <= x < 1/2 * smooth amount)
      * @return itself
      */
     public Polygon2D smooth(float amount, float baseWeight) {
@@ -715,7 +701,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
         for (int i = 0, j = num - 1, k = 1; i < num; i++) {
             Vec2D a = vertices.get(i);
             Vec2D dir = vertices.get(j).sub(a).addSelf(vertices.get(k).sub(a))
-                    .addSelf(a.sub(centroid).scaleSelf(baseWeight));
+                .addSelf(a.sub(centroid).scaleSelf(baseWeight));
             filtered.add(a.add(dir.scaleSelf(amount)));
             j++;
             if (j == num) {
@@ -846,7 +832,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
             bestAngleDif = MathUtils.TWO_PI;
             for (i = 0; i < segs; i++) {
                 if (segments[i].x == c && segments[i].y == d
-                        && (segEnds[i].x != a || segEnds[i].y != b)) {
+                    && (segEnds[i].x != a || segEnds[i].y != b)) {
                     angleDif = lastAngle - segAngles[i];
                     while (angleDif >= MathUtils.TWO_PI) {
                         angleDif -= MathUtils.TWO_PI;
@@ -861,7 +847,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
                     }
                 }
                 if (segEnds[i].x == c && segEnds[i].y == d
-                        && (segments[i].x != a || segments[i].y != b)) {
+                    && (segments[i].x != a || segments[i].y != b)) {
                     angleDif = lastAngle - segAngles[i] + MathUtils.PI;
                     while (angleDif >= MathUtils.TWO_PI) {
                         angleDif -= MathUtils.TWO_PI;
@@ -877,7 +863,7 @@ public class Polygon2D implements Shape2D, Iterable<Vec2D> {
                 }
             }
             if (corners > 1 && c == newVerts.get(0).x && d == newVerts.get(0).y
-                    && e == newVerts.get(1).x && f == newVerts.get(1).y) {
+                && e == newVerts.get(1).x && f == newVerts.get(1).y) {
                 corners--;
                 vertices = newVerts;
                 return true;

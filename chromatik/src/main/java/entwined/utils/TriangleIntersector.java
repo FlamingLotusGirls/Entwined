@@ -61,7 +61,7 @@ public class TriangleIntersector implements Intersector3D {
         if (dotprod < 0) {
             Vec3D rt = ray.sub(triangle.a);
             double t = -(double) (n.x * rt.x + n.y * rt.y + n.z * rt.z)
-                    / (n.x * ray.dir.x + n.y * ray.dir.y + n.z * ray.dir.z);
+                / (n.x * ray.dir.x + n.y * ray.dir.y + n.z * ray.dir.z);
             if (t >= MathUtils.EPS) {
                 Vec3D pos = ray.getPointAtDistance((float) t);
                 // check if pos is inside triangle
@@ -78,8 +78,7 @@ public class TriangleIntersector implements Intersector3D {
     }
 
     /**
-     * @param tri
-     *            the triangle to set
+     * @param tri the triangle to set
      */
     public TriangleIntersector setTriangle(Triangle3D tri) {
         this.triangle = tri;
