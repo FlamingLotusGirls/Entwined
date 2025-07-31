@@ -1394,6 +1394,47 @@
           "kinetPort": 1
         },
         "children": {}
+      },
+      {
+        "id": 1074998,
+        "class": "heronarts.lx.structure.PointFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "N.O. Origin",
+          "x": 358.0,
+          "y": 0.0,
+          "z": 436.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": true,
+          "deactivate": false,
+          "enabled": false,
+          "brightness": 1.0,
+          "identify": true,
+          "mute": false,
+          "solo": false,
+          "tags": "OspreySegment SegmentOrigin Marker",
+          "protocol": 0,
+          "byteOrder": 0,
+          "transport": 0,
+          "reverse": false,
+          "host": "127.0.0.1",
+          "port": 7890,
+          "dmxChannel": 0,
+          "artNetUniverse": 0,
+          "artNetSequenceEnabled": false,
+          "opcChannel": 0,
+          "opcOffset": 0,
+          "ddpDataOffset": 0,
+          "kinetPort": 1
+        },
+        "children": {}
       }
     ]
   },
