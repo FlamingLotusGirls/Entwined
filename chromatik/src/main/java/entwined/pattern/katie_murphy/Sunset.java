@@ -93,19 +93,23 @@ public class Sunset extends LXPattern {
 
           FixtureType fixture = getFixtureType(component);
           float componentHeight = component.yMax - component.yMin;
+          float componentWidth = component.zMax - component.zMin;
           
           for (LXPoint point : component.points) {
+            float hue = 0;
             if (fixture == FixtureType.WINDOW_PANE) {
-            float hue;
-            float y = CubeManager.getCube(lx, point.index).localY;
-            if (y >= component.yMin + (componentHeight * .70f)) {
-              hue = blueWave.getValuef();
-            } else if (y >= component.yMin + (componentHeight * .55f)) {
-              hue = greenWave.getValuef();
-            } else if (y >= component.yMin + (componentHeight * .25f)) {
-              hue = yellowWave.getValuef();
+              float y = CubeManager.getCube(lx, point.index).localY;
+              if (y >= component.yMin + (componentHeight * .70f)) {
+                hue = blueWave.getValuef();
+              } else if (y >= component.yMin + (componentHeight * .55f)) {
+                hue = greenWave.getValuef();
+              } else if (y >= component.yMin + (componentHeight * .25f)) {
+                hue = yellowWave.getValuef();
+              } else {
+                hue = redWave.getValuef();
+              }
             } else {
-              hue = redWave.getValuef();
+              hue = blueWave.getValuef();
             }
 
             pointnum++;
@@ -120,7 +124,6 @@ public class Sunset extends LXPattern {
             float brightness = Float.max(40, cutoffNoise1 * 100f);
 
             colors[point.index] = LX.hsb(hue, 85, brightness);
-          }
           }
         }
     }
