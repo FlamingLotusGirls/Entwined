@@ -9,8 +9,11 @@ import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.BoundedParameter;
 
 import entwined.utils.EntwinedUtils;
+import entwined.plugin.InputEventPattern;
 
-public class HavenRain extends LXPattern {
+import java.util.Map;
+
+public class HavenRain extends InputEventPattern {
 
     private float minz = Float.MAX_VALUE;
     private float maxz = -Float.MAX_VALUE;
@@ -68,5 +71,10 @@ public class HavenRain extends LXPattern {
 
             colors[point.index] = LX.hsb(hue, saturationWave.getValuef(), cutoffNoise1 * 100f);
         }
+    }
+
+    @Override
+    public void onInputEvent(Map<String, Object> params) {
+
     }
 }
