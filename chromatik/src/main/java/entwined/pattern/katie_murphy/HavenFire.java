@@ -114,6 +114,9 @@ public class HavenFire extends TSTriggerablePattern {
         // are modeled as straight lines.  idk how to change the model, so
         // just give them some fake height
         cdata.localY = cdata.localX;
+      } else if (component.tags.contains("Cheek")) {
+        // skip cockatoo cheek
+        break;
       }
 
       float cBrt = 0;

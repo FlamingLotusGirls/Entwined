@@ -59,6 +59,11 @@ public class NorthernLights extends LXPattern {
         float boost = Math.max(0f, fill - 1f);
 
       for (LXModel component : model.children) {
+        if (component.tags.contains("Cheek")) {
+            // skip cockatoo cheek
+            break;
+        }
+
         float componentHeight = component.yMax - component.yMin;
         float stainedGlassBrightness = brightnessnWave.getValuef();
 

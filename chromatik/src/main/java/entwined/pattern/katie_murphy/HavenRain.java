@@ -3,6 +3,7 @@ package entwined.pattern.katie_murphy;
 import entwined.utils.SimplexNoise;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
+import heronarts.lx.model.LXModel;
 import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.modulator.SinLFO;
@@ -57,19 +58,26 @@ public class HavenRain extends InputEventPattern {
         float boost = Math.max(0f, fill - 1f);
 
         float pointnum = 0;
-        for (LXPoint point : model.points) {
-            float hue = (hueParam.getValuef() + pointnum++) % 360;
-            hue = Float.max(hue, 200);
-            hue = Float.min(hue, 256);
+        for (LXModel component : model.children) {
+            if (component.tags.contains("Cheek")) {
+              // skip cockatoo cheek
+              break;
+            }
+            
+            for (LXPoint point : component.points) {
+                float hue = (hueParam.getValuef() + pointnum++) % 360;
+                hue = Float.max(hue, 200);
+                hue = Float.min(hue, 256);
 
-            float noise1 = 0.5f
-                + (float) SimplexNoise.noise(point.x / blobWidth,
+                float noise1 = 0.5f
+                    + (float) SimplexNoise.noise(point.x / blobWidth,
                     point.z / blobWidth, height + point.y / blobHeight) / 2f;
 
-            float cutoffNoise1 = Math.min(1.0f, Math.max(0.0f,
-                (noise1 + boost - baseline) / (1.0f - boost - baseline)));
+                float cutoffNoise1 = Math.min(1.0f, Math.max(0.0f,
+                    (noise1 + boost - baseline) / (1.0f - boost - baseline)));
 
-            colors[point.index] = LX.hsb(hue, saturationWave.getValuef(), cutoffNoise1 * 100f);
+                colors[point.index] = LX.hsb(hue, saturationWave.getValuef(), cutoffNoise1 * 100f);
+            }
         }
     }
 

@@ -22,7 +22,12 @@ public class GradientUp extends LXPattern {
     protected void run(double deltaMs) {
         float scanHeight = gradientUpModulator.getValuef();
         for (LXModel component : model.children) {
-          for (LXPoint point : model.points) {
+          if (component.tags.contains("Cheek")) {
+            // skip cockatoo cheek
+            break;
+          }
+
+          for (LXPoint point : component.points) {
               float mappedHeight = EntwinedUtils.map(point.y, model.yMin, model.yMax);
                     colors[point.index] = LX.hsb(
                       scanHeight* mappedHeight * 360,

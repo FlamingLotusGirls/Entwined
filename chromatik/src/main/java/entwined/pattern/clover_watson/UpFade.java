@@ -36,7 +36,12 @@ public class UpFade extends LXPattern {
             checkingFading = true;
         }
         for (LXModel component : model.children) {
-          for (LXPoint point : model.points) {
+          if (component.tags.contains("Cheek")) {
+            // skip cockatoo cheek
+            break;
+          }
+
+          for (LXPoint point : component.points) {
               float mappedHeight = EntwinedUtils.map(point.y, model.yMin, model.yMax);
               if(!fading){
                 if(scanHeight>=1){
