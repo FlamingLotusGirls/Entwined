@@ -3,6 +3,7 @@ package entwined.pattern.katie_murphy;
 import entwined.utils.EntwinedUtils;
 import heronarts.lx.LX;
 import heronarts.lx.model.LXPoint;
+import heronarts.lx.model.LXModel;
 import heronarts.lx.modulator.SinLFO;
 import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.pattern.LXPattern;
@@ -17,9 +18,11 @@ public class DustStorm extends LXPattern {
   final int density = 20;
   int[] sparkleTimeOuts;
   int[] pointToModulatorMapping;
-  int lastSurgeTimeMs = 0;
-  int surgeLengthMs = 0;
-  int timeMs = 0;
+  final double surgeIntervalMs = 20 * 1000;
+  double timeUntilNextSurgeMs = surgeIntervalMs;
+  final double surgeLengthMs = 5 * 1000;
+  double surgeTimeLeftMs = surgeLengthMs;
+  boolean doSurge = false;
 
   public DustStorm(LX lx) {
     super(lx);
@@ -57,40 +60,52 @@ public class DustStorm extends LXPattern {
 
   @Override
   public void run(double deltaMs) {
-    timeMs += deltaMs;
     if (getChannel().fader.getNormalized() == 0) return;
 
-    for (LXPoint point : model.points) {
-      if (sparkleTimeOuts[point.index] < EntwinedUtils.millis()) {
-        // randomly change modulators
-        if (EntwinedUtils.random(10) <= 3) {
-          pointToModulatorMapping[point.index] = (int)EntwinedUtils.random(numBrights);
-        }
-        sparkleTimeOuts[point.index] = EntwinedUtils.millis() + (int)EntwinedUtils.random(10, 80);
+    timeUntilNextSurgeMs -= deltaMs;
+    if (timeUntilNextSurgeMs <= 0)
+    {
+      doSurge = true;
+      surgeTimeLeftMs -= deltaMs;
+      if (surgeTimeLeftMs <= 0)
+      {
+        doSurge = false;
+        timeUntilNextSurgeMs = surgeIntervalMs;
+        surgeTimeLeftMs = surgeLengthMs;
       }
+    }
 
-      if ((timeMs - lastSurgeTimeMs) >= 10 * 1000) {
-        colors[point.index] = LX.hsb(
-        44,
-        100,
-        100
-        );
+    for (LXModel component : model.children) {
+      for (LXPoint point : component.points) {
 
-        surgeLengthMs += deltaMs;
-        if (surgeLengthMs >= 1000) {
-          timeMs = 0;
-          lastSurgeTimeMs = 0;
-          surgeLengthMs = 0;
+        if (sparkleTimeOuts[point.index] < EntwinedUtils.millis()) {
+          // randomly change modulators
+          if (EntwinedUtils.random(10) <= 3) {
+            pointToModulatorMapping[point.index] = (int)EntwinedUtils.random(numBrights);
+          }
+          sparkleTimeOuts[point.index] = EntwinedUtils.millis() + (int)EntwinedUtils.random(10, 80);
         }
 
-      } else {
-      colors[point.index] = LX.hsb(
-        44,
-        70,
-        bright[pointToModulatorMapping[point.index]].getValuef() * brightnessParam.getValuef()
-        );
+        float brightness = bright[pointToModulatorMapping[point.index]].getValuef() * brightnessParam.getValuef();
+        if (doSurge)
+        {
+          brightness = EntwinedUtils.min(100, brightness + 20);
+        }
+
+        // special fixture considerations
+        if (component.tags.contains("Cheek")) {
+          // skip cockatoo cheeks
+          break;
+        }
+        if (component.tags.contains("NestSurface")) {
+          // prevent flicker off on the spotlights for smoother effect
+          brightness = EntwinedUtils.max(30, brightness);
+        }
+
+        colors[point.index] = LX.hsb(44, 70, brightness);
       }
     }
   }
+
 }
 
