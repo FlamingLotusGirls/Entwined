@@ -64,6 +64,7 @@ public class Radar extends LXPattern {
             // detectedBrightness[cube.index] = detectedBrightness[cube.index] * 0.99f;
 
             // TODO make the 0.75 a parameter from 0.5 to 2, default val 0.75
+            System.out.println("det bright: " + detectedBrightness[cube.index]);
             detectedBrightness[cube.index] = (float) Math.exp(Math.log(detectedBrightness[cube.index])
                     - deltaMs / (periodMs * 0.5));
         }

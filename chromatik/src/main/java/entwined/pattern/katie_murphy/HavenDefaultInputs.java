@@ -55,12 +55,14 @@ public class HavenDefaultInputs extends InputEventPattern {
     private double toasterDoneRemainingTimeMs = 0;
     final double toasterPartyTimeMs = 3000;
     // CockatooCheeks
+    float cheekBrightnessDecaying = 0;
     private boolean playCheekParty = false;
     private double cheekPartyRemainingTimeMs = 0;
     final double cheekPartyTimeMs = 3000;
     final int cheekBrightnessMin = 20;
-    private int cheekBrightness = cheekBrightnessMin;
+    private int cheekBrightnessSetting = cheekBrightnessMin;
     final SinLFO cheekSaturationWave = new SinLFO(0, 100, 700);
+    final double cheekDecayPeriodMs = 3000;
 
     public HavenDefaultInputs(LX lx) {
         super(lx);
@@ -103,6 +105,9 @@ public class HavenDefaultInputs extends InputEventPattern {
         double pos = positionRingoDown.getValue();
         // ColorWave
         waveColorWave.setPeriod(speedParamColorWave.getValuef() * speedMultColorWave);
+        // Cockatoo cheeks
+        cheekBrightnessDecaying = (float) Math.exp(Math.log(cheekBrightnessDecaying / 100)
+                    - deltaMs / (cheekDecayPeriodMs * 0.5)) * 100;
 
 
         for (LXModel component : model.children) {          
@@ -131,16 +136,17 @@ public class HavenDefaultInputs extends InputEventPattern {
                 }
             }
             // CockatooCheeks is ??? TBD
-            if (component.tags.contains("CockatooCheeks") && component.tags.contains("CockatooSegment"))
+            if (component.tags.contains("Cheek") && component.tags.contains("CockatooSegment"))
             //if (component.tags.contains("WindowPane") && component.tags.contains("CockatooSegment"))
             { 
                 if (playCheekParty)
                 {
-                    colors[point.index] = LX.hsb(0, cheekSaturationWave.getValuef(), (float)cheekBrightness);
+                    colors[point.index] = LX.hsb(0, cheekSaturationWave.getValuef(), (float)cheekBrightnessSetting);
                 }
                 else
                 {
-                    colors[point.index] = LX.hsb(0, 100, (float)cheekBrightness);
+                    cheekBrightnessDecaying = EntwinedUtils.max(0, cheekBrightnessDecaying);
+                    colors[point.index] = LX.hsb(0, 100, cheekBrightnessDecaying);
                 }
             }
           }
@@ -167,7 +173,7 @@ public class HavenDefaultInputs extends InputEventPattern {
             else
             {
                 playCheekParty = false;
-                cheekBrightness = cheekBrightnessMin;
+                cheekBrightnessSetting = cheekBrightnessMin;
             } 
         }
     }
@@ -182,7 +188,7 @@ public class HavenDefaultInputs extends InputEventPattern {
         int node = (int)nodeId;
 
         switch (node) {
-            case 0:
+            case 1:
                 nodeEnabledMap.put("MagpieSegment WindowPane", statusEnabled);
                 break;
             case 2:
@@ -193,7 +199,7 @@ public class HavenDefaultInputs extends InputEventPattern {
                     blenderPeriodMs = EntwinedUtils.max((float)params.get("speed"), 2000);
                 }
                 break;
-            case 1:
+            case 3:
                 nodeEnabledMap.put("Toaster WindowPane", statusEnabled);
                 if (!statusEnabled)
                 {
@@ -205,8 +211,9 @@ public class HavenDefaultInputs extends InputEventPattern {
                 nodeEnabledMap.put("CocktaooCheeks", statusEnabled);
                 if (statusEnabled && !playCheekParty) // don't interrupt the party
                 {
-                    cheekBrightness = EntwinedUtils.min(cheekBrightness + 10, 100);
-                    if (cheekBrightness == 100)
+                    cheekBrightnessSetting = EntwinedUtils.min(cheekBrightnessSetting + 10, 100);
+                    cheekBrightnessDecaying = cheekBrightnessSetting;
+                    if (cheekBrightnessSetting == 100)
                     {
                         playCheekParty = true;
                         cheekPartyRemainingTimeMs = cheekPartyTimeMs;
