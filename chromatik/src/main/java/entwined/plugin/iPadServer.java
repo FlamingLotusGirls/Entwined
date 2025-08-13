@@ -26,6 +26,9 @@ import heronarts.lx.mixer.LXAbstractChannel;
 import heronarts.lx.mixer.LXChannel;
 import heronarts.lx.pattern.LXPattern;
 
+import entwined.plugin.InputEventPattern;
+
+
 /*
  * IPadServer. Handles communication between the iPad and the iPadController.
  * This module handles the connectivity with the iPad (or other device speaking the
@@ -247,6 +250,15 @@ class AppServer {
           System.out.println(method);
           System.out.println("params:");
           System.out.println(params);
+          
+          for (LXAbstractChannel channel : lx.engine.mixer.getChannels()) {
+            int channelIdx = channel.getIndex();
+            LXPattern p = engineController.getChannelPattern(channelIdx);
+            if ((p != null) && (p instanceof InputEventPattern)) {
+              InputEventPattern iep = (InputEventPattern)p;
+              iep.onInputEvent(params);
+            }
+          }
         }
       } catch (Exception e) {
         e.printStackTrace();

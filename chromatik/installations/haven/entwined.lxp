@@ -1396,22 +1396,35 @@
         "children": {}
       },
       {
+<<<<<<< HEAD
         "id": 1074998,
         "class": "heronarts.lx.structure.PointFixture",
+=======
+        "id": 1066964,
+        "class": "heronarts.lx.structure.SpiralFixture",
+>>>>>>> 17695c48dd2a66685139376f2f1e31222a0b82a4
         "internal": {
           "modulationColor": 0,
           "modulationControlsExpanded": true,
           "modulationsExpanded": true
         },
         "parameters": {
+<<<<<<< HEAD
           "label": "N.O. Origin",
           "x": 358.0,
           "y": 0.0,
           "z": 436.0,
+=======
+          "label": "N.C Cheek 1",
+          "x": 150.0,
+          "y": 150.0,
+          "z": -390.0,
+>>>>>>> 17695c48dd2a66685139376f2f1e31222a0b82a4
           "yaw": 0.0,
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
+<<<<<<< HEAD
           "selected": true,
           "deactivate": false,
           "enabled": false,
@@ -1420,6 +1433,16 @@
           "mute": false,
           "solo": false,
           "tags": "OspreySegment SegmentOrigin Marker",
+=======
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "CockatooSegment Cheek 1",
+>>>>>>> 17695c48dd2a66685139376f2f1e31222a0b82a4
           "protocol": 0,
           "byteOrder": 0,
           "transport": 0,
@@ -1432,7 +1455,60 @@
           "opcChannel": 0,
           "opcOffset": 0,
           "ddpDataOffset": 0,
+<<<<<<< HEAD
           "kinetPort": 1
+=======
+          "kinetPort": 1,
+          "numPoints": 10,
+          "numTurns": 2.0,
+          "radius": 5.0,
+          "length": 1.0
+        },
+        "children": {}
+      },
+      {
+        "id": 1066971,
+        "class": "heronarts.lx.structure.SpiralFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "N.C Cheek 2",
+          "x": 130.0,
+          "y": 150.0,
+          "z": -390.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": true,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "CockatooSegment Cheek 2",
+          "protocol": 0,
+          "byteOrder": 0,
+          "transport": 0,
+          "reverse": false,
+          "host": "127.0.0.1",
+          "port": 7890,
+          "dmxChannel": 0,
+          "artNetUniverse": 0,
+          "artNetSequenceEnabled": false,
+          "opcChannel": 0,
+          "opcOffset": 0,
+          "ddpDataOffset": 0,
+          "kinetPort": 1,
+          "numPoints": 10,
+          "numTurns": 2.0,
+          "radius": 5.0,
+          "length": 1.0
+>>>>>>> 17695c48dd2a66685139376f2f1e31222a0b82a4
         },
         "children": {}
       }
