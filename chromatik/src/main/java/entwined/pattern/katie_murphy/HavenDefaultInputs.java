@@ -63,13 +63,19 @@ public class HavenDefaultInputs extends InputEventPattern {
     private int cheekBrightnessSetting = cheekBrightnessMin;
     final SinLFO cheekSaturationWave = new SinLFO(0, 100, 700);
     final double cheekDecayPeriodMs = 3000;
+    // Multiprinter
+    private int multiPrinterMode = 0; // top row of buttons and switches
+    private float multiPrinterSpeed = 0; // 0 - 10 dial
+    private int multiPrinterSwitches = 0; // 1-10
+    CompoundParameter  periodMP = new CompoundParameter ("periodMP", 200, 0, 10000);
+    SinLFO positionMP = new SinLFO(0, 200, periodMP);
 
     public HavenDefaultInputs(LX lx) {
         super(lx);
-        nodeEnabledMap.put("MagpieSegment WindowPane", false);
         nodeEnabledMap.put("Blender WindowPane", false);  // SpinningStained
         nodeEnabledMap.put("Toaster WindowPane", false);  // RingoDown
         nodeEnabledMap.put("CockatooCheeks", false);  // RingoDown
+        nodeEnabledMap.put("Multiprinter", false);  // RingoDown
 
         addModulator(upDownModulator).start();
         addModulator(spinningWindowModulator).start();
@@ -91,6 +97,10 @@ public class HavenDefaultInputs extends InputEventPattern {
         addModulator(positionZebra).start();
 
         addModulator(cheekSaturationWave).start();
+
+        //multiprinter
+        addParameter("periodMP", periodMP);
+        addModulator(positionMP).start();
     }
 
     @Override
@@ -112,16 +122,15 @@ public class HavenDefaultInputs extends InputEventPattern {
 
         for (LXModel component : model.children) {          
           for (LXPoint point : component.points) {
-            // Magpie is double window
+            // Blender is double window
             if ((component.tags.contains("WindowPane") && component.tags.contains("MagpieSegment")) && 
-                (nodeEnabledMap.get("MagpieSegment WindowPane"))) {                 
-                // UpDownRun(point, scanHeight);
-                colors[point.index] = HavenDefaultInputsUtils.ZebraRun(lx, point, positionZebra.getValuef(), thicknessZebra.getValuef());
-            }
-            // Blender is triple window
-            if ((component.tags.contains("WindowPane") && component.tags.contains("CockatooSegment")) && 
-                (nodeEnabledMap.get("Blender WindowPane"))) {
+                (nodeEnabledMap.get("Blender WindowPane"))) {                 
                 colors[point.index] = HavenDefaultInputsUtils.SpinningStainedRun(lx, point, sawHeight);
+            }
+            // Multiprinter is triple window
+            if ((component.tags.contains("WindowPane") && component.tags.contains("CockatooSegment")) && 
+                (nodeEnabledMap.get("Multiprinter"))) {
+                colors[point.index] = HavenDefaultInputsUtils.MultiprinterRun(lx, point, component, multiPrinterMode, periodMP.getValuef(), multiPrinterSwitches, positionMP.getValuef());
             }
             // Toaster is single window
             if (component.tags.contains("WindowPane") && component.tags.contains("OspreySegment")) 
@@ -135,9 +144,8 @@ public class HavenDefaultInputs extends InputEventPattern {
                     colors[point.index] = HavenDefaultInputsUtils.ColorWaveRun(lx, waveColorWave.getValuef(), point, waveSlopeColorWave.getValuef(), minzColorWave, maxzColorWave);
                 }
             }
-            // CockatooCheeks is ??? TBD
+            // CockatooCheeks
             if (component.tags.contains("Cheek") && component.tags.contains("CockatooSegment"))
-            //if (component.tags.contains("WindowPane") && component.tags.contains("CockatooSegment"))
             { 
                 if (playCheekParty)
                 {
@@ -189,9 +197,6 @@ public class HavenDefaultInputs extends InputEventPattern {
 
         switch (node) {
             case 1:
-                nodeEnabledMap.put("MagpieSegment WindowPane", statusEnabled);
-                break;
-            case 2:
                 nodeEnabledMap.put("Blender WindowPane", statusEnabled);
                 if (params.containsKey("speed"))
                 {
@@ -199,7 +204,7 @@ public class HavenDefaultInputs extends InputEventPattern {
                     blenderPeriodMs = EntwinedUtils.max((float)params.get("speed"), 2000);
                 }
                 break;
-            case 3:
+            case 2:
                 nodeEnabledMap.put("Toaster WindowPane", statusEnabled);
                 if (!statusEnabled)
                 {
@@ -207,7 +212,7 @@ public class HavenDefaultInputs extends InputEventPattern {
                     toasterDoneRemainingTimeMs = toasterPartyTimeMs;
                 }
                 break;
-            case 4:
+            case 3:
                 nodeEnabledMap.put("CocktaooCheeks", statusEnabled);
                 if (statusEnabled && !playCheekParty) // don't interrupt the party
                 {
@@ -220,6 +225,19 @@ public class HavenDefaultInputs extends InputEventPattern {
                     }
                 }
                 break;
+            case 4:
+                // In this approach, each button/lever on the top row has a mode value, and
+                // switches 1-10 are effects.  
+                nodeEnabledMap.put("Multiprinter", statusEnabled); // any of the green push buttons
+                multiPrinterMode = (int) params.get("modeId"); // top row of buttons and switches
+                multiPrinterSpeed = (float) params.get("speed"); // 0 - 10 dial
+                multiPrinterSwitches = (int)params.get("switches"); // 1-10
+
+                if (multiPrinterSwitches > 0x3FF) 
+                {
+                    multiPrinterSwitches = 0;
+                }
+                periodMP.setValue(2000 / multiPrinterSpeed);
             default:
                 break;
         }

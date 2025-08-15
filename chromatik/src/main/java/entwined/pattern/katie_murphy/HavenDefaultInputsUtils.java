@@ -8,11 +8,25 @@ import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 
 import heronarts.lx.model.LXPoint;
+import heronarts.lx.model.LXModel;
 import heronarts.lx.LX;
 import heronarts.lx.modulator.SinLFO;
 
 public class HavenDefaultInputsUtils {
-    // SpinningStained functions
+    static final int MP_SWITCH_1_MASK = 0x01;
+    static final int MP_SWITCH_2_MASK = 0x02;
+    static final int MP_SWITCH_3_MASK = 0x04;
+    static final int MP_SWITCH_4_MASK = 0x08;
+    static final int MP_SWITCH_5_MASK = 0x10;
+    static final int MP_SWITCH_6_MASK = 0x20;
+    static final int MP_SWITCH_7_MASK = 0x40;
+    static final int MP_SWITCH_8_MASK = 0x80;
+    static final int MP_SWITCH_9_MASK = 0x100;
+    static final int MP_SWITCH_10_MASK = 0x200;
+    static final int MP_SWITCH_ALL_MASK = 0x3ff;
+    
+
+    ////////////////// SpinningStained functions
     static public int SpinningStainedRun(LX lx, LXPoint point, float sawHeight) {
         int chamberIn = 4;
         final int[][] paletteSpinningStained = {{217,100,66},{202,97,87},{159,94,76},{23,100,94},{41,78,92}};
@@ -35,8 +49,8 @@ public class HavenDefaultInputsUtils {
                         paletteSpinningStained[chamberIn][2]);
     }
 
-    // Zebra functions
-    static public int ZebraRun(LX lx, LXPoint cube, float position, float thickness) {
+    ////////////////// Zebra functions
+    static public int ZebraRun(LX lx, LXPoint cube, float position, float thickness, float saturationScale, float brightnessScale) {
         float saturation;
         float brightness = 1;
 
@@ -48,10 +62,10 @@ public class HavenDefaultInputsUtils {
           brightness=0;
         }
 
-        return LX.hsb(40, 100 * saturation, 100 * brightness);
+        return LX.hsb(40, 100 * saturation * saturationScale, 100 * brightness * brightnessScale);
     }
 
-    // RingoDown functions
+    ////////////////// RingoDown functions
     static public int RingoDownRun(LX lx, LXPoint cube, double thick, double brightness, double pos, float color) {
         CubeData cubeData = CubeManager.getCube(lx, cube.index);
         double newPosition = (pos + (50 * Math.sin((cubeData.localX) / 100)));
@@ -69,18 +83,17 @@ public class HavenDefaultInputsUtils {
         return LX.hsb(color, 100, (float) brightness);
     }
 
-    // ColorWave functions
+    ////////////////// ColorWave functions
     static public int ColorWaveRun(LX lx, float wave, LXPoint cube, float waveSlope, float minz, float maxz) {
         return LX.hsb( (wave + waveSlope * EntwinedUtils.map(cube.z, minz, maxz) ) % 360, 100, 100);
     }
 
-    // UpDown functions
+    ////////////////// UpDown functions
     static final double deviation = 0.05;
     static final double twoDeviationSquared = 2 * deviation * deviation;
     static private float gaussian(float value, float center) {
         return (float) Math.exp(-Math.pow(value - center, 2) / twoDeviationSquared);
     }
-
     // ymin and max are model.yMin and model.yMax
     static public int UpDownRun(LX lx, LXPoint point, float scanHeight, float yMin, float yMax) {
         CubeData cube = CubeManager.getCube(lx, point.index);
@@ -88,6 +101,66 @@ public class HavenDefaultInputsUtils {
         cube.localTheta + 0 / 6000 * 360,
                       100,
                       100 * gaussian(EntwinedUtils.map(cube.localY, yMin, yMax), scanHeight));
+    }
+
+    ////////////////// Multiprinter functions
+    static public int MultiprinterRun(LX lx, LXPoint point, LXModel component, int multiPrinterMode, float multiPrinterSpeed, int multiPrinterSwitches, float positionSinLfo)
+    {
+     // switch (multiPrinterMode) {
+        return MultiPrinterRunZebra(lx, point, component, multiPrinterSpeed, multiPrinterSwitches, positionSinLfo);
+    }
+
+    static public int MultiPrinterRunZebra(LX lx, LXPoint point, LXModel component, float multiPrinterSpeed, int multiPrinterSwitches, float position)
+    {
+      // window1 is on by default
+      System.out.println("switches: " + Integer.toBinaryString(multiPrinterSwitches));
+
+      boolean addWindow2 = (multiPrinterSwitches & MP_SWITCH_1_MASK) != 0;
+      boolean addWindow3 = (multiPrinterSwitches & MP_SWITCH_2_MASK) != 0;
+      boolean incBrightness1 = (multiPrinterSwitches & MP_SWITCH_3_MASK) != 0;
+      boolean incThickness1 = (multiPrinterSwitches & MP_SWITCH_4_MASK) != 0;
+      boolean partyTime1 = (multiPrinterSwitches & MP_SWITCH_5_MASK) != 0;
+      boolean incBrightness2 = (multiPrinterSwitches & MP_SWITCH_6_MASK) != 0;
+      boolean incThickness2 = (multiPrinterSwitches & MP_SWITCH_7_MASK) != 0;
+      boolean partyTime2 = (multiPrinterSwitches & MP_SWITCH_8_MASK) != 0;
+      boolean incBrightness3 = (multiPrinterSwitches & MP_SWITCH_9_MASK) != 0;
+      boolean incThickness3 = (multiPrinterSwitches & MP_SWITCH_10_MASK) != 0;
+      boolean partyTime3 = (multiPrinterSwitches == MP_SWITCH_ALL_MASK);
+
+      
+      float thickness1 = incThickness1 ? 160 : 100;
+      float thickness2 = incThickness2 ? 160 : 100;
+      float thickness3 = incThickness3 ? 160 : 100;
+      float brightness1 = incBrightness1 ? 1 : 0.50f;
+      float brightness2 = incBrightness2 ? 1 : 0.50f;
+      float brightness3 = incBrightness3 ? 1 : 0.50f;
+
+      int partyColors = SpinningStainedRun(lx, point, position);
+      int zebra = 0;
+      boolean partyTime = false;
+
+      if (addWindow2 && (component.tags.contains("2"))) 
+      {
+        zebra = ZebraRun(lx, point, position, thickness2, 1f, brightness2);
+        partyTime = partyTime2;
+      }
+      else if (addWindow3 && (component.tags.contains("3"))) 
+      {
+        zebra = ZebraRun(lx, point, position, thickness3, 1f, brightness3);
+        partyTime = partyTime3;
+      }
+      else if (component.tags.contains("1"))
+      {
+        // window 1
+        zebra = ZebraRun(lx, point, position, thickness1, 1f, brightness1);
+        partyTime = partyTime1;
+      }
+      else
+      {
+        return 0;
+      }
+
+      return (partyTime ? (zebra & partyColors) : zebra);
     }
 }
 
