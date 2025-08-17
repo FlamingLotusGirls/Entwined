@@ -20,6 +20,10 @@ public class HavenDefaultInputs extends InputEventPattern {
 
     public final Map<String, Boolean> nodeEnabledMap = new HashMap<>();
 
+    // debug
+    double debugTime = 0;
+    double lastTime = 0;
+
     // UpDown
     final double deviation = 0.05;
     final double minLineCenterY = 0 - 2 * deviation;
@@ -69,9 +73,11 @@ public class HavenDefaultInputs extends InputEventPattern {
     private int multiPrinterSwitches = 0; // 1-10
     CompoundParameter  periodMP = new CompoundParameter ("periodMP", 200, 0, 10000);
     SinLFO positionMP = new SinLFO(0, 200, periodMP);
+    private double rotation = 0;
 
     public HavenDefaultInputs(LX lx) {
         super(lx);
+
         nodeEnabledMap.put("Blender WindowPane", false);  // SpinningStained
         nodeEnabledMap.put("Toaster WindowPane", false);  // RingoDown
         nodeEnabledMap.put("CockatooCheeks", false);  // RingoDown
@@ -118,7 +124,9 @@ public class HavenDefaultInputs extends InputEventPattern {
         // Cockatoo cheeks
         cheekBrightnessDecaying = (float) Math.exp(Math.log(cheekBrightnessDecaying / 100)
                     - deltaMs / (cheekDecayPeriodMs * 0.5)) * 100;
-
+        // multiprinter 
+        rotation += deltaMs/1000.0f * (2 * ((multiPrinterSpeed/10.0f) - .5f) * 360.0f * 1.0f);
+        rotation = rotation % 360.0f;
 
         for (LXModel component : model.children) {          
           for (LXPoint point : component.points) {
@@ -130,7 +138,7 @@ public class HavenDefaultInputs extends InputEventPattern {
             // Multiprinter is triple window
             if ((component.tags.contains("WindowPane") && component.tags.contains("CockatooSegment")) && 
                 (nodeEnabledMap.get("Multiprinter"))) {
-                colors[point.index] = HavenDefaultInputsUtils.MultiprinterRun(lx, point, component, multiPrinterMode, periodMP.getValuef(), multiPrinterSwitches, positionMP.getValuef());
+                colors[point.index] = HavenDefaultInputsUtils.MultiprinterRun(lx, point, component, multiPrinterMode, periodMP.getValuef(), multiPrinterSwitches, positionMP.getValuef(), rotation);
             }
             // Toaster is single window
             if (component.tags.contains("WindowPane") && component.tags.contains("OspreySegment")) 
@@ -233,11 +241,14 @@ public class HavenDefaultInputs extends InputEventPattern {
                 multiPrinterSpeed = (float) params.get("speed"); // 0 - 10 dial
                 multiPrinterSwitches = (int)params.get("switches"); // 1-10
 
-                if (multiPrinterSwitches > 0x3FF) 
+                if ((int)multiPrinterSpeed == 0)
                 {
-                    multiPrinterSwitches = 0;
+                    periodMP.setValue(0);
                 }
-                periodMP.setValue(2000 / multiPrinterSpeed);
+                else
+                {
+                    periodMP.setValue(2000 / multiPrinterSpeed);
+                }
             default:
                 break;
         }
