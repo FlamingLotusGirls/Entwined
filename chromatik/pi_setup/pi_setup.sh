@@ -1,26 +1,26 @@
 #!/bin/bash
 
-echo "Rasberry Pi Entwined Setup"
+echo "Rasberry Pi FLG Chromatik (Entwined fork) Setup"
 
-HOME=/home/pi
+HOME=/home/flg
 
 # pi needs canonical github ssh keys installed manually
 # script exits if these keys are not installed
-GITHUB=`ssh -T git@github.com 2>&1`
-SUCCESS="successfully authenticated"
-if ! [[ "$GITHUB" =~ $SUCCESS ]]; then
-    echo "Error! This pi doesn't have the right ssh keys to connect to github.  Exiting (please add the ssh keys from Google drive"
-    exit 0;
-fi
+# GITHUB=`ssh -T git@github.com 2>&1`
+# SUCCESS="successfully authenticated"
+# if ! [[ "$GITHUB" =~ $SUCCESS ]]; then
+#     echo "Error! This pi doesn't have the right ssh keys to connect to github.  Exiting (please add the ssh keys from Google drive"
+#     exit 0;
+# fi
 
 # github setup
-git config --global user.email "mizpoon@burningart.com"
-git config --global user.name "Entwined Pi"
+# git config --global user.email "mizpoon@burningart.com"
+# git config --global user.name "Entwined Pi"
 
 # this will only work with the canonical ssh keys
-cd $HOME; mv Entwined Entwined.old;
-git clone git@github.com:squaredproject/Entwined.git
-cd -
+# cd $HOME; mv Entwined Entwined.old;
+# git clone git@github.com:squaredproject/Entwined.git
+# cd -
 
 #######################
 ## Update debian ######
@@ -33,7 +33,7 @@ sudo apt-get install -y emacs dos2unix figlet
 
 
 ### add login message
-MOTD="entwined meadow"
+MOTD="flg haven"
 BASH=`cat ~/.bash_profile`
 
 if ! [[ "$BASH" =~ $MOTD ]]; then
@@ -116,7 +116,7 @@ sudo systemctl enable chromatik
 
 
 cd $HOME/Entwined/chromatik/; ./build.sh
-cd $HOME/Entwined/chromatik/installations; ./install.sh ggp-2023
+cd $HOME/Entwined/chromatik/installations; ./install.sh haven
 cd $HOME/Entwined/chromatik/; 
 
 
@@ -128,8 +128,9 @@ sudo sh -c 'sudo echo "net.ipv4.neigh.eth0.unres_qlen=1" >>  /etc/sysctl.conf '
 sudo sh -c 'echo "net.ipv4.neigh.eth0.unres_qlen_bytes=4096" >>  /etc/sysctl.conf '
 
 # copy the info of the access point to connect to
-echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
-sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
+# FOR HAVEN I JUST EDITED wpa_supplicant.conf manually (starting with the structure from ./wpa_supplicant.conf) with: sudo vi /etc/wpa_supplicant/wpa_supplicant.conf
+# echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
+# sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 
 # this toggles on and off the lights every 15 minutes, shouldn't
 # be required in different places
@@ -143,9 +144,9 @@ echo -e "\n\n ****************** Please check script to execute file for getting
 
 cd ..; ./build.sh ; cd -
 
-echo -e "\n\n ****************** Please replace with installation you want: this is ggp-2023\n\n"
+echo -e "\n\n ****************** Please replace with installation you want: this is haven\n\n"
 
-cd ../installations; ./install.sh ggp-2023 ; cd -
+# cd ../installations; ./install.sh haven ; cd -
 
 exit 0
 ## install hostapd & others
