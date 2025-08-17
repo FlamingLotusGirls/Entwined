@@ -53,7 +53,12 @@ public class PaletteSpread extends LXPattern {
         float scanHeight = upDownModulator.getValuef();
         // float scanHeight = (float) 0.2;
         for (LXModel component : model.children) {
-          for (LXPoint point : model.points) {
+          if (component.tags.contains("Cheek")) {
+            // skip cockatoo cheek
+            break;
+          }
+
+          for (LXPoint point : component.points) {
               CubeData cubeData = CubeManager.getCube(lx, point.index);
               float mappedHeight = EntwinedUtils.map(point.y, model.yMin, model.yMax);
               int chamber = chamberIn(mappedHeight, scanHeight);

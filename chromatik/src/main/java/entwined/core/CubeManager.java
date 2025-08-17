@@ -81,6 +81,7 @@ public class CubeManager implements LX.Listener {
         cube.localX = localX;
         cube.localY = localY;
         cube.localZ = localZ;
+        cube.distancAlongLine = 0; // Currently a standin to be calculated
         cube.localR = (float) Math
           .sqrt(localX * localX + localY * localY + localZ * localZ);
         cube.cylinderPoint = new Vec2D(cube.localTheta, cube.localY);

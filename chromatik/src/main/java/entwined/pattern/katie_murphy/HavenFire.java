@@ -103,18 +103,20 @@ public class HavenFire extends TSTriggerablePattern {
     }
 
     for (LXModel component : model.children) {
-      boolean isBird = component.tags.contains("PooferBird");
 
     for (LXPoint cube : component.points) {
       
       CubeData cdata = CubeManager.getCube(lx, cube.index);
       float yn = (cdata.localY - model.yMin) / model.yMax;
 
-      if (isBird) {
+      if (component.tags.contains("PooferBird") || component.tags.contains("NestSurface")) {
         // kinda hacky, but flame math is height dependent and the nest rails
         // are modeled as straight lines.  idk how to change the model, so
         // just give them some fake height
         cdata.localY = cdata.localX;
+      } else if (component.tags.contains("Cheek")) {
+        // skip cockatoo cheek
+        break;
       }
 
       float cBrt = 0;

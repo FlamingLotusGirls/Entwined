@@ -12,5 +12,6 @@ public class CubeData {
   public float localR;
   public float theta;  // XXX - I thought this was in the standard cube data,
                        // but it doesn't seem to be
+  public float distancAlongLine;
 
 }

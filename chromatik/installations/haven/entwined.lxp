@@ -129,7 +129,7 @@
           "identify": false,
           "mute": false,
           "solo": false,
-          "tags": "CockatooSegment WindowPane",
+          "tags": "CockatooSegment WindowPane 1",
           "fixtureType": "Examples/Square"
         },
         "children": {}
@@ -164,7 +164,7 @@
           "identify": false,
           "mute": false,
           "solo": false,
-          "tags": "CockatooSegment WindowPane",
+          "tags": "CockatooSegment WindowPane 2",
           "fixtureType": "Examples/Square"
         },
         "children": {}
@@ -199,7 +199,7 @@
           "identify": false,
           "mute": false,
           "solo": false,
-          "tags": "CockatooSegment WindowPane",
+          "tags": "CockatooSegment WindowPane 3",
           "fixtureType": "Examples/Square"
         },
         "children": {}
@@ -1392,6 +1392,96 @@
           "opcOffset": 0,
           "ddpDataOffset": 0,
           "kinetPort": 1
+        },
+        "children": {}
+      },
+      {
+        "id": 1066964,
+        "class": "heronarts.lx.structure.SpiralFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "N.C Cheek 1",
+          "x": 150.0,
+          "y": 150.0,
+          "z": -390.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "CockatooSegment Cheek 1",
+          "protocol": 0,
+          "byteOrder": 0,
+          "transport": 0,
+          "reverse": false,
+          "host": "127.0.0.1",
+          "port": 7890,
+          "dmxChannel": 0,
+          "artNetUniverse": 0,
+          "artNetSequenceEnabled": false,
+          "opcChannel": 0,
+          "opcOffset": 0,
+          "ddpDataOffset": 0,
+          "kinetPort": 1,
+          "numPoints": 10,
+          "numTurns": 2.0,
+          "radius": 5.0,
+          "length": 1.0
+        },
+        "children": {}
+      },
+      {
+        "id": 1066971,
+        "class": "heronarts.lx.structure.SpiralFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "N.C Cheek 2",
+          "x": 130.0,
+          "y": 150.0,
+          "z": -390.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": true,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "CockatooSegment Cheek 2",
+          "protocol": 0,
+          "byteOrder": 0,
+          "transport": 0,
+          "reverse": false,
+          "host": "127.0.0.1",
+          "port": 7890,
+          "dmxChannel": 0,
+          "artNetUniverse": 0,
+          "artNetSequenceEnabled": false,
+          "opcChannel": 0,
+          "opcOffset": 0,
+          "ddpDataOffset": 0,
+          "kinetPort": 1,
+          "numPoints": 10,
+          "numTurns": 2.0,
+          "radius": 5.0,
+          "length": 1.0
         },
         "children": {}
       }
@@ -2865,6 +2955,90 @@
                 "children": {
                   "modulation": {
                     "id": 978650,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0,
+                      "modulationControlsExpanded": true,
+                      "modulationsExpanded": true
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1,
+                "effects": []
+              },
+              {
+                "id": 1066964,
+                "class": "entwined.pattern.clover_watson.SpinningStained",
+                "internal": {
+                  "modulationColor": 0,
+                  "modulationControlsExpanded": true,
+                  "modulationsExpanded": true,
+                  "expanded": true,
+                  "expandedCue": true,
+                  "expandedAux": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "SpinningStained",
+                  "view": 0,
+                  "viewPriority": 0,
+                  "enabled": true,
+                  "recall": false,
+                  "compositeMode": 0,
+                  "compositeLevel": 1.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 1066965,
+                    "class": "heronarts.lx.modulation.LXModulationEngine",
+                    "internal": {
+                      "modulationColor": 0,
+                      "modulationControlsExpanded": true,
+                      "modulationsExpanded": true
+                    },
+                    "parameters": {
+                      "label": "Modulation"
+                    },
+                    "children": {},
+                    "modulators": [],
+                    "modulations": [],
+                    "triggers": []
+                  }
+                },
+                "deviceVersion": -1,
+                "effects": []
+              },
+              {
+                "id": 1070975,
+                "class": "entwined.pattern.clover_watson.UpFade",
+                "internal": {
+                  "modulationColor": 0,
+                  "modulationControlsExpanded": true,
+                  "modulationsExpanded": true,
+                  "expanded": true,
+                  "expandedCue": true,
+                  "expandedAux": true,
+                  "modulationExpanded": false
+                },
+                "parameters": {
+                  "label": "UpFade",
+                  "view": 0,
+                  "viewPriority": 0,
+                  "enabled": true,
+                  "recall": false,
+                  "compositeMode": 0,
+                  "compositeLevel": 1.0
+                },
+                "children": {
+                  "modulation": {
+                    "id": 1070976,
                     "class": "heronarts.lx.modulation.LXModulationEngine",
                     "internal": {
                       "modulationColor": 0,

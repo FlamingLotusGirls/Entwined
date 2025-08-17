@@ -143,6 +143,20 @@ public class EngineController {
     }
   }
 
+  // get the active pattern for channel[channelIndex]
+  LXPattern getChannelPattern(int channelIndex) {
+    LXAbstractChannel abstractChannel = lx.engine.mixer
+      .getChannel(channelIndex);
+    if (abstractChannel instanceof LXChannel) {
+      LXChannel channel = (LXChannel) abstractChannel;
+      LXPattern pattern = channel.getActivePattern();
+      if (pattern != null) {
+        return pattern;
+      }
+    }
+    return null;
+  }
+
   /*
    * registerIPadEffects()
    *
