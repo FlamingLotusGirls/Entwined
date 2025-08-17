@@ -78,8 +78,8 @@ sudo apt install maven
 sudo rfkill unblock wlan
 
 # copy the info of the access point to connect to
-echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
-sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
+# echo -e "\n\n ****************** Edit wpa_suplicant if you have a non-MIFI to connect to\n\n"
+# sudo cp ./wpa_supplicant.conf /etc/wpa_supplicant/
 
 
 ####
