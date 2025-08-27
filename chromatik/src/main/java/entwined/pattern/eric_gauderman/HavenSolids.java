@@ -13,13 +13,14 @@ import heronarts.lx.model.LXModel;
  */
 public class HavenSolids extends LXPattern {
 
-    final SinLFO blueWave = new SinLFO(210, 256, 2400);
-    final SinLFO purpleWave = new SinLFO(256, 270, 1700);
-    final SinLFO greenWave = new SinLFO(140, 155, 1600);
+    final SinLFO redWave = new SinLFO(0, 20, 2200);
     final SinLFO yellowWave = new SinLFO(40, 50, 1800);
     final SinLFO orangeWave = new SinLFO(30, 45, 2000);
-    final SinLFO redWave = new SinLFO(0, 20, 2200);
-    final SinLFO spiralPortalWave = new SinLFO(0, 270, 1500);
+    final SinLFO greenWave = new SinLFO(140, 155, 1600);
+    final SinLFO cyanWave = new SinLFO(170, 190, 2300);
+    final SinLFO blueWave = new SinLFO(230, 256, 2400);
+    final SinLFO purpleWave = new SinLFO(256, 270, 1700);
+    final SinLFO spiralPortalWave = new SinLFO(10, 270, 4000);
 
     double time_ms = 0;
 
@@ -40,10 +41,14 @@ public class HavenSolids extends LXPattern {
         addParameter("blob_width", blobWidthParam);
         addParameter("blob_height", blobHeightParam);
         addParameter("fill", fillParam);
-        addModulator(blueWave).start();
-        addModulator(greenWave).start();
-        addModulator(yellowWave).start();
         addModulator(redWave).start();
+        addModulator(orangeWave).start();
+        addModulator(yellowWave).start();
+        addModulator(greenWave).start();
+        addModulator(cyanWave).start();
+        addModulator(blueWave).start();
+        addModulator(purpleWave).start();
+        addModulator(spiralPortalWave).start();
     }
 
     @Override
@@ -69,7 +74,7 @@ public class HavenSolids extends LXPattern {
                     hue = blueWave.getValuef();
                 }
             } else if (component.tags.contains("Body")) {
-                hue = blueWave.getValuef();
+                hue = cyanWave.getValuef();
             } else if (component.tags.contains("SpiralPortal")) {
                 hue = spiralPortalWave.getValuef();
             } else if (component.tags.contains("WindowPane")) {
