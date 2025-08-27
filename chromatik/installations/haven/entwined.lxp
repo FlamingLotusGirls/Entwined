@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1756279356135,
+  "timestamp": 1756280121365,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -71,7 +71,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": false,
+          "selected": true,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -422,6 +422,51 @@
           "kinetPort": 1,
           "numPoints": 340,
           "spacing": 1.0
+        },
+        "children": {}
+      },
+      {
+        "id": 49509,
+        "class": "heronarts.lx.structure.ArcFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "N.C Jelly Chandelier",
+          "x": 206.48896626384885,
+          "y": 290.80487836152315,
+          "z": -358.40918190637603,
+          "yaw": 0.0,
+          "pitch": 90.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": false,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "NonNest BirdBath",
+          "protocol": 1,
+          "byteOrder": 0,
+          "transport": 0,
+          "reverse": false,
+          "host": "169.254.3.10",
+          "port": 7890,
+          "dmxChannel": 0,
+          "artNetUniverse": 0,
+          "artNetSequenceEnabled": false,
+          "opcChannel": 0,
+          "opcOffset": 0,
+          "ddpDataOffset": 0,
+          "kinetPort": 1,
+          "numPoints": 9,
+          "radius": 8.0,
+          "degrees": 320.0,
+          "positionMode": 0
         },
         "children": {}
       },
@@ -2480,7 +2525,7 @@
           "pitch": 90.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": true,
+          "selected": false,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -3070,7 +3115,7 @@
           "crossfader": 0.5669291338582677,
           "crossfaderBlendMode": 0,
           "focusedChannel": 0,
-          "focusedChannelAux": 12,
+          "focusedChannelAux": 4,
           "cueA": false,
           "cueB": false,
           "auxA": false,
@@ -18191,22 +18236,22 @@
         "depth": 2.0,
         "camera": {
           "active": false,
-          "radius": 1561.423656443642,
-          "theta": 140.218811750412,
-          "phi": 31.809800148010254,
-          "x": 118.26889814028618,
-          "y": 108.15421221777797,
-          "z": -85.30372677370906
+          "radius": 1447.7487921419902,
+          "theta": 142.09921571612358,
+          "phi": 20.721914067864418,
+          "x": 172.2986536804783,
+          "y": 56.3620092086494,
+          "z": -11.805641572922468
         },
         "cue": [
           {
             "active": false,
-            "radius": 1561.423656443642,
-            "theta": 140.218811750412,
-            "phi": 31.809800148010254,
-            "x": 118.26889814028618,
-            "y": 108.15421221777797,
-            "z": -85.30372677370906
+            "radius": 1447.7487921419902,
+            "theta": 142.09921571612358,
+            "phi": 20.721914067864418,
+            "x": 172.2986536804783,
+            "y": 56.3620092086494,
+            "z": -11.805641572922468
           },
           {
             "active": false,
