@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1753603424282,
+  "timestamp": 1756263009358,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -206,7 +206,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": true,
+          "selected": false,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -994,7 +994,7 @@
       {
         "jsonFixtureType": "Examples/Square",
         "jsonParameters": {
-          "size": 100.0,
+          "size": 50.0,
           "pointsPerEdge": 15,
           "center": false
         },
@@ -1007,14 +1007,14 @@
         },
         "parameters": {
           "label": "N.M Window 2",
-          "x": 272.1344413906336,
-          "y": 120.86941615119576,
-          "z": 439.63384030759335,
-          "yaw": 203.0,
-          "pitch": 18.0,
-          "roll": 15.0,
+          "x": 236.27965098649292,
+          "y": 295.85231230035424,
+          "z": 363.8173892458881,
+          "yaw": 218.0,
+          "pitch": 26.0,
+          "roll": 0.0,
           "scale": 1.0,
-          "selected": false,
+          "selected": true,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -1111,7 +1111,7 @@
         "children": {}
       },
       {
-        "id": 757895,
+        "id": 1757942,
         "class": "heronarts.lx.structure.PointFixture",
         "internal": {
           "modulationColor": 0,
@@ -1152,7 +1152,7 @@
         "children": {}
       },
       {
-        "id": 757895,
+        "id": 1757943,
         "class": "heronarts.lx.structure.PointFixture",
         "internal": {
           "modulationColor": 0,
@@ -1798,7 +1798,7 @@
         "children": {}
       },
       {
-        "id": 757889,
+        "id": 1757967,
         "class": "heronarts.lx.structure.PointFixture",
         "internal": {
           "modulationColor": 0,
@@ -1839,7 +1839,7 @@
         "children": {}
       },
       {
-        "id": 757889,
+        "id": 1757968,
         "class": "heronarts.lx.structure.PointFixture",
         "internal": {
           "modulationColor": 0,
@@ -2060,7 +2060,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": true,
+          "selected": false,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -2306,7 +2306,7 @@
           "pitch": 0.0,
           "roll": 0.0,
           "scale": 1.0,
-          "selected": true,
+          "selected": false,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -3819,7 +3819,7 @@
                 "effects": []
               },
               {
-                "id": 1066964,
+                "id": 1758118,
                 "class": "entwined.pattern.clover_watson.SpinningStained",
                 "internal": {
                   "modulationColor": 0,
@@ -17828,27 +17828,27 @@
       "preview": {
         "animation": false,
         "animationTime": 1000.0,
-        "projection": 0,
+        "projection": 1,
         "perspective": 60.0,
         "depth": 2.0,
         "camera": {
           "active": false,
-          "radius": 1819.647540412124,
-          "theta": 14.945024743676186,
-          "phi": 37.14878690242767,
-          "x": -76.51076886896044,
-          "y": 12.179551027715206,
-          "z": 96.86040010023862
+          "radius": 2156.171294115956,
+          "theta": 165.89603282511234,
+          "phi": 22.753970190882683,
+          "x": 62.085927858595824,
+          "y": 181.51646497100592,
+          "z": 75.75653291493654
         },
         "cue": [
           {
             "active": false,
-            "radius": 1819.647540412124,
-            "theta": 14.945024743676186,
-            "phi": 37.14878690242767,
-            "x": -76.51076886896044,
-            "y": 12.179551027715206,
-            "z": 96.86040010023862
+            "radius": 2156.171294115956,
+            "theta": 165.89603282511234,
+            "phi": 22.753970190882683,
+            "x": 62.085927858595824,
+            "y": 181.51646497100592,
+            "z": 75.75653291493654
           },
           {
             "active": false,
@@ -17900,7 +17900,7 @@
         "pointCloud": {
           "pointSize": 5.0,
           "depthTest": true,
-          "ledStyle": 4
+          "ledStyle": 3
         },
         "grid": {
           "visible": false,
