@@ -1,6 +1,6 @@
 {
   "version": "0.4.2-SNAPSHOT",
-  "timestamp": 1756278744515,
+  "timestamp": 1756279356135,
   "model": {
     "id": 2,
     "class": "heronarts.lx.structure.LXStructure",
@@ -206,7 +206,7 @@
           "pitch": 0.0,
           "roll": -40.0,
           "scale": 1.0,
-          "selected": true,
+          "selected": false,
           "deactivate": false,
           "enabled": true,
           "brightness": 1.0,
@@ -2464,6 +2464,51 @@
         "children": {}
       },
       {
+        "id": 49508,
+        "class": "heronarts.lx.structure.ArcFixture",
+        "internal": {
+          "modulationColor": 0,
+          "modulationControlsExpanded": true,
+          "modulationsExpanded": true
+        },
+        "parameters": {
+          "label": "Bird Bath",
+          "x": -35.425598837435246,
+          "y": 51.25506652146578,
+          "z": -695.0958904474974,
+          "yaw": 0.0,
+          "pitch": 90.0,
+          "roll": 0.0,
+          "scale": 1.0,
+          "selected": true,
+          "deactivate": false,
+          "enabled": true,
+          "brightness": 1.0,
+          "identify": false,
+          "mute": false,
+          "solo": false,
+          "tags": "NonNest BirdBath",
+          "protocol": 1,
+          "byteOrder": 6,
+          "transport": 0,
+          "reverse": false,
+          "host": "169.254.3.50",
+          "port": 7890,
+          "dmxChannel": 0,
+          "artNetUniverse": 0,
+          "artNetSequenceEnabled": false,
+          "opcChannel": 0,
+          "opcOffset": 0,
+          "ddpDataOffset": 0,
+          "kinetPort": 1,
+          "numPoints": 24,
+          "radius": 24.0,
+          "degrees": 345.0,
+          "positionMode": 0
+        },
+        "children": {}
+      },
+      {
         "id": 49504,
         "class": "heronarts.lx.structure.ArcFixture",
         "internal": {
@@ -2503,7 +2548,7 @@
           "kinetPort": 1,
           "numPoints": 300,
           "radius": 100.0,
-          "degrees": 360.0,
+          "degrees": 358.8,
           "positionMode": 0
         },
         "children": {}
@@ -2532,7 +2577,7 @@
           "identify": false,
           "mute": false,
           "solo": false,
-          "tags": "NonNest ZenGarden",
+          "tags": "NonNest Egg",
           "protocol": 1,
           "byteOrder": 6,
           "transport": 0,
@@ -2577,7 +2622,7 @@
           "identify": false,
           "mute": false,
           "solo": false,
-          "tags": "NonNest ZenGarden",
+          "tags": "NonNest Egg",
           "protocol": 1,
           "byteOrder": 6,
           "transport": 0,
@@ -2622,7 +2667,7 @@
           "identify": false,
           "mute": false,
           "solo": false,
-          "tags": "NonNest ZenGarden",
+          "tags": "NonNest Egg",
           "protocol": 1,
           "byteOrder": 6,
           "transport": 0,
@@ -18146,22 +18191,22 @@
         "depth": 2.0,
         "camera": {
           "active": false,
-          "radius": 1200.6369752791998,
-          "theta": 126.60209712386131,
-          "phi": 51.45677277445793,
-          "x": 263.8059547949779,
-          "y": 26.079431612044573,
-          "z": 19.33634740486741
+          "radius": 1561.423656443642,
+          "theta": 140.218811750412,
+          "phi": 31.809800148010254,
+          "x": 118.26889814028618,
+          "y": 108.15421221777797,
+          "z": -85.30372677370906
         },
         "cue": [
           {
             "active": false,
-            "radius": 1200.6369752791998,
-            "theta": 126.60209712386131,
-            "phi": 51.45677277445793,
-            "x": 263.8059547949779,
-            "y": 26.079431612044573,
-            "z": 19.33634740486741
+            "radius": 1561.423656443642,
+            "theta": 140.218811750412,
+            "phi": 31.809800148010254,
+            "x": 118.26889814028618,
+            "y": 108.15421221777797,
+            "z": -85.30372677370906
           },
           {
             "active": false,
