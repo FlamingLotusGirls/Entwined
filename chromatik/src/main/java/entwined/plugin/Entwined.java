@@ -120,7 +120,8 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry.addPattern(entwined.pattern.charlie_stigler.Burst.class);
     lx.registry.addPattern(entwined.pattern.clover_watson.GradientUp.class);
     lx.registry.addPattern(entwined.pattern.clover_watson.PaletteSpread.class);
-    lx.registry.addPattern(entwined.pattern.clover_watson.SpinningStained.class);
+    lx.registry
+      .addPattern(entwined.pattern.clover_watson.SpinningStained.class);
     lx.registry.addPattern(entwined.pattern.clover_watson.SpiralSegments.class);
     lx.registry.addPattern(entwined.pattern.clover_watson.UpFade.class);
     lx.registry.addPattern(entwined.pattern.colin_hunt.BeachBall.class);
@@ -138,6 +139,7 @@ public class Entwined implements LXStudio.Plugin {
     lx.registry
       .addPattern(entwined.pattern.eric_gauderman.DiscreteColors.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.FreeFall.class);
+    lx.registry.addPattern(entwined.pattern.eric_gauderman.HavenSolids.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.Radar.class);
     lx.registry.addPattern(entwined.pattern.eric_gauderman.UpDown.class);
     lx.registry.addPattern(entwined.pattern.evy.CircleBreath.class);
