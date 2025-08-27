@@ -8,29 +8,20 @@ import heronarts.lx.pattern.LXPattern;
 import entwined.utils.SimplexNoise;
 import heronarts.lx.model.LXModel;
 
-import entwined.core.CubeManager;
-
 /**
  * Started out as a copy of Katie Murphy's Sunset
  */
 public class HavenSolids extends LXPattern {
 
-    public enum FixtureType {
-        UNKNOWN, STAINED_GLASS, WINDOW_PANE, POOFER_BIRD, NEST_SURFACE
-    };
-
-    final SinLFO brightnessWave = new SinLFO(0, 100, 2000);
-    final SinLFO blueWave = new SinLFO(210, 256, 2000);
-    final SinLFO greenWave = new SinLFO(140, 155, 2000);
-    final SinLFO yellowWave = new SinLFO(40, 50, 2000);
-    final SinLFO redWave = new SinLFO(0, 20, 2000);
+    final SinLFO blueWave = new SinLFO(210, 256, 2400);
+    final SinLFO purpleWave = new SinLFO(256, 270, 1700);
+    final SinLFO greenWave = new SinLFO(140, 155, 1600);
+    final SinLFO yellowWave = new SinLFO(40, 50, 1800);
+    final SinLFO orangeWave = new SinLFO(30, 45, 2000);
+    final SinLFO redWave = new SinLFO(0, 20, 2200);
+    final SinLFO spiralPortalWave = new SinLFO(0, 270, 1500);
 
     double time_ms = 0;
-
-    private float minz = Float.MAX_VALUE;
-    private float maxz = -Float.MAX_VALUE;
-    // private float waveWidth = 1;
-    private float speedMult = 1000;
 
     float height = 0.0f;
     final CompoundParameter velocityParam = new CompoundParameter("VEL", 10f,
@@ -45,8 +36,6 @@ public class HavenSolids extends LXPattern {
     public HavenSolids(LX lx) {
         super(lx);
 
-        // addParameter("blue", blueParam);
-        addModulator(brightnessWave).start();
         addParameter("velocity", velocityParam);
         addParameter("blob_width", blobWidthParam);
         addParameter("blob_height", blobHeightParam);
@@ -57,63 +46,126 @@ public class HavenSolids extends LXPattern {
         addModulator(redWave).start();
     }
 
-    public FixtureType getFixtureType(LXModel component) {
-        if (component.tags.contains("StainedGlass")) {
-            return FixtureType.STAINED_GLASS;
-        } else if (component.tags.contains("WindowPane")) {
-            return FixtureType.WINDOW_PANE;
-        } else if (component.tags.contains("PooferBird")) {
-            return FixtureType.POOFER_BIRD;
-        } else if (component.tags.contains("NestSurface")) {
-            return FixtureType.NEST_SURFACE;
-        } else {
-            // error msg
-            return FixtureType.UNKNOWN;
-        }
-    }
-
     @Override
     public void run(double deltaMs) {
+        // FreeFall parameter derivations
         float velocity = velocityParam.getValuef() / 200f;
         float fill = fillParam.getValuef() / 50f;
-        float blobWidth = blobWidthParam.getValuef();
-        float blobHeight = blobHeightParam.getValuef();
-
-        height += deltaMs * velocity / blobHeight;
-
         float baseline = Math.max(0f, 1f - fill);
         float boost = Math.max(0f, fill - 1f);
+        float blobWidth = blobWidthParam.getValuef();
+        float blobHeight = blobHeightParam.getValuef();
+        height += deltaMs * velocity / blobHeight;
 
-        float pointnum = 0;
         for (LXModel component : model.children) {
-
-            FixtureType fixture = getFixtureType(component);
-            float componentHeight = component.yMax - component.yMin;
-            float componentWidth = component.zMax - component.zMin;
-
-            for (LXPoint point : component.points) {
-                float hue = 0;
-                if (fixture == FixtureType.WINDOW_PANE) {
-                    float y = CubeManager.getCube(lx, point.index).localY;
-                    if (y >= component.yMin + (componentHeight * .70f)) {
-                        hue = blueWave.getValuef();
-                    } else if (y >= component.yMin + (componentHeight * .55f)) {
-                        hue = greenWave.getValuef();
-                    } else if (y >= component.yMin + (componentHeight * .25f)) {
-                        hue = yellowWave.getValuef();
-                    } else {
-                        hue = redWave.getValuef();
-                    }
-                } else if (component.tags.contains("Cheek")) {
-                    // skip cockatoo cheek
-                    continue;
-                } else {
+            // Assign colors to fixtures
+            float hue = blueWave.getValuef();
+            if (component.tags.contains("Cheek")) {
+                hue = orangeWave.getValuef();
+            } else if (component.tags.contains("Eye")) {
+                if (component.tags.contains("CockatooSegment")) {
+                    hue = purpleWave.getValuef();
+                } else if (component.tags.contains("MagpieSegment")) {
                     hue = blueWave.getValuef();
                 }
+            } else if (component.tags.contains("Body")) {
+                hue = blueWave.getValuef();
+            } else if (component.tags.contains("SpiralPortal")) {
+                hue = spiralPortalWave.getValuef();
+            } else if (component.tags.contains("WindowPane")) {
+                if (component.tags.contains("CockatooSegment")) {
+                    if (component.tags.contains("1")) {
+                        hue = greenWave.getValuef();
+                    } else if (component.tags.contains("2")) {
+                        hue = yellowWave.getValuef();
+                    } else if (component.tags.contains("3")) {
+                        hue = blueWave.getValuef();
+                    }
+                } else if (component.tags.contains("MagpieSegment")) {
+                    if (component.tags.contains("1")) {
+                        hue = yellowWave.getValuef();
+                    } else if (component.tags.contains("2")) {
+                        hue = blueWave.getValuef();
+                    }
+                } else if (component.tags.contains("OspreySegment")) {
+                    if (component.tags.contains("1")) {
+                        hue = greenWave.getValuef();
+                    } else if (component.tags.contains("2")) {
+                        hue = blueWave.getValuef();
+                    }
+                }
+            } else if (component.tags.contains("Spotlight")) {
+                if (component.tags.contains("Backlight")) {
+                    if (component.tags.contains("StainedGlass")) {
+                        if (component.tags.contains("CockatooSegment")) {
+                            hue = redWave.getValuef();
+                        } else if (component.tags.contains("MagpieSegment")) {
+                            hue = blueWave.getValuef();
+                        } else if (component.tags.contains("OspreySegment")) {
+                            hue = blueWave.getValuef();
+                        }
+                    } else if (component.tags.contains("CutoutWindow")) {
+                        if (component.tags.contains("CockatooSegment")) {
+                            hue = redWave.getValuef();
+                        } else if (component.tags.contains("MagpieSegment")) {
+                            hue = greenWave.getValuef();
+                        } else if (component.tags.contains("OspreySegment")) {
+                            hue = blueWave.getValuef();
+                        }
+                    }
+                } else if (component.tags.contains("1")) {
+                    hue = greenWave.getValuef();
+                } else if (component.tags.contains("2")) {
+                    hue = blueWave.getValuef();
+                } else if (component.tags.contains("3")) {
+                    hue = redWave.getValuef();
+                } else if (component.tags.contains("4")) {
+                    hue = yellowWave.getValuef();
+                } else if (component.tags.contains("5")) {
+                    hue = greenWave.getValuef();
+                } else if (component.tags.contains("6")) {
+                    hue = blueWave.getValuef();
+                } else if (component.tags.contains("7")) {
+                    hue = redWave.getValuef();
+                } else if (component.tags.contains("8")) {
+                    hue = yellowWave.getValuef();
+                } else if (component.tags.contains("9")) {
+                    hue = greenWave.getValuef();
+                } else if (component.tags.contains("10")) {
+                    hue = blueWave.getValuef();
+                } else if (component.tags.contains("11")) {
+                    hue = redWave.getValuef();
+                } else if (component.tags.contains("12")) {
+                    hue = yellowWave.getValuef();
+                }
+            } else if (component.tags.contains("Egg")) {
+                if (component.tags.contains("1")) {
+                    hue = yellowWave.getValuef();
+                } else if (component.tags.contains("2")) {
+                    hue = redWave.getValuef();
+                } else if (component.tags.contains("3")) {
+                    hue = orangeWave.getValuef();
+                }
+            } else if (component.tags.contains("PooferBird")) {
+                if (component.tags.contains("CockatooSegment")) {
+                    hue = orangeWave.getValuef();
+                } else if (component.tags.contains("MagpieSegment")) {
+                    hue = blueWave.getValuef();
+                } else if (component.tags.contains("OspreySegment")) {
+                    hue = yellowWave.getValuef();
+                }
+            } else if (component.tags.contains("BirdBath")) {
+                hue = yellowWave.getValuef();
+            } else if (component.tags.contains("ZenGarden")) {
+                hue = blueWave.getValuef();
+                for (LXPoint point : component.points) {
+                    colors[point.index] = LX.hsb(hue, 85, 50);
+                }
+                continue;
+            }
 
-                pointnum++;
-
-                // FreeFall math to give it a bit of glimmer
+            // FreeFall math to give it a bit of glimmer
+            for (LXPoint point : component.points) {
                 float noise1 = 0.5f
                     + (float) SimplexNoise.noise(point.x / blobWidth,
                         point.z / blobWidth, height + point.y / blobHeight)
