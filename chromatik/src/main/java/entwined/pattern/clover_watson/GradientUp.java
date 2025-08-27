@@ -24,7 +24,7 @@ public class GradientUp extends LXPattern {
         for (LXModel component : model.children) {
           if (component.tags.contains("Cheek")) {
             // skip cockatoo cheek
-            break;
+            continue;
           }
 
           for (LXPoint point : component.points) {

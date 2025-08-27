@@ -61,7 +61,7 @@ public class NorthernLights extends LXPattern {
       for (LXModel component : model.children) {
         if (component.tags.contains("Cheek")) {
             // skip cockatoo cheek
-            break;
+            continue;
         }
 
         float componentHeight = component.yMax - component.yMin;

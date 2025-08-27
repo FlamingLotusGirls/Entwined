@@ -38,12 +38,7 @@ public class UpFade extends LXPattern {
         for (LXModel component : model.children) {
           if (component.tags.contains("Cheek")) {
             // skip cockatoo cheek
-            break;
-          }
-
-          for (LXPoint point : component.points) {
-            // skip cockatoo cheek
-            break;
+            continue;
           }
 
           for (LXPoint point : component.points) {

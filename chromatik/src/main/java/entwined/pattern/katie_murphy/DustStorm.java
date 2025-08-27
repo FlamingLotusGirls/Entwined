@@ -95,7 +95,7 @@ public class DustStorm extends LXPattern {
         // special fixture considerations
         if (component.tags.contains("Cheek")) {
           // skip cockatoo cheeks
-          break;
+          continue;
         }
         if (component.tags.contains("NestSurface")) {
           // prevent flicker off on the spotlights for smoother effect

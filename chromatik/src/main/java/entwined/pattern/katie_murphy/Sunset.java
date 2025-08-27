@@ -110,7 +110,7 @@ public class Sunset extends LXPattern {
               }
             } else if (component.tags.contains("Cheek")) {
               // skip cockatoo cheek
-              break;
+              continue;
             }
             else {
               hue = blueWave.getValuef();

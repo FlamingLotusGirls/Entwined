@@ -116,7 +116,7 @@ public class HavenFire extends TSTriggerablePattern {
         cdata.localY = cdata.localX;
       } else if (component.tags.contains("Cheek")) {
         // skip cockatoo cheek
-        break;
+        continue;
       }
 
       float cBrt = 0;
