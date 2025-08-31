@@ -21,6 +21,7 @@ public class HavenSolids extends LXPattern {
     final SinLFO blueWave = new SinLFO(230, 256, 2400);
     final SinLFO purpleWave = new SinLFO(256, 270, 1700);
     final SinLFO spiralPortalWave = new SinLFO(10, 270, 4000);
+    final SinLFO ospreyWave = new SinLFO(50, 60, 3000);
 
     double time_ms = 0;
 
@@ -118,6 +119,8 @@ public class HavenSolids extends LXPattern {
                             hue = blueWave.getValuef();
                         }
                     }
+                } else if (component.tags.contains("Osprey")) {
+                    hue = ospreyWave.getValuef();
                 } else if (component.tags.contains("1")) {
                     hue = greenWave.getValuef();
                 } else if (component.tags.contains("2")) {
@@ -143,6 +146,22 @@ public class HavenSolids extends LXPattern {
                 } else if (component.tags.contains("12")) {
                     hue = yellowWave.getValuef();
                 }
+
+                // FreeFall math to give it a bit of glimmer
+                for (LXPoint point : component.points) {
+                    float noise1 = 0.5f
+                        + (float) SimplexNoise.noise(point.x / blobWidth,
+                            point.z / blobWidth, height + point.y / blobHeight)
+                            / 2f;
+
+                    float cutoffNoise1 = Math.min(1.0f,
+                        Math.max(0.0f, (noise1 + boost - baseline)
+                            / (1.0f - boost - baseline)));
+                    float brightness = Float.max(40, cutoffNoise1 * 100f);
+
+                    colors[point.index] = LX.hsb(hue, 40, brightness);
+                }
+                continue;
             } else if (component.tags.contains("Egg")) {
                 if (component.tags.contains("1")) {
                     hue = yellowWave.getValuef();
