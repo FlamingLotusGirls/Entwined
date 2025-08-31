@@ -50,6 +50,7 @@ public class HavenSolids extends LXPattern {
         addModulator(blueWave).start();
         addModulator(purpleWave).start();
         addModulator(spiralPortalWave).start();
+        addModulator(ospreyWave).start();
     }
 
     @Override
