@@ -13,6 +13,7 @@ import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.model.LXModel;
 
 import entwined.pattern.irene_zhou.Bubbles;
+import entwined.pattern.katie_murphy.CockatooCheekPulseEffect;
 import entwined.utils.SimplexNoise;
 import entwined.utils.EntwinedUtils;
 
@@ -62,6 +63,7 @@ public class HavenSolidsPlus extends LXPattern {
     final BooleanParameter cockatooJellyChandelierParam = new BooleanParameter("cChand", false).setMode(BooleanParameter.Mode.MOMENTARY);
     final BooleanParameter magpieSpiralChandelierParam = new BooleanParameter("mChand", false).setMode(BooleanParameter.Mode.MOMENTARY);
     
+
     // discrete/continuous triggers
     public final DiscreteParameter cockatooWindowPaletteParam = new DiscreteParameter("cWinPalette", 0, 3);
     final CompoundParameter cockatooJellyBrightnessParam = new CompoundParameter("cChndBrt", 40, 40, 85);
@@ -89,6 +91,8 @@ public class HavenSolidsPlus extends LXPattern {
         addParameter("cockatooJellyBrightness", cockatooJellyBrightnessParam);
 
         // found object OSC triggers
+        addEffect(new CockatooCheekPulseEffect(lx));
+
         addParameter("cockatooJellyTwinkleTrigger", cockatooJellyChandelierParam);
         cockatooJellyChandelierParam.addListener(p -> {
             if (cockatooJellyChandelierParam.getValueb() && !cockatooJellyActive) {

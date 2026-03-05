@@ -12,12 +12,13 @@ import heronarts.lx.pattern.LXPattern;
 import entwined.utils.SimplexNoise;
 import heronarts.lx.model.LXModel;
 
+import entwined.pattern.katie_murphy.CockatooCheekPulseEffect;
+
 import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 
 
 public class Sunset extends LXPattern {
-  static final int cheekFlashDurationMs = 3000;
 
   final SinLFO brightnessWave = new SinLFO(0, 100, 2000);
   final SinLFO blueWave = new SinLFO(210, 256, 2000);
@@ -41,10 +42,6 @@ public class Sunset extends LXPattern {
   final CompoundParameter magpieFillParam = new CompoundParameter("mWinBrt", 25f, 0.001f,
         100f);
 
-  private boolean cockatooCheekFlashActive = false;
-  private double cockatooCheekFlashEnd = 0;
-  final BooleanParameter cockatooCheekParam = new BooleanParameter("cCheek", false).setMode(BooleanParameter.Mode.MOMENTARY);
-
   // 0 = 0ff, 1-3 = low/med/high
   public final DiscreteParameter cockatooWindowSpin = new DiscreteParameter("cWinSpin", 0, 4);
   
@@ -59,13 +56,6 @@ public class Sunset extends LXPattern {
     addParameter("ospreyWindowBrightness", ospreyFillParam);
     addParameter("magpieWindowBrightness", magpieFillParam);
 
-    addParameter("cockatooCheekTrigger", cockatooCheekParam);
-    cockatooCheekParam.addListener(p -> {
-      if (cockatooCheekParam.getValueb() && !cockatooCheekFlashActive) {
-        startCheekFlash();
-      }
-    });
-
     addParameter(cockatooWindowSpin);
 
     addModulator(sawWave).start();
@@ -73,6 +63,8 @@ public class Sunset extends LXPattern {
     addModulator(greenWave).start();
     addModulator(yellowWave).start();
     addModulator(redWave).start();
+
+    addEffect(new CockatooCheekPulseEffect(lx));
   }
 
   private void renderDefault(double deltaMs) {
@@ -144,9 +136,7 @@ public class Sunset extends LXPattern {
     for (LXModel component : model.children) {
       for (LXPoint point : component.points) {
 
-        if (component.tags.contains("Cheek")) {
-          applyCockatooCheekOverrides(deltaMs, point);
-        } else if (component.tags.contains("CockatooSegment") && component.tags.contains("WindowPane")) {
+        if (component.tags.contains("CockatooSegment") && component.tags.contains("WindowPane")) {
           applyCockatooWindowOverrides(deltaMs, point);
         }
 
@@ -159,9 +149,6 @@ public class Sunset extends LXPattern {
     double now = EntwinedUtils.millis();
     
     // check for expired timers
-    if (cockatooCheekFlashActive && (now > cockatooCheekFlashEnd)) {
-      cockatooCheekFlashActive = false;
-    }
 
     // set the base pattern
     renderDefault(deltaMs);    
@@ -170,20 +157,7 @@ public class Sunset extends LXPattern {
     applyTagOverrides(deltaMs); 
   }
 
-  /////////////// Cockatoo Cheek Functions
-  private void applyCockatooCheekOverrides(double deltaMs, LXPoint point) {
-    if (cockatooCheekFlashActive) {
-      double remainingMs = cockatooCheekFlashEnd - EntwinedUtils.millis();
-      float t = (float)(remainingMs / cheekFlashDurationMs);
-      colors[point.index] = LXColor.lerp(colors[point.index], LXColor.RED, t);
-    }
-  }
-
-  private void startCheekFlash() {
-    cockatooCheekFlashActive = true;
-    cockatooCheekFlashEnd = EntwinedUtils.millis() + cheekFlashDurationMs;
-  }
-
+  /////////////// Cockatoo Functions
   private void applyCockatooWindowOverrides(double deltaMs, LXPoint point) {
 
     if (cockatooWindowSpin.getValue() > 0) {
