@@ -1,22 +1,14 @@
 package entwined.pattern.katie_murphy;
 
 import heronarts.lx.LX;
-import heronarts.lx.color.LXColor;
 import heronarts.lx.model.LXPoint;
 import heronarts.lx.modulator.SinLFO;
-import heronarts.lx.parameter.BooleanParameter;
 import heronarts.lx.parameter.CompoundParameter;
 import heronarts.lx.parameter.DiscreteParameter;
-import heronarts.lx.LXLayer;
-import heronarts.lx.LXLayeredComponent;
 import heronarts.lx.pattern.LXPattern;
 import heronarts.lx.model.LXModel;
 
-import entwined.pattern.irene_zhou.Bubbles;
-import entwined.pattern.katie_murphy.CockatooCheekPulseEffect;
 import entwined.utils.SimplexNoise;
-import entwined.utils.EntwinedUtils;
-
 
 /**
  * Started out as a copy of Eric Gauderman's HavenSolids,
@@ -44,33 +36,12 @@ public class HavenSolidsPlus extends LXPattern {
     private SinLFO window2wave = yellowWave;
     private SinLFO window3wave = blueWave;
 
-    private final int[] jellyPalette = new int[] {
-        LXColor.rgb(180, 0, 180),
-        LXColor.rgb(255, 105, 180),
-        LXColor.rgb(0, 255, 255),
-    };
-
     float height = 0.0f;
     double time = 0;
-
-    // found object one-shot triggers
-    private boolean cockatooJellyActive = false;
-    private double cockatooJellyEnd = 0;
-    private double cockatooJellyDurationMs = 5000;
-    private boolean magpieSpiralActive = false;
-    private double magpieSpiralEnd = 0;
-    private double magpieSpiralDurationMs = 5000;
-    final BooleanParameter cockatooJellyChandelierParam = new BooleanParameter("cChand", false).setMode(BooleanParameter.Mode.MOMENTARY);
-    final BooleanParameter magpieSpiralChandelierParam = new BooleanParameter("mChand", false).setMode(BooleanParameter.Mode.MOMENTARY);
-    
 
     // discrete/continuous triggers
     public final DiscreteParameter cockatooWindowPaletteParam = new DiscreteParameter("cWinPalette", 0, 3);
     final CompoundParameter cockatooJellyBrightnessParam = new CompoundParameter("cChndBrt", 40, 40, 85);
-
-    private final Bubbles magpieSpiralEffect;
-    private java.lang.reflect.Method runMethod;
-    private java.lang.reflect.Field colorsField;
 
     public HavenSolidsPlus(LX lx) {
         super(lx);
@@ -92,37 +63,15 @@ public class HavenSolidsPlus extends LXPattern {
 
         // found object OSC triggers
         addEffect(new CockatooCheekPulseEffect(lx));
-
-        addParameter("cockatooJellyTwinkleTrigger", cockatooJellyChandelierParam);
-        cockatooJellyChandelierParam.addListener(p -> {
-            if (cockatooJellyChandelierParam.getValueb() && !cockatooJellyActive) {
-                cockatooJellyActive = true;
-                cockatooJellyEnd = EntwinedUtils.millis() + cockatooJellyDurationMs;
-            }
-        });
-        addParameter("magpieSpiralTrigger", magpieSpiralChandelierParam);
-        magpieSpiralChandelierParam.addListener(p -> {
-            if (magpieSpiralChandelierParam.getValueb() && !magpieSpiralActive) {
-                magpieSpiralActive = true;
-                magpieSpiralEnd = EntwinedUtils.millis() + magpieSpiralDurationMs;
-            }
-        });
-
-        magpieSpiralEffect = new Bubbles(lx);
-        magpieSpiralEffect.ballCount.setValue(149);
-
-        try {
-            runMethod = LXPattern.class.getDeclaredMethod("run", double.class);
-            runMethod.setAccessible(true);
-
-            colorsField = LXLayeredComponent.class.getDeclaredField("colors");
-            colorsField.setAccessible(true);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        addEffect(new SpinningStainedEffect(lx));
+        addEffect(new CockatooJellyChandelierEffect(lx));
+        addEffect(new MagpieSpiralChandelierEffect(lx));
     }
 
-    private void renderDefault(double deltaMs) {
+    @Override
+    public void run(double deltaMs) {
+        setCockatooWindowDefaults();
+
         // FreeFall parameter derivations
         float baseline = Math.max(0f, 1f - fill);
         float boost = Math.max(0f, fill - 1f);
@@ -274,22 +223,6 @@ public class HavenSolidsPlus extends LXPattern {
         }
     }
 
-    @Override
-    public void run(double deltaMs) {
-        checkEndEffects();
-
-        // effects which setup the default
-        setCockatooWindowDefaults();
-        
-        renderDefault(deltaMs);
-        
-        // one shot effects that replace the default
-        runCockatooJelly(deltaMs);
-        runMagpieSpiral(deltaMs);
-
-        
-    }
-
     ////////////// default setups
     private void setCockatooWindowDefaults() {
         int paletteNum = cockatooWindowPaletteParam.getValuei();
@@ -318,60 +251,5 @@ public class HavenSolidsPlus extends LXPattern {
         }
     }
 
-    ////////////// conclude one shots
-    private void checkEndEffects() {
-        if (EntwinedUtils.millis() > cockatooJellyEnd) {
-            cockatooJellyActive = false;
-        }
-        if (EntwinedUtils.millis() > magpieSpiralEnd) {
-            magpieSpiralActive = false;
-        }
 
-    }
-
-    ///////////// one shots
-    private void runCockatooJelly(double deltaMs) {
-        if (cockatooJellyActive) {
-            time += deltaMs / 1000;
-            double speed = 1.25;
-            double f = (time * speed) % 1.0;
-            double palettePos = f * jellyPalette.length;
-            int idx0 = (int)Math.floor(palettePos) % jellyPalette.length;
-            int idx1 = (idx0 + 1) % jellyPalette.length;
-            double mix = palettePos - Math.floor(palettePos);
-            int color = LXColor.lerp(jellyPalette[idx0], jellyPalette[idx1], mix);
-
-            for (LXModel component : model.children) {
-                if (component.tags.contains("JellyChandelier")) {    
-                    for (LXPoint point : component.points) {
-                        colors[point.index] = color;
-                    }
-                }
-            }
-        }
-    }
-
-    private void runMagpieSpiral(double deltaMs) {
-        if (magpieSpiralActive) {
-            try {
-                // Save current colors for non-tagged points
-                int[] saved = java.util.Arrays.copyOf(this.colors, this.colors.length);
-  
-                // Let overlay write to our colors[]
-                colorsField.set(magpieSpiralEffect, this.colors);
-                runMethod.invoke(magpieSpiralEffect, deltaMs);
-  
-                // Restore non-tagged points back to default
-                for (LXModel component : model.children) {
-                    if (!component.tags.contains("SpiralPortal")) {    
-                        for (LXPoint point : component.points) {
-                            colors[point.index] = saved[point.index];
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

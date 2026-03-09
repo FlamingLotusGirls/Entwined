@@ -68,7 +68,7 @@ public class Bubbles extends TSTriggerablePattern {
 
   @Override
   public void run(double deltaMs) {
-    //if (getChannel().fader.getNormalized() == 0) return;
+    if (getChannel().fader.getNormalized() == 0) return;
 
     if (!triggered && bubbles.size() == 0) {
       enabled.setValue(false);

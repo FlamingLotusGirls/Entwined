@@ -12,8 +12,6 @@ import heronarts.lx.pattern.LXPattern;
 import entwined.utils.SimplexNoise;
 import heronarts.lx.model.LXModel;
 
-import entwined.pattern.katie_murphy.CockatooCheekPulseEffect;
-
 import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 
@@ -41,9 +39,6 @@ public class Sunset extends LXPattern {
         100f);
   final CompoundParameter magpieFillParam = new CompoundParameter("mWinBrt", 25f, 0.001f,
         100f);
-
-  // 0 = 0ff, 1-3 = low/med/high
-  public final DiscreteParameter cockatooWindowSpin = new DiscreteParameter("cWinSpin", 0, 4);
   
 
   public Sunset(LX lx) {
@@ -56,8 +51,6 @@ public class Sunset extends LXPattern {
     addParameter("ospreyWindowBrightness", ospreyFillParam);
     addParameter("magpieWindowBrightness", magpieFillParam);
 
-    addParameter(cockatooWindowSpin);
-
     addModulator(sawWave).start();
     addModulator(blueWave).start();
     addModulator(greenWave).start();
@@ -65,9 +58,14 @@ public class Sunset extends LXPattern {
     addModulator(redWave).start();
 
     addEffect(new CockatooCheekPulseEffect(lx));
+    addEffect(new SpinningStainedEffect(lx));
+    addEffect(new CockatooJellyChandelierEffect(lx));
+    addEffect(new MagpieSpiralChandelierEffect(lx));
+
   }
 
-  private void renderDefault(double deltaMs) {
+  @Override
+  public void run(double deltaMs) {    
     float velocity = 10f / 200f;
     float blobWidth = 90f;
     float blobHeight = 60f;
@@ -127,42 +125,7 @@ public class Sunset extends LXPattern {
 
         colors[point.index] = LX.hsb(hue, 85, brightness);
       }
-    }
-  }
-
-  private void applyTagOverrides(double deltaMs) {
-    sawHeight = sawWave.getValuef();
-
-    for (LXModel component : model.children) {
-      for (LXPoint point : component.points) {
-
-        if (component.tags.contains("CockatooSegment") && component.tags.contains("WindowPane")) {
-          applyCockatooWindowOverrides(deltaMs, point);
-        }
-
-      }
-    }
-  }
-
-  @Override
-  public void run(double deltaMs) {
-    double now = EntwinedUtils.millis();
-    
-    // check for expired timers
-
-    // set the base pattern
-    renderDefault(deltaMs);    
-
-    // do trigger overrides 
-    applyTagOverrides(deltaMs); 
-  }
-
-  /////////////// Cockatoo Functions
-  private void applyCockatooWindowOverrides(double deltaMs, LXPoint point) {
-
-    if (cockatooWindowSpin.getValue() > 0) {
-    colors[point.index] = HavenDefaultInputsUtils.SpinningStainedRun(lx, point, sawHeight * cockatooWindowSpin.getValuef());
-    }
+    }  
   }
 
 }
