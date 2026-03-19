@@ -3415,58 +3415,7 @@
             "effects": [],
             "clips": [],
             "patternIndex": 0,
-            "patterns": [
-              {
-                "id": 1764984,
-                "class": "entwined.pattern.katie_murphy.HavenDefaultInputs",
-                "internal": {
-                  "modulationColor": 0,
-                  "modulationControlsExpanded": true,
-                  "modulationsExpanded": true,
-                  "expanded": true,
-                  "expandedCue": true,
-                  "expandedAux": true,
-                  "modulationExpanded": false
-                },
-                "parameters": {
-                  "label": "HavenDefaultInputs",
-                  "view": 0,
-                  "viewPriority": 0,
-                  "enabled": true,
-                  "recall": false,
-                  "compositeMode": 0,
-                  "compositeLevel": 1.0,
-                  "thickness": 35.0,
-                  "color": 40.0,
-                  "speedRingoDown": 1850.0,
-                  "waveslope": 360.0,
-                  "speedParamColorWave": 0.65,
-                  "thicknessZebra": 160.0,
-                  "periodZebra": 1000.0,
-                  "periodMP": 200.0
-                },
-                "children": {
-                  "modulation": {
-                    "id": 1764985,
-                    "class": "heronarts.lx.modulation.LXModulationEngine",
-                    "internal": {
-                      "modulationColor": 0,
-                      "modulationControlsExpanded": true,
-                      "modulationsExpanded": true
-                    },
-                    "parameters": {
-                      "label": "Modulation"
-                    },
-                    "children": {},
-                    "modulators": [],
-                    "modulations": [],
-                    "triggers": []
-                  }
-                },
-                "deviceVersion": -1,
-                "effects": []
-              }
-            ]
+            "patterns": []
           },
           {
             "id": 758049,
