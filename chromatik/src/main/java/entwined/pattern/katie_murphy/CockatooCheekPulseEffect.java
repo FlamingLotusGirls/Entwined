@@ -35,6 +35,10 @@ public class CockatooCheekPulseEffect extends LXEffect {
     private double pulseTimer = 0;
     private boolean isPulsing = false;
 
+    private float[] sparkleHue;
+    private float[] sparkleBrt;
+    private float[] sparkleTargetTimer;
+
     // Cached list of points belonging to tagged sub-models
     private final List<LXPoint> taggedPoints = new ArrayList<>();
 
@@ -62,9 +66,22 @@ public class CockatooCheekPulseEffect extends LXEffect {
 
     private void rebuildTaggedPoints() {
         taggedPoints.clear();
-        // model.sub(tag) returns all sub-models at any depth matching the tag
         for (LXModel sub : model.sub("Cheek")) {
-          taggedPoints.addAll(Arrays.asList(sub.points));
+            taggedPoints.addAll(Arrays.asList(sub.points));
+        }
+
+        int n = taggedPoints.size();
+        sparkleBrt          = new float[n];
+        sparkleHue          = new float[n];
+        sparkleTargetTimer  = new float[n];  // ADD THIS
+
+        int c = pulseColor.getColor();
+        float h = LXColor.h(c);
+        Arrays.fill(sparkleBrt, 20f);
+        Arrays.fill(sparkleHue, h);
+        // Stagger so points don't all re-roll at once
+        for (int i = 0; i < n; i++) {
+            sparkleTargetTimer[i] = random.nextFloat() * 500f;
         }
     }
 
@@ -92,16 +109,25 @@ public class CockatooCheekPulseEffect extends LXEffect {
 
     if (pulseCount == MAX_PULSES) {
         // Sparkle party — ignore envelope, run at full brightness for whole duration
-        for (LXPoint p : taggedPoints) {
-            if (random.nextFloat() < 0.15f) {
-                // Sparkle point: bright flash with randomized hue
-                float sparkleH = (h + random.nextFloat() * 60f - 30f + 360f) % 360f;
-                float sparkleB = LXUtils.lerpf(60f, 100f, random.nextFloat()) * (float)enabledAmount;
-                colors[p.index] = LXColor.hsb(sparkleH, s, sparkleB);
-            } else {
-                // Non-sparkle points: dim base so sparkles pop
-                colors[p.index] = LXColor.hsb(h, s, 20f * (float)enabledAmount);
+        // Replace the loop with this:
+        for (int i = 0; i < taggedPoints.size(); i++) {
+            LXPoint p = taggedPoints.get(i);
+
+            // Only re-roll when this point's timer expires
+            sparkleTargetTimer[i] -= (float)deltaMs;
+            if (sparkleTargetTimer[i] <= 0) {
+                if (random.nextFloat() < 0.15f) {
+                    sparkleBrt[i] = LXUtils.lerpf(60f, 100f, random.nextFloat());
+                    sparkleHue[i] = (h + random.nextFloat() * 60f - 30f + 360f) % 360f;
+                } else {
+                    sparkleBrt[i] = 50f;
+                    sparkleHue[i] = h;
+                }
+                // Hold this value for 150-500ms before re-rolling
+                sparkleTargetTimer[i] = LXUtils.lerpf(60f, 100f, random.nextFloat());
             }
+
+            colors[p.index] = LXColor.hsb(sparkleHue[i], s, sparkleBrt[i] * (float)enabledAmount);
         }
     } else {
         // Normal pulse: all points follow the brightness envelope
