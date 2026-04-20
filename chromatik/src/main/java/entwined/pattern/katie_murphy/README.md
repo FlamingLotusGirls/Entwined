@@ -16,7 +16,7 @@ Patterns implement a background aesthetic and respond to two categories of trigg
 the `LXPattern` itself. The following patterns use this approach:
 - `Sunset`
 - `HavenFire`
-- `HavenSolidsDefault`
+- `HavenSolidsPlus`
 Continous/Discrete triggers might be used to change brightness or movement speed of
 the pattern of a particular tagged component on the nest. 
 

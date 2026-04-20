@@ -25,6 +25,15 @@ public class Sunset extends LXPattern {
   final SinLFO redWave = new SinLFO(0, 20, 2000);
   final SawLFO sawWave = new SawLFO(0, 360, 1000);
 
+  // Spotlight: SinLFO drives saturation 0 (white) -> 100 (yellow), period 2s
+  final SinLFO spotlightFade = new SinLFO(0, 100, 2000);
+  private static final float SPOTLIGHT_HUE = 55f;
+
+  // Body: cyan wave
+  final SinLFO cyanWave   = new SinLFO(170, 190, 2300);
+  // Cheek: orange wave
+  final SinLFO orangeWave = new SinLFO(30,  45,  2000);
+
   private float minz = Float.MAX_VALUE;
   private float maxz = -Float.MAX_VALUE;
 
@@ -56,12 +65,13 @@ public class Sunset extends LXPattern {
     addModulator(greenWave).start();
     addModulator(yellowWave).start();
     addModulator(redWave).start();
+    addModulator(spotlightFade).start();
+    addModulator(cyanWave).start();
+    addModulator(orangeWave).start();
 
     addEffect(new CockatooCheekPulseEffect(lx));
     addEffect(new SpinningStainedEffect(lx));
     addEffect(new CockatooJellyChandelierEffect(lx));
-    addEffect(new MagpieSpiralChandelierEffect(lx));
-
   }
 
   @Override
@@ -72,8 +82,37 @@ public class Sunset extends LXPattern {
         
     height += deltaMs * velocity / blobHeight;
 
+    float spotSat = spotlightFade.getValuef(); // 0 = white, 100 = yellow
+
     float pointnum = 0;
     for (LXModel component : model.children) {
+
+      // --- Spotlight: white <-> yellow fade, skip all other logic ---
+      if (component.tags.contains("Spotlight")) {
+        float intns = fillParam.getValuef();
+        for (LXPoint point : component.points) {
+          colors[point.index] = LX.hsb(SPOTLIGHT_HUE, spotSat, intns);
+        }
+        continue;
+      }
+
+      // --- Body: cyan SinLFO ---
+      if (component.tags.contains("Body")) {
+        float intns = fillParam.getValuef();
+        for (LXPoint point : component.points) {
+          colors[point.index] = LX.hsb(cyanWave.getValuef(), 100, intns);
+        }
+        continue;
+      }
+
+      // --- Cheek: orange SinLFO ---
+      if (component.tags.contains("Cheek")) {
+        float intns = fillParam.getValuef();
+        for (LXPoint point : component.points) {
+          colors[point.index] = LX.hsb(orangeWave.getValuef(), 100, intns);
+        }
+        continue;
+      }
 
       float fill = fillParam.getValuef() / 50f;
 
@@ -102,9 +141,6 @@ public class Sunset extends LXPattern {
           } else {
             hue = redWave.getValuef();
           }
-        } else if (component.tags.contains("Cheek")) {
-            // skip cockatoo cheek
-            continue;
         } else {
           hue = blueWave.getValuef();
         }

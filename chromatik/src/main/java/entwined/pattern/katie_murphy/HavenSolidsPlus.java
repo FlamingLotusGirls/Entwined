@@ -65,7 +65,6 @@ public class HavenSolidsPlus extends LXPattern {
         addEffect(new CockatooCheekPulseEffect(lx));
         addEffect(new SpinningStainedEffect(lx));
         addEffect(new CockatooJellyChandelierEffect(lx));
-        addEffect(new MagpieSpiralChandelierEffect(lx));
     }
 
     @Override
