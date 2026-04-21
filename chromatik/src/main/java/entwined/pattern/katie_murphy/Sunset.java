@@ -12,7 +12,6 @@ import heronarts.lx.pattern.LXPattern;
 import entwined.utils.SimplexNoise;
 import heronarts.lx.model.LXModel;
 
-import entwined.core.CubeManager;
 import entwined.utils.EntwinedUtils;
 
 
@@ -133,12 +132,15 @@ public class Sunset extends LXPattern {
             fill = magpieFillParam.getValuef() / 50f;
           }
 
-          float y = CubeManager.getCube(lx, point.index).localY;
-          if (y >= component.yMin + (componentHeight * .70f)) {
+          // Normalize point height within this component: 0 = bottom, 1 = top
+          float yn = (componentHeight > 0f)
+              ? Math.max(0f, Math.min(1f, (point.y - component.yMin) / componentHeight))
+              : 0.5f;
+          if (yn >= 0.70f) {
             hue = blueWave.getValuef();
-          } else if (y >= component.yMin + (componentHeight * .55f)) {
+          } else if (yn >= 0.55f) {
             hue = greenWave.getValuef();
-          } else if (y >= component.yMin + (componentHeight * .25f)) {
+          } else if (yn >= 0.25f) {
             hue = yellowWave.getValuef();
           } else {
             hue = redWave.getValuef();
