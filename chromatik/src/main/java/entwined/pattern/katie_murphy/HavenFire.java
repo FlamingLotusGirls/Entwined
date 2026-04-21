@@ -67,6 +67,7 @@ public class HavenFire extends LXPattern {
         addEffect(new SpinningStainedEffect(lx));
         addEffect(new CockatooJellyChandelierEffect(lx));
         addEffect(new MagpieWindowPulseEffect(lx));
+        addEffect(new OspreyWindowBurstEffect(lx));
     }
 
     @Override

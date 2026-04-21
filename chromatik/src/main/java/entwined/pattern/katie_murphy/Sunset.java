@@ -22,7 +22,7 @@ public class Sunset extends LXPattern {
   final SinLFO blueWave = new SinLFO(210, 256, 2000);
   final SinLFO greenWave = new SinLFO(140, 155, 2000);
   final SinLFO yellowWave = new SinLFO(40, 50, 2000);
-  final SinLFO redWave = new SinLFO(0, 20, 2000);
+  final SinLFO redWave = new SinLFO(7, 20, 2000);
   final SawLFO sawWave = new SawLFO(0, 360, 1000);
 
   // Spotlight: SinLFO drives saturation 0 (white) -> 100 (yellow), period 2s
@@ -73,6 +73,7 @@ public class Sunset extends LXPattern {
     addEffect(new SpinningStainedEffect(lx));
     addEffect(new CockatooJellyChandelierEffect(lx));
     addEffect(new MagpieWindowPulseEffect(lx));
+    addEffect(new OspreyWindowBurstEffect(lx));
   }
 
   @Override
